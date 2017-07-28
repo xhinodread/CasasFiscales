@@ -14,7 +14,7 @@ $attributesOptionCumple=array('legend'=>false, 'default' => 0, 'div'=>true, 'sep
 
 	<div class="row">
 		<div class="col-md-11">
- 			<div style="float:right; margin-bottom:20px; "><?=$this->Html->link('[+] Nuevo.', '/beneficiarios/agrega', array('class'=>'btn btn-primary') )?></div>
+ 			<div style="float:right; margin-bottom:20px; "><?=$this->Html->link('[+] Nuevo', '/beneficiarios/agrega', array('class'=>'btn btn-primary') )?></div>
     	</div>
     </div>
     
