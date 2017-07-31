@@ -54,9 +54,9 @@
 					<ul class="nav nav-pills nav-stacked">
 						<li role="presentation" class="<?=$funciones->menuSelecc($this->name, 'Pages');?>" ><?=$this->Html->link('Inicio', '/')?></li>
 						<li role="presentation" class="<?=$funciones->menuSelecc($this->name, 'Beneficiarios');?>" ><?=$this->Html->link('Beneficiario', '/beneficiarios');?></li>
+						<li role="presentation" class="<?=$funciones->menuSelecc($this->name, 'Servicios');?>" ><?=$this->Html->link('Servicios', '/servicios');?></li>
 
 	<? if(0):?>
-						<li role="presentation" class="<?=$funciones->menuSelecc($this->name, 'Instituciones');?>" ><?=$this->Html->link('Servicios', '/instituciones');?></li>
 						<li role="presentation" class="<?=$funciones->menuSelecc($this->name, 'viviendas');?>" ><?=$this->Html->link('Viviendas', '/viviendas');?></li>
 
 						<li role="presentation" class="<?=$funciones->menuSelecc($this->name, 'Contabilidades');?>" ><?=$this->Html->link('Contabilidad', '/contabilidades' );?></li>

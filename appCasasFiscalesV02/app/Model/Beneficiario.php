@@ -70,6 +70,8 @@ class Beneficiario extends AppModel {
 			case 1:
 				$conditions = array('Beneficiario.nombres LIKE' => $funcionarioBucar[0].'%' );
 			break;
+			default: $conditions = array('Beneficiario.nombres LIKE' => '%'.trim($funcionarioBucar[0]).'%' );
+			break;
 		}
 		return $conditions;
 	}
