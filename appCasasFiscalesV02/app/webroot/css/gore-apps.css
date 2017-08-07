@@ -1,3 +1,7 @@
+
+.ui-dialog {}
+.ui-state-error { padding: .3em; }
+
 .little{ font-size:10px; }
 .text-black{ color:#000000; }
 .text-aliceblue{ color: aliceblue; }
@@ -109,4 +113,7 @@ input[type="search"] {
   input[type="datetime-local"].elForm-control,
   input[type="month"].elForm-control {
     line-height: 34px;
-  }
+	}
+	
+
+	

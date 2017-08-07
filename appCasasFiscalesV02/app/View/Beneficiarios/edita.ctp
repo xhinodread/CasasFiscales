@@ -129,11 +129,11 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
                        		
 							<?=$this->Form->input('sueldo_base', array('label' => false
 																		,'div'=>array('class'=>'col-sm-2 col-md-1')
-																	/*	, 'error' => false */
+																	  /*	, 'error' => false */
 																		, 'type'=>'text'
 																		, 'maxlength' => 10
-																	   /* , 'style' => array('width:7%; text-align: right;')*/
-																	    , 'style' => array('text-align: right;')
+																	  /* , 'style' => array('width:7%; text-align: right;')*/
+																	  , 'style' => array('text-align: right;')
 																		, 'value' => $funciones->formatoNum($datos['Beneficiario']['sueldo_base'])
 																		, 'class' => 'elForm-control inputRut form-control-danger'
 																	) 

@@ -32,7 +32,7 @@
 		<?php
 			echo $this->Html->meta('icon');
 			echo $this->Html->css(array('jquery-ui.min', 'jquery-ui.theme', 'bootstrap.min', 'gore-apps') );
-			echo $this->Html->script(array('jquery-1.10.2.min', 'jquery-ui', 'mod01', 'NumberFormat154', 'bootstrap.min', 'Chart.bundle', 'validarut'));
+			echo $this->Html->script(array('jquery-1.10.2.min', 'jquery-ui', 'mod01', 'NumberFormat154', 'bootstrap.min', 'Chart.bundle', 'validarut', 'modLlamadas'));
 			// 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.js'
 			echo $scripts_for_layout;
 		?>
@@ -55,12 +55,10 @@
 						<li role="presentation" class="<?=$funciones->menuSelecc($this->name, 'Pages');?>" ><?=$this->Html->link('Inicio', '/')?></li>
 						<li role="presentation" class="<?=$funciones->menuSelecc($this->name, 'Beneficiarios');?>" ><?=$this->Html->link('Beneficiario', '/beneficiarios');?></li>
 						<li role="presentation" class="<?=$funciones->menuSelecc($this->name, 'Servicios');?>" ><?=$this->Html->link('Servicios', '/servicios');?></li>
-
-	<? if(0):?>
-						<li role="presentation" class="<?=$funciones->menuSelecc($this->name, 'viviendas');?>" ><?=$this->Html->link('Viviendas', '/viviendas');?></li>
-
+						<li role="presentation" class="<?=$funciones->menuSelecc($this->name, 'Viviendas');?>" ><?=$this->Html->link('Viviendas', '/viviendas');?></li>
+	
+	<? if(0):?>					
 						<li role="presentation" class="<?=$funciones->menuSelecc($this->name, 'Contabilidades');?>" ><?=$this->Html->link('Contabilidad', '/contabilidades' );?></li>
-
 						<li role="presentation" class="dropdown <?=$funciones->menuSelecc($this->name, 'Informes');?>" >
 								<?=$this->Html->link('Informes '.$caret, '#', array('class'=>'dropdown-toggle', 'data-toggle'=>'dropdown', 'escape'=> false)  );?>
 								<!--<span class="caret"></span>-->
@@ -80,6 +78,7 @@
 							</ul>
 						</li>
 	<? endif;?>
+					
 						<li><?=$this->Html->link('Salir', '/');?></li>
 				   </ul>
 				</div>

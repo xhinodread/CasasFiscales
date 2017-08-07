@@ -41,11 +41,11 @@ $FormatoTitleTxtNombre_benef = 'Formato: Nombre del Servicio o Siglas del Servic
                     <tbody>
                     <? foreach($listado as $lista){ ?>
                         <tr class="active__" >
-                            <td>
-                            	Pagar - 
-                            	<?=$this->Html->link('Administrar', '/servicios/edita/id:'.$lista['Servicio']['id'], array('class'=> 'btn btn-info btn-xs'));?>
-                                 -
-                                <?=$this->Html->link('Eliminar', array('controller' => 'servicios', 'action' => 'borra', $lista['Servicio']['id']), array('class'=> 'btn btn-info btn-xs'), "Are you sure you wish to delete this recipe?" );?>
+                            <td style="text-align: center;">
+															Pagar - 
+															<?=$this->Html->link('Administrar', '/servicios/edita/id:'.$lista['Servicio']['id'], array('class'=> 'btn btn-info btn-xs'));?>
+															-
+															<?=$this->Html->link('Eliminar', array('controller' => 'servicios', 'action' => 'borra', $lista['Servicio']['id']), array('class'=> 'btn btn-info btn-xs'), "Are you sure you wish to delete this recipe?" );?>
                             </td>
                             <td><?=$lista['Servicio']['rut'];?> <?//=$funciones->formatoNum($lista['Servicio']['rut']).'-0';?></td>
                             <td><?=$lista['Servicio']['nombre']; /* .' '.$lista['Servicio']['paterno'].' '.$lista['Servicio']['materno'];*/ ?></td>

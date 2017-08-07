@@ -75,7 +75,7 @@ class Beneficiario extends AppModel {
 		}
 		return $conditions;
 	}
-		
+	
 	public function actualizar($elRut = null){		
 		$this->set(array(
 			'rut' =>  $elRut[0],
@@ -93,7 +93,7 @@ class Beneficiario extends AppModel {
 		));
 		return;
 	}
-		
+				
 	public function agrega_conyugue($array_datos = null){
 		$array_datos['rut'] = trim(str_replace('.', '',$array_datos['rut']));
 		$evaluador = preg_match("/^0*(\d{1,3}(\.?\d{3})*)\-?([\dkK])$/", $array_datos['rut'] );
@@ -105,7 +105,7 @@ class Beneficiario extends AppModel {
 			return false;
 		}
 	}
-	
+		
 	public function edita_conyugue($array_datos = null){
 		$array_datos['rut'] = trim(str_replace('.', '',$array_datos['rut']));
 		if( preg_match("/^0*(\d{1,3}(\.?\d{3})*)\-?([\dkK])$/", $array_datos['rut'] ) ){

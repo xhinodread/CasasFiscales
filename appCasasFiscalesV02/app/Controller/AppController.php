@@ -35,4 +35,6 @@ class AppController extends Controller {
 	public $components = array('Session', 'Flash', 'DebugKit.Toolbar');
 	public $helpers = array('Html', 'Form', 'Flash', 'Session');
 	
+	public $urlSocket = 'http://192.168.200.113:8080/tests/setSocketCasasFiscales.php';
+	
 }

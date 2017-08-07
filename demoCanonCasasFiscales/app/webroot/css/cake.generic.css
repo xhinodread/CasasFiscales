@@ -774,9 +774,9 @@ nav ul li div ul li a:hover {
 	text-shadow: #8cee7c 0px 1px 0px;
 	cursor:pointer;
 }
-.tablaDetallePago .historialMantenciones{}
-.tablaDetallePago th .historialMantenciones th{font-size:12px;}
-.tablaDetallePago td .historialMantenciones td{font-size:12px;}
+.tablaDetallePago{}
+.tablaDetallePago th{font-size:12px;}
+.tablaDetallePago td{font-size:12px;}
 /*
 .button_ input[type="file" i] {
     align-items: baseline;

@@ -244,8 +244,9 @@ class BeneficiariosController extends AppController {
 		}
 		
 		$HttpSocket = new HttpSocket();
-		//$resultsSocket = $HttpSocket->get('http://192.168.200.113:8080/tests/setSocketCasasFiscales.php', 'q=cakephp');
-		$resultsSocket = $HttpSocket->get('http://192.168.200.113:8080/tests/setSocketCasasFiscales.php');
+		$resultsSocket = $HttpSocket->get($this->urlSocket, array('gabriel'=>0, 'tbl'=>0)) ;
+		//$resultsSocket = $HttpSocket->get('http://192.168.200.113:8080/tests/setSocketCasasFiscales.php', array('gabriel'=>0, 'tbl'=>0)) ;
+		//$resultsSocket = $HttpSocket->get('http://192.168.200.113:8080/tests/setSocketCasasFiscales.php');
 		$escalafon = json_decode($resultsSocket->body, 1);
 		//$escalafon = json_decode($resultsSocket['body'], 1);
 		//echo '<pre>resultsSocket:'.print_r($escalafon, 1).'</pre>';

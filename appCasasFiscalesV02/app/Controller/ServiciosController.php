@@ -1,5 +1,5 @@
 <?php 
-//dApp::uses('AppController', 'Controller');
+//App::uses('AppController', 'Controller');
 //App::uses('CakeEmail', 'Network/Email');
 //App::uses('FuncionesHelper', 'View/Helper');
 App::uses('HttpSocket', 'Network/Http');

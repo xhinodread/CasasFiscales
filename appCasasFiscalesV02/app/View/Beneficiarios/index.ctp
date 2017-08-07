@@ -1,8 +1,8 @@
 <?
 App::import('Vendor', 'Funcionespropias');
 $funciones = new Funcionespropias();
-$TitleTxtNombre_benef = 'Ej: Juan Pérez Diaz, Juan Pérez, Juan';
-$FormatoTitleTxtNombre_benef = 'Formato: Nombre APaterno AMaterno, Nombre APaterno, Nombre';
+$TitleTxtNombre_benef = 'Nombre del Beneficiario. Ej: Juan Pérez Diaz o Juan Pérez o Juan';
+$FormatoTitleTxtNombre_benef = 'Formato: Nombre APaterno AMaterno o Nombre APaterno o Nombre';
 //echo '<pre>conditions:'.print_r($conditions, 1).'</pre>';
 // $this->Paginator->options(array('url' => array($this->passedArgs, "Beneficiario.nombres"=> "Nombre" ) ));
 ////// $this->Paginator->options(array('url' => array($this->passedArgs, "Beneficiario.nombres"=>substr( $conditions['nombres LIKE'], 0, strlen($conditions['nombres LIKE'])-1 ) ) ));
@@ -13,7 +13,10 @@ $FormatoTitleTxtNombre_benef = 'Formato: Nombre APaterno AMaterno, Nombre APater
     <div class="row">
 		<?=$this->Form->Create('');?>
             <div class="col-md-3"><legend>Beneficiario</legend></div>
-            <div class="col-md-4"><?=$this->Form->input('nombre_benef', array('label' => false, 'class'=> 'form-control', 'placeholder'=>'Nombre del Beneficiario. '.$TitleTxtNombre_benef, 'title'=>$FormatoTitleTxtNombre_benef) );?></div>
+            <div class="col-md-4">
+            	<?=$this->Form->input('nombre_benef', array('label' => false, 'class'=> 'form-control',
+																													'placeholder'=>$TitleTxtNombre_benef, 'title'=>$FormatoTitleTxtNombre_benef) );?>
+            </div>
             <div class="col-md-5"><?=$this->Form->submit("Buscar", array('class'=> 'btn btn-primary') );?></div>
         <?=$this->Form->end();?>  
     </div>
@@ -42,8 +45,8 @@ $FormatoTitleTxtNombre_benef = 'Formato: Nombre APaterno AMaterno, Nombre APater
                     <tbody>
                     <? foreach($listado as $lista){ ?>
                         <tr class="active__" >
-                            <td>
-                            	Pagar - 
+                            <td style="text-align: center;">
+                            	Pagar -
                             	<?=$this->Html->link('Administrar', '/beneficiarios/edita/id:'.$lista['Beneficiario']['id'], array('class'=> 'btn btn-info btn-xs'));?>
                                  -
                                 <?=$this->Html->link('Eliminar', array('controller' => 'beneficiarios', 'action' => 'borra', $lista['Beneficiario']['id']), array('class'=> 'btn btn-info btn-xs'), "Are you sure you wish to delete this recipe?" );?>
