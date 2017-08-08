@@ -20,7 +20,6 @@
  */
 
 App::uses('Controller', 'Controller');
-//App::uses('FuncionesHelper', 'View/Helper');
 
 /**
  * Application Controller
@@ -32,9 +31,26 @@ App::uses('Controller', 'Controller');
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
-	public $components = array('Session', 'Flash', 'DebugKit.Toolbar');
+	public $components = array('Session', 'Flash', 'DebugKit.Toolbar',
+														'Auth'=>array(
+																			'loginRedirect'=> array(
+																													'controller'=>'users',
+																													'action'=>'index',
+																												),
+																			'logoutRedirect'=> array(
+																													'controller'=>'users',
+																													'action'=>'login',
+																												),
+																			'authError' => false
+																		)
+														);
 	public $helpers = array('Html', 'Form', 'Flash', 'Session');
 	
 	public $urlSocket = 'http://192.168.200.113:8080/tests/setSocketCasasFiscales.php';
+	
+	public function beforeFilter(){
+		$this->Auth->allow('login', 'logout');
+		$this->set('current_user', $this->Auth->user());
+	}
 	
 }

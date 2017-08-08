@@ -10,7 +10,7 @@ class ViviendasController extends AppController {
 	
 	var $paginate = array();
 	
-	public function beforeFilter(){ parent::beforeFilter();	}
+	public function beforeFilter(){ parent::beforeFilter();$this->Auth->allow('index', 'edita');	}
 	
 	public function index(){
 		$conditions = array('Vivienda.activo' =>1);

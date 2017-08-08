@@ -9,11 +9,8 @@ class MantencionesController extends AppController {
 	
 	public function beforeFilter(){ 
 		parent::beforeFilter();
-	//	$this->Auth->allow('*');
-		//$this->Session->write('losValidates', '');
-		
-		//echo 'before';
-		
+		$this->Auth->allow('getHistorial');
+		//$this->Session->write('losValidates', '');	
 	}
 		
 	public function getHistorial($vivienda_id = null){
@@ -46,11 +43,8 @@ class MantencionesController extends AppController {
 			$error = $this->request->data['Mantencione']['documento']['error'];
 			$uploadPath = $this->uploadDir;
       //$uploadFile = $uploadPath.$fileName;
-			$nombre = str_replace('-', '_', $this->request->data['Mantencione']['created']).
-								'_'.$this->request->data['Mantencione']['mantentipo_id'].
-								'_vivienda_'.$this->request->data['Vivienda']['id'].
-								'_'.date("H_i_s").
-								'.'.$laExtension[1];
+			$nombre = str_replace('-', '_', $this->request->data['Mantencione']['created']).'_'.$this->request->data['Mantencione']['mantentipo_id'].
+								'_vivienda_'.$this->request->data['Vivienda']['id'].'_'.date("H_i_s").'.'.$laExtension[1];
 			$this->request->data['Mantencione']['documento']['name'] = $nombre;
 			$uploadFile = $uploadPath.$nombre;
 			if(0){
