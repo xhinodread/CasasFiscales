@@ -81,7 +81,7 @@ class BeneficiariosController extends AppController {
 									$this->Flash->guardado('Se ha agregado un nuevo registro.'.$idRegistro);
 									$this->redirect(array('controller' => 'beneficiarios', 'action'=>'edita', 'id'=>$idRegistro));
 								}else{
-									$this->Flash->sin_id('No se pudo registrarse, verifique.');
+									$this->Flash->sin_id('No pudo registrarse, verifique.');
 								}
 							}else{
 								// $this->data['Conyuge']['id'] /*** $this->data DEPRECADO ***/

@@ -93,13 +93,16 @@ function llamarHistorialMantencion(bsv_id){
 							valor += ' | '+formaFecha;
 						}
 						*/
-						var linkDoc = '';
+						
+						var linkDoc = '', urlDoc='';
 						if(property == 'documento'){
-							linkDoc = '<a href="/demoCanonCasasFiscales/viviendas/../files/docs_historial/doc01_prop03.pdf" target="_blank" class="btn btn-info">Informe de Mantención</a>';
-							valor += linkDoc;
+							urlDoc=valor;
+							linkDoc = '<a href="/appCasasFiscalesV02/viviendas/../'+urlDoc+'" target="_blank" class="btn btn-info">Informe de Mantención</a>';
+							//valor += linkDoc;
+							valor = linkDoc;
 						}
 						
-						//nuevaFila+="<td>"+object[property]+"</td>";
+						////nuevaFila+="<td>"+object[property]+"</td>";
 						nuevaFila+="<td>"+valor+"</td>";
 					}
 					nuevaFila+="</tr>";

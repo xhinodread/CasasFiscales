@@ -31,8 +31,8 @@
 		</title>
 		<?php
 			echo $this->Html->meta('icon');
-			echo $this->Html->css(array('jquery-ui.min', 'jquery-ui.theme', 'bootstrap.min', 'gore-apps') );
-			echo $this->Html->script(array('jquery-1.10.2.min', 'jquery-ui', 'mod01', 'NumberFormat154', 'bootstrap.min', 'Chart.bundle', 'validarut', 'modLlamadas'));
+			echo $this->Html->css(array('jquery-ui.min', 'jquery-ui.theme', 'bootstrap.min', 'gore-apps', 'bootstrap-datepicker') );
+			echo $this->Html->script(array('jquery-1.10.2.min', 'jquery-ui', 'mod01', 'NumberFormat154', 'bootstrap.min', 'Chart.bundle', 'validarut', 'modLlamadas', 'bootstrap-datepicker', 'bootstrap-datepicker.es.min'));
 			// 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.js'
 			echo $scripts_for_layout;
 		?>
