@@ -50,37 +50,44 @@
 			<div class="row">
 			   <div class="col-md-1">
 					<? //=$this->name?>
+					<div class="text-center">
+						<?=strtoupper($current_user['username']);?>
+						<br>
+						<?=strtoupper($current_user['perfiles']['descripcion']);?>
+					</div>
+					
 					<? $caret = '<span class="caret"></span>'; ?>
 					<ul class="nav nav-pills nav-stacked">
-						<li role="presentation" class="<?=$funciones->menuSelecc($this->name, 'Pages');?>" ><?=$this->Html->link('Inicio', '/')?></li>
+					<? if(0):?>	<li role="presentation" class="<?=$funciones->menuSelecc($this->name, 'Pages');?>" ><?=$this->Html->link('Inicio', '/')?></li> <? endif;?>
 						<li role="presentation" class="<?=$funciones->menuSelecc($this->name, 'Beneficiarios');?>" ><?=$this->Html->link('Beneficiario', '/beneficiarios');?></li>
 						<li role="presentation" class="<?=$funciones->menuSelecc($this->name, 'Servicios');?>" ><?=$this->Html->link('Servicios', '/servicios');?></li>
 						<li role="presentation" class="<?=$funciones->menuSelecc($this->name, 'Viviendas');?>" ><?=$this->Html->link('Viviendas', '/viviendas');?></li>
-	
-	<? if(0):?>					
-						<li role="presentation" class="<?=$funciones->menuSelecc($this->name, 'Contabilidades');?>" ><?=$this->Html->link('Contabilidad', '/contabilidades' );?></li>
-						<li role="presentation" class="dropdown <?=$funciones->menuSelecc($this->name, 'Informes');?>" >
-								<?=$this->Html->link('Informes '.$caret, '#', array('class'=>'dropdown-toggle', 'data-toggle'=>'dropdown', 'escape'=> false)  );?>
-								<!--<span class="caret"></span>-->
-							<ul class="dropdown-menu">
-								<li role="presentation" ><?=$this->Html->link('Flujos y Bienes', '/informes/flujos_y_bienes');?></li>
-								<li role="presentation" ><?=$this->Html->link('Deudores', '/informes/deudores');?></li>
-								<li role="presentation" ><?=$this->Html->link('Pagados', '/informes/pagados');?></li>
-								<li role="presentation" ><?=$this->Html->link('Servicio', '/informes/por_servicio');?></li>
-							</ul>
-						</li>
 
-						<li role="presentation" class="dropdown <?=$funciones->menuSelecc($this->name, 'Administrar');?>" >
-							<?=$this->Html->link('Administrar '.$caret, '#', array('class'=>'dropdown-toggle', 'data-toggle'=>'dropdown', 'escape'=> false) )?>
-							<ul class="dropdown-menu">
-								<li role="presentation" ><?=$this->Html->link('Usuarios', '#')?></li>
-								<li role="presentation" ><?=$this->Html->link('Parametros adicionales', '#')?></li>
-							</ul>
-						</li>
-	<? endif;?>
-					
-						<li><?=$this->Html->link('Salir', '/');?></li>
+					<? if(0):?>					
+										<li role="presentation" class="<?=$funciones->menuSelecc($this->name, 'Contabilidades');?>" ><?=$this->Html->link('Contabilidad', '/contabilidades' );?></li>
+										<li role="presentation" class="dropdown <?=$funciones->menuSelecc($this->name, 'Informes');?>" >
+												<?=$this->Html->link('Informes '.$caret, '#', array('class'=>'dropdown-toggle', 'data-toggle'=>'dropdown', 'escape'=> false)  );?>
+												<!--<span class="caret"></span>-->
+											<ul class="dropdown-menu">
+												<li role="presentation" ><?=$this->Html->link('Flujos y Bienes', '/informes/flujos_y_bienes');?></li>
+												<li role="presentation" ><?=$this->Html->link('Deudores', '/informes/deudores');?></li>
+												<li role="presentation" ><?=$this->Html->link('Pagados', '/informes/pagados');?></li>
+												<li role="presentation" ><?=$this->Html->link('Servicio', '/informes/por_servicio');?></li>
+											</ul>
+										</li>
+
+										<li role="presentation" class="dropdown <?=$funciones->menuSelecc($this->name, 'Administrar');?>" >
+											<?=$this->Html->link('Administrar '.$caret, '#', array('class'=>'dropdown-toggle', 'data-toggle'=>'dropdown', 'escape'=> false) )?>
+											<ul class="dropdown-menu">
+												<li role="presentation" ><?=$this->Html->link('Usuarios', '#')?></li>
+												<li role="presentation" ><?=$this->Html->link('Parametros adicionales', '#')?></li>
+											</ul>
+										</li>
+					<? endif;?>
+
+						<li><?=$this->Html->link('Salir', '/users/logout');?></li>
 				   </ul>
+				   <?//=debug($current_user)?>
 				</div>
 
 				<div class="col-md-11" >

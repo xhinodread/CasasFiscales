@@ -35,7 +35,6 @@ class Beneficiario extends AppModel {
 	);
 	*/
 
-	
 	public $belongsTo = array('Estcivil');
 	public $hasOne = array('Conyuge');
 

@@ -20,7 +20,7 @@
  */
 
 App::uses('Controller', 'Controller');
-
+App::uses('AuthComponent', 'Controller/Component');
 /**
  * Application Controller
  *
@@ -31,26 +31,54 @@ App::uses('Controller', 'Controller');
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
+	
+	//public $components = array('Session', 'Flash', 'DebugKit.Toolbar', 'Auth');
+	//public $components = array('Session', 'Flash', 'DebugKit.Toolbar');
+	
+	/***
+																				'loginAction' => array(
+																					'controller' => 'users',
+																					'action' => 'login',
+																			),
+	**/ 
 	public $components = array('Session', 'Flash', 'DebugKit.Toolbar',
 														'Auth'=>array(
-																			'loginRedirect'=> array(
-																													'controller'=>'users',
-																													'action'=>'index',
-																												),
-																			'logoutRedirect'=> array(
-																													'controller'=>'users',
-																													'action'=>'login',
-																												),
-																			'authError' => false
+																			'loginRedirect' => array('controller'=>'servicios', 'action'=>'index'),
+																			'logoutRedirect' => array('controller'=>'users', 'action'=>'login'),
+																			'authError' => 'Sin autorizacion',
+																			'authorize' => array('Controller')
 																		)
 														);
+	/*****/
 	public $helpers = array('Html', 'Form', 'Flash', 'Session');
-	
 	public $urlSocket = 'http://192.168.200.113:8080/tests/setSocketCasasFiscales.php';
 	
+	/*
 	public function beforeFilter(){
 		$this->Auth->allow('login', 'logout');
 		$this->set('current_user', $this->Auth->user());
 	}
+	*/
+	 public function isAuthorized($user) {
+		 /*
+        // Admin can access every action
+        if (isset($user['usertipo_id']) && $user['usertipo_id'] === '1') {
+            return true;
+        }
+        if (isset($user['usertipo_id']) && $user['usertipo_id'] === '2') {
+            return true;
+        }
+        if (isset($user['usertipo_id']) && $user['usertipo_id'] === '3') {
+            return true;
+        }
+        // Default deny
+            return false;
+		*/
+		 return true;
+	 }
+	
+	 public function beforeFilter() {
+		 $this->set('current_user', $this->Auth->user());
+	 }
 	
 }

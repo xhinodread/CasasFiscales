@@ -8,7 +8,12 @@ class ServiciosController extends AppController {
 	
 	var $paginate = array();
 	
-	public function beforeFilter(){ parent::beforeFilter();	}
+	public function beforeFilter() {
+		parent::beforeFilter();
+		//$this->Auth->allow('edita');
+	}
+	
+	//public function isAuthorized($user = null) { return true;}
 	
 	public function index(){
 		$conditions = array('Servicio.activo' =>1);

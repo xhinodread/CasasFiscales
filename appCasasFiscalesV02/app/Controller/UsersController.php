@@ -1,26 +1,35 @@
 <?php 
-App::uses('FuncionesHelper', 'View/Helper');
-App::uses('HttpSocket', 'Network/Http');
 class UsersController extends AppController {
-
+	
 	public function beforeFilter() {
-        parent::beforeFilter();
-        $this->Auth->allow('*');
-    }
+		parent::beforeFilter();
+		$this->Auth->allow('login');
+  }
+	
+	public function isAuthorized($user = null) { return true;}
+	
+	public function index() {
+		$this->render(false);
+		//echo '<pre>'.print_r( $this->User->find('all') ).'</pre>';
+	}
 	
 	public function login() {
-    if ($this->request->is('post')) {
-        if ($this->Auth->login()) {
-            return $this->redirect($this->Auth->redirectUrl());
-        }
-        $this->Flash->error(__('Invalid username or password, try again'));
+    if( $this->request->is('post') ) {
+			// debug($this->Auth->login());
+			if( $this->Auth->login() ) {
+				$this->Flash->loguin('Bienvenido');
+				return $this->redirect($this->Auth->redirectUrl());
+			}else{
+				$varsMsg = '<br>Talvez su cuenta se encuentra bloqueada o inactiva.';
+				// '<br>'.!($this->Auth->login()).', '.($this->Auth->login()).'<br>-'.print_r($this->Auth->login(), 1).print_r($this->request->data, 1);
+				$this->Flash->error(__('Nombre de usuario o contraseña incorrectos, reintente...'.$varsMsg.'...'));
+			}
     }
 	}
 	
 	public function logout() {
-    return $this->redirect($this->Auth->logout());
+  	return $this->redirect($this->Auth->logout());
 	}
-	
 	
 }
 ?>

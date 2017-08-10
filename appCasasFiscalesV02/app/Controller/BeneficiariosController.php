@@ -17,11 +17,11 @@ class BeneficiariosController extends AppController {
        /* 'contain' => array('Article')*/
     );
 	
-	public function beforeFilter(){ 
+	public function beforeFilter() {
 		parent::beforeFilter();
-	//	$this->Auth->allow('*');
-		//$this->Session->write('losValidates', '');
-	}
+		//$this->Auth->allow('login');
+  }
+	//public function isAuthorized($user = null) { return true;}
 	
 	public function index(){
 		//echo 'Beneficiario: <pre>'.print_r($this->Estcivil, 1).'</pre>';
@@ -81,7 +81,7 @@ class BeneficiariosController extends AppController {
 									$this->Flash->guardado('Se ha agregado un nuevo registro.'.$idRegistro);
 									$this->redirect(array('controller' => 'beneficiarios', 'action'=>'edita', 'id'=>$idRegistro));
 								}else{
-									$this->Flash->sin_id('No pudo registrarse, verifique.');
+									$this->Flash->sin_id('No se pudo registrarse, verifique.');
 								}
 							}else{
 								// $this->data['Conyuge']['id'] /*** $this->data DEPRECADO ***/

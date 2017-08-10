@@ -7,12 +7,13 @@ class MantencionesController extends AppController {
 	
 	public $uploadDir = 'files/ReportesMantencion/';
 	
-	public function beforeFilter(){ 
+	//public function isAuthorized($user = null) { return true;}
+	
+	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow('getHistorial');
-		//$this->Session->write('losValidates', '');	
-	}
-		
+		//$this->Auth->allow('login');
+  }
+	
 	public function getHistorial($vivienda_id = null){
 		$Funciones = new FuncionesHelper(new View());
 		Configure::write('debug', 0);
