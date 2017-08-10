@@ -52,10 +52,7 @@ abstract class BaseAuthenticate implements CakeEventListener {
 		'passwordHasher' => 'Simple'
 	);
 	
-	public $varLdap = array(
-		'server' =>	"ldap://192.168.200.198", 
-		'puerto' => 389
-	);
+	public $varLdap = array('server' =>	"ldap://192.168.200.198", 'puerto' => 389);
 
 /**
  * A Component collection, used to get more components.
