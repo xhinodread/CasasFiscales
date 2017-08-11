@@ -180,13 +180,57 @@ class BeneficiariosController extends AppController {
 					
 					if(1){
 						
-						if($this->Beneficiario->edita_conyugue($this->request->data['Conyuge'])){
-							$this->Flash->guardado('Se ha actualizado un registro.');
-							$this->redirect(array('controller' => 'beneficiarios', 'action'=>'edita', 'id'=>$id_deneficiario));
-						}else{
-							$this->Flash->sin_id('No se pudo registrarse, verifique.');
+						// 0 nuevo conyuge, benefi sin conyuge, INSERSION
+						// 1 nuevo conyuge, benefi CON conyuge, ACTUALIZACION
+						// 2 conyuge VIEJO, benefi CON conyuge, ACTUALIZACION
+						// 3 conyuge VIEJO, benefi sin conyuge, INSERSIONl
+						
+						/**** /
+						if( $tieneConyuge <= 0 ){
+							if( $this->Beneficiario->agrega_conyugue($this->request->data['Conyuge']) ){
+								$this->Flash->guardado('Se ha agregado un nuevo registro con conyuge.');
+								// $this->redirect(array('controller' => 'beneficiarios', 'action'=>'edita', 'id'=>$id_deneficiario));
+							}else{
+								$this->Flash->sin_id('No pudo registrarse, verifique.');
+							}
+						}else{							
+							if( $tieneConyuge >= 1 ){
+								if($this->Beneficiario->edita_conyugue($this->request->data['Conyuge'])){
+									$this->Flash->guardado('ATENCION !!!<br>Este conyugue ya esta asignado, <br>Se ha actualizado un registro con conyuge.');
+									// $this->redirect(array('controller' => 'beneficiarios', 'action'=>'edita', 'id'=>$id_deneficiario));
+								}
+							}else{
+								if($this->Beneficiario->edita_conyugue($this->request->data['Conyuge'])){
+									$this->Flash->guardado('Se ha actualizado un registro.');
+									// $this->redirect(array('controller' => 'beneficiarios', 'action'=>'edita', 'id'=>$id_deneficiario));
+								}else{
+									$this->Flash->sin_id('No pudo registrarse, verifique.');
+									// $this->redirect(array('controller' => 'beneficiarios', 'action'=>'edita', 'id'=>$id_deneficiario));
+								}
+							}
+						}
+						/* ***/
+						
+						if( strlen(trim($this->request->data['Conyuge']['rut'])) == 0 ){
+							//debug($this->request->data['Conyuge']['beneficiario_id']);
+							$tieneConyuge = $this->Beneficiario->busca_conyugue_beneficiario($this->request->data['Conyuge']['beneficiario_id']);
+							debug($tieneConyuge);
+							if( isset($tieneConyuge[0]['Conyuge']['id']) 
+								 && isset($tieneConyuge[0]['Conyuge']['beneficiario_id']) 
+								 && $tieneConyuge[0]['Conyuge']['beneficiario_id'] == $this->request->data['Conyuge']['beneficiario_id'] ){
+								$this->Beneficiario->borra_conyugue($this->request->data['Conyuge']['beneficiario_id']);
+								$this->Flash->guardado('Registro eliminado.');
+								$this->redirect(array('controller' => 'beneficiarios', 'action'=>'edita', 'id'=>$id_deneficiario));
+							}
 						}
 						
+						if($this->Beneficiario->edita_conyugue($this->request->data['Conyuge'])){
+							$this->Flash->guardado('Se ha actualizado un registro.');
+						}else{
+							$this->Flash->sin_id('No pudo registrarse, verifique.');
+						}
+						$this->redirect(array('controller' => 'beneficiarios', 'action'=>'edita', 'id'=>$id_deneficiario));
+					
 					}else{
 						
 						$this->Flash->guardado('Registro'.print_r($this->request->data['Conyuge']),1);

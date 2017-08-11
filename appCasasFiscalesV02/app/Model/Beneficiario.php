@@ -92,7 +92,47 @@ class Beneficiario extends AppModel {
 		));
 		return;
 	}
-				
+		
+	public function busca_conyugue_beneficiario($idBeneficiario=null){
+		//$rutConyuge = trim(str_replace('.', '',$rutConyuge));
+		//$res = $this->Conyuge->find('all', array('conditions'=>array('rut' => $rutConyuge)) );
+		$res = $this->Conyuge->find('all', array('conditions'=>array('beneficiario_id' => $idBeneficiario)) );
+		return $res;
+	}
+	
+	public function busca_conyuguevERiNICIAL($rutConyuge=null, $idBeneficiario=null){
+		/*** PENDIENTE ***/
+		$rutConyuge = trim(str_replace('.', '',$rutConyuge));
+		$res = $this->Conyuge->find('count', array('conditions'=>array('rut' => $rutConyuge)) );
+		//echo '1: '.$res.'<br>';
+		//debug($res);
+		
+		if( $res == 0 ){
+			$resRutConyuge = $this->Conyuge->find('count', array('conditions'=>array('beneficiario_id' => $idBeneficiario)) );
+			//$elRutConyuge = $this->Conyuge->find('all', array('conditions'=>array('beneficiario_id' => $idBeneficiario)) );
+			//debug($elRutConyuge);
+			if( $resRutConyuge > 0 ){
+				return 2;
+			}else{
+				return 0;
+			}
+		}
+		/***/
+		if( $res == 1 ){
+			$elRutConyuge = $this->Conyuge->find('all', array('conditions'=>array('rut' => $rutConyuge)) );
+			//debug($elRutConyuge);
+		}
+		/***/
+		/*
+		if( $res <= 0 ){
+			$res = $this->Conyuge->find('count', array('conditions'=>array('beneficiario_id' => $idBeneficiario)) );
+			echo '2: '.$res.'<br>';
+		}
+		*/
+		
+		return $res;
+	}
+
 	public function agrega_conyugue($array_datos = null){
 		$array_datos['rut'] = trim(str_replace('.', '',$array_datos['rut']));
 		$evaluador = preg_match("/^0*(\d{1,3}(\.?\d{3})*)\-?([\dkK])$/", $array_datos['rut'] );
@@ -108,9 +148,19 @@ class Beneficiario extends AppModel {
 	public function edita_conyugue($array_datos = null){
 		$array_datos['rut'] = trim(str_replace('.', '',$array_datos['rut']));
 		if( preg_match("/^0*(\d{1,3}(\.?\d{3})*)\-?([\dkK])$/", $array_datos['rut'] ) ){
+			// debug($array_datos);
+			// $this->busca_conyugue($array_datos['rut']);
 			$this->Conyuge->read(null, $array_datos['id']);
 			$this->Conyuge->set($array_datos);
 			return $this->Conyuge->save();
+		}else{
+			return false;
+		}
+	}
+	
+	public function borra_conyugue($idBeneficiario = null){
+		if( $this->Conyuge->deleteAll(array('beneficiario_id'=>$idBeneficiario)) ){
+			return true;
 		}else{
 			return false;
 		}
