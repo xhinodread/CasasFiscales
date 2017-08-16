@@ -32,57 +32,35 @@ class ViviendasController extends AppController {
 		$this->set(compact('listado', 'conditions'));
 	}
 	
-	public function agrega_(){
+	public function agrega(){
+		/*** COMUNAS ***/
+		$HttpSocket = new HttpSocket();
+		$resultsSocket = $HttpSocket->get($this->urlSocket, array('gabriel'=>0, 'tbl'=>1)) ;
+		$comunas = json_decode($resultsSocket->body, 1);
+		if( !is_array($comunas) ){ $comunas = ''; }
+		/*** PROVINCIAS ***/
+		$HttpSocket = new HttpSocket();
+		$resultsSocket = $HttpSocket->get($this->urlSocket, array('gabriel'=>0, 'tbl'=>2)) ;
+		$provincias = json_decode($resultsSocket->body, 1);
+		//echo '<pre>comunas:'.print_r($comunas, 1).'</pre>';
+		/***********************************************************/
+		
 		if ($this->request->is('post')) {
-		if(0):
-			echo '<pre>data:'.print_r($this->data, 1).'</pre>'.'<pre>validates:'.print_r($this->Servicio->validates(), 1).'</pre>';
-		else:
-			if( isset($this->data['Servicio']['rut']) && strlen($this->data['Servicio']['rut'])<= 12 && strlen($this->data['Servicio']['rut'])>=11 ){
-				
-				// $elRut = $this->Servicio->saca_str_rut($this->data['Servicio']['rut']);
-				/*** EVALUA SI EL RUT TRAE PUNTOS ***/
-				$elRut = trim($this->data['Servicio']['rut']);
-				if( strpos($elRut, '.') >= 1 ){
-					$elRut = $this->Servicio->saca_str_rut($elRut);
-					$elRut = $elRut[0].'-'.$elRut[1];
-				}
-
-				$this->request->data['Servicio']['rut'] = $elRut;
-				///$this->request->data['Servicio']['dv'] = $elRut[1];
-				//echo '<pre>this->request->data:'.print_r($this->request->data, 1).'</pre>';
-				//echo '<pre>elRut:'.print_r($elRut, 1).'</pre>';
-				
-				$this->request->data['Servicio']['created'] = date("d-m-Y H:i:s");
-				$this->request->data['Servicio']['activo'] = 1;
-				
-				$existe_rut = $this->Servicio->existe_rut($elRut[0]);
-				//echo '<pre>existe_rut:'.isset($existe_rut).', '.is_array($existe_rut).', '.count($existe_rut).'</pre>';
-				//echo '<pre>existe_rut:'.print_r($existe_rut, 1).'</pre>';
-				if( is_array($existe_rut) && count($existe_rut)>=1 ){
-					$nombre = trim($existe_rut['Servicio']['nombres']).' '.trim($existe_rut['Servicio']['paterno']).' '.trim($existe_rut['Servicio']['materno']);
-					$this->Flash->sin_id('Servicio - El Rut existe en la base de datos ('.$nombre.'), verifique. ');
-					//$this->redirect(array('controller' => 'servicios', 'action'=>'index'));
+			if(0):
+				echo '<pre>request->data:'.print_r($this->request->data, 1).'</pre>'; // .'<pre>validates:'.print_r($this->Servicio->validates(), 1).'</pre>';
+			else:
+				if( $this->Vivienda->save($this->request->data['Vivienda']) ){
+					$this->Flash->guardado('Vivienda - Registro creado.');
+					$id_vivienda = $this->Vivienda->getLastInsertID();
+					$this->redirect(array('controller' => 'viviendas', 'action'=>'edita', 'id'=>$id_vivienda));
 				}else{
-					///$this->request->data['Conyuge']['rut'] = trim(str_replace('.', '', $this->request->data['Conyuge']['rut']));
-					if(0){
-						$this->Flash->guardado('Servicio - Se ha agregado un registro.<pre>'.print_r($this->request->data, 1).'</pre>');
-					}else{
-						$this->Servicio->create();
-						if( $this->Servicio->save($this->request->data['Servicio']) ){
-							$idRegistro = $this->Servicio->id;
-							$this->Flash->guardado('Servicio - Se ha agregado un nuevo registro.'.$idRegistro);
-							$this->redirect(array('controller' => 'servicios', 'action'=>'edita', 'id'=>$idRegistro));
-						}else{
-							$this->Flash->sin_id('Servicio - No pudo agregarse.<pre>'.print_r($this->request->data, 1).'</pre>');
-						}
-					}
+					$this->Flash->error('Vivienda - No se pudo crear, verifique...');
 				}
-			}else{
-				$this->Flash->sin_id('Servicio - El Rut no es valido, verifique. ');
-			}
-		endif;
+			endif;
 		}
-		// $this->set();
+		$this->set( array( 'comunas' => $comunas,
+										   'provincias' => $provincias) 
+							);
 	}
 	
 	public function edita(){
@@ -100,7 +78,7 @@ class ViviendasController extends AppController {
 		$resultsSocket = $HttpSocket->get($this->urlSocket, array('gabriel'=>0, 'tbl'=>2)) ;
 		$provincias = json_decode($resultsSocket->body, 1);
 		//echo '<pre>comunas:'.print_r($comunas, 1).'</pre>';
-		
+		/***********************************************************/
 		if( !is_array($provincias) ){ $provincias = ''; }
 		if ($this->request->is('post')) {
 				$msg = '<pre>data:'.print_r($this->data, 1).'</pre>';
@@ -173,15 +151,16 @@ class ViviendasController extends AppController {
 							);
 	}
 
-	public function borra_($id_vivienda = null){
+	public function borra($id_vivienda = null){
 		$this->render(false);
 		if( strlen($id_vivienda)>0 && $id_vivienda > 0 && is_numeric($id_vivienda) ){
-			$this->Servicio->id = $id_vivienda; 
-   		$this->Servicio->read(array('activo')); 
-			$this->Servicio->saveField('activo', 0); // INACTIVO, BORRADO...
+			$this->Vivienda->id = $id_vivienda; 
+   		$this->Vivienda->read(array('activo')); 
+			$this->Vivienda->saveField('activo', 0); // INACTIVO = BORRADO...
 			// FALTA LA LLAMADA AL METODO pago->morosas()
+			$this->Flash->error('Vivienda - Registro Eliminado.');
 		}
-		$this->redirect(array('controller' => 'servicios', 'action'=>'index'));
+		$this->redirect(array('controller' => 'viviendas', 'action'=>'index'));
 	}
 
 }

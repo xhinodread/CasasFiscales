@@ -44,7 +44,7 @@ class MantencionesController extends AppController {
 			$error = $this->request->data['Mantencione']['documento']['error'];
 			$uploadPath = $this->uploadDir;
       //$uploadFile = $uploadPath.$fileName;
-			$nombre = str_replace('-', '_', $this->request->data['Mantencione']['created']).'_'.$this->request->data['Mantencione']['mantentipo_id'].
+			$nombre = str_replace('-', '_', $this->request->data['Mantencione']['fecha']).'_'.$this->request->data['Mantencione']['mantentipo_id'].
 								'_vivienda_'.$this->request->data['Vivienda']['id'].'_'.date("H_i_s").'.'.$laExtension[1];
 			$this->request->data['Mantencione']['documento']['name'] = $nombre;
 			$uploadFile = $uploadPath.$nombre;
@@ -60,8 +60,8 @@ class MantencionesController extends AppController {
 				if( move_uploaded_file($this->request->data['Mantencione']['documento']['tmp_name'], $uploadFile) ){
 					$this->Flash->guardado('Archivo Cargado.');
 					$this->request->data['Mantencione']['documento'] = $uploadFile;
-					$this->request->data['Mantencione']['fecha'] = $this->request->data['Mantencione']['created'];
-					$this->request->data['Mantencione']['created'] = null;
+					$this->request->data['Mantencione']['fecha'] = date('Y-d-m',  strtotime($this->request->data['Mantencione']['fecha']));
+					$this->request->data['Mantencione']['created'] = date('Y-d-m H:i:s');
 					// echo '2<pre>'.print_r($this->data, 1).'</pre>'.'request 2:<pre>'.print_r($this->request->data, 1).'</pre>'.$this->request->data['Mantencione']['vivienda_id'];
 					if(1):
 						if ($this->Mantencione->save($this->request->data['Mantencione'])) {

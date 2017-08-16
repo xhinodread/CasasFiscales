@@ -73,7 +73,7 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
 							<tr>
 								<td>
 									<?=$this->Form->hidden('vivienda_id', array('default' => trim($vivienda['Vivienda']['id'])) );?>
-									<?=$this->Form->input('created', array('label' => false,
+									<?=$this->Form->input('fecha', array('label' => false,
 																												'default' => date("d-m-Y"),
                                                         'type'  => 'text',
                                                         'class' => 'form-control form_control text-center',
@@ -132,7 +132,7 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
 <script>
 	$(document).ready(function(){
 		
-		var created=$('#MantencioneCreated'); 
+		var created=$('#MantencioneFecha'); 
 		var options={
 			format: 'dd-mm-yyyy',
 			todayHighlight: true,

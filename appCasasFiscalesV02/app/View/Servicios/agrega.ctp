@@ -19,8 +19,8 @@ $funciones = new Funcionespropias();
 	<div class="row">
 		<div class="col-md-11">
  			<div style="float:right; margin-bottom:20px; "><?=$this->Html->link('[+] Nuevo', '/servicios/agrega', array('class'=>'btn btn-primary') )?></div>
-    	</div>
     </div>
+  </div>
     
     <div class="row">
         <div class="col-md-11">
