@@ -53,6 +53,8 @@ class AppController extends Controller {
 	public $helpers = array('Html', 'Form', 'Flash', 'Session');
 	public $urlSocket = 'http://192.168.200.113:8080/tests/setSocketCasasFiscales.php';
 	
+	public $msgAsignaciones = array( 'parametros' => 'Parametros no Validos' );
+	
 	/*
 	public function beforeFilter(){
 		$this->Auth->allow('login', 'logout');

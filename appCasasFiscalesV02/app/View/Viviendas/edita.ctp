@@ -253,6 +253,7 @@ $map_marker_options = array(
 							</table>
 							<?=$this->Form->submit('Guardar Cambios', array('class' => 'btn btn-primary', 'div'=>false) );?>
 							<a href="#mantenciones" id="openerMantenciones" class="btn btn-info">Ver Mantenciones</a><!--<a name="mantenciones" id="mantenciones"></a>-->
+							<a href="#asignaciones" id="openerAsignaciones" class="btn btn-info">Ver Asignaciones</a>
 						<?=$this->Form->end();?>       
 					</div>
 			</div>
@@ -293,10 +294,26 @@ $map_marker_options = array(
   </table>
 </div>
 
+<div id="dialogAsignaciones" title="Historial de Asignaciones" >
+ 	<div style="float:right; margin-bottom:20px; ">
+ 		<?=$this->Html->link('[+] Nuevo', '/Bsvs/agrega/'.$datos['Vivienda']['id'] , array('id'=>'btnNuevaAsignacion', 'class'=>'btn btn-primary') )?>
+ 	</div>
+  <table width="0" border="0" class="historialAsignaciones table table-bordered table-striped table-hover table-condensed table-responsive" id="tablaAsignaciones">
+    <tr class="info" >
+      <th>Fecha</th>
+      <th>Destino</th>
+      <th>Beneficiario</th>
+      <th>Monto Arriendo</th>
+      <th>Observación</th>
+      <th>Documento</th>
+    </tr>
+  </table>
+</div>
+
 <script>
 $(document).ready(function(){
   //$(function(){
-    	var comunas = [<?=$this->Funciones->arrayJquery($comunas);?>];
+    	var comunas = [<?=$this->Funciones->arrayJqueryConComa($comunas);?>];
 			$( "#ViviendaComunaNom" ).autocomplete({ 
 				source: comunas,
 				select: function( event, ui ) {
@@ -341,32 +358,49 @@ $(document).ready(function(){
 		
 		/ *************************************************************************************/
 		
-		$( function() {
-			$( "#dialogMantenciones" ).dialog({
-			  autoOpen: false,
-				modal: true,
-			  title: 'Historial de Mantención',
-				height: 400,
-			  width: 900,			 
-			  show: {
-					effect: "blind", duration: 1000
-			  },
-			  hide: {
-					effect: "explode", duration: 1000
-			  }
-			});
+	$( function() {
+		$( "#dialogMantenciones" ).dialog({
+			autoOpen: false,
+			modal: true,
+			title: 'Historial de Mantención',
+			height: 400,
+			width: 900,			 
+			show: { effect: "blind", duration: 1000 },
+			hide: { effect: "explode", duration: 1000 }
 		});
-		
-		$( "a" ).on( "click", function() {
-			if(this.id == 'openerMantenciones'){
-				$( "#dialogMantenciones" ).dialog( "open" );
-				if ( $("#dialogMantenciones").dialog("isOpen") == true ){
-					 //Perform some operations;
-					//console.log('isOpen');
-					llamarHistorialMantencion( $("#ViviendaId").val() );
-				 }
+	});
+
+	$( "a" ).on( "click", function() {
+		if(this.id == 'openerMantenciones'){
+			$( "#dialogMantenciones" ).dialog( "open" );
+			if ( $("#dialogMantenciones").dialog("isOpen") == true ){
+				//console.log('isOpen');
+				llamarHistorialMantencion( $("#ViviendaId").val() );
+			 }
+		}
+	});
+	
+	$( function() {
+		$( "#dialogAsignaciones" ).dialog({
+			autoOpen: false,
+			modal: true,
+			title: 'Historial de Asignaciones',
+			height: 400,
+			width: 900,			 
+			show: { effect: "blind", duration: 1000 },
+			hide: { effect: "explode", duration: 1000 }
+		});
+	});
+
+	$( "a" ).on( "click", function() {
+		if(this.id == 'openerAsignaciones'){
+			$( "#dialogAsignaciones" ).dialog( "open" );
+			if ( $("#dialogAsignaciones").dialog("isOpen") == true ){
+				//console.log('isOpen');
+				llamarHistorialAsignacion( $("#ViviendaId").val() );
 			}
-		});
+		}
+	});
 		
 });
 </script>

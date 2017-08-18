@@ -85,14 +85,6 @@ function llamarHistorialMantencion(bsv_id){
 					var object = losDatos[i];
 					for(property in object) {
 						var valor = object[property]; //+', '+property;
-						/*
-						var formaFecha = '';
-						if(property == 'created'){
-							var d = new Date( (valor));
-							formaFecha = (d.getDate() + "/" + d.getMonth() + "/" + d.getFullYear());
-							valor += ' | '+formaFecha;
-						}
-						*/
 						
 						var linkDoc = '', urlDoc='';
 						if(property == 'documento'){
@@ -114,9 +106,61 @@ function llamarHistorialMantencion(bsv_id){
 			}
 		}
 		,error: function(xhr,status,error){
-			console.log('error: '+error);
-			console.log(xhr);
-			console.log(xhr.responseText);
+			console.log('error 1: '+error);
+			console.log('error 2: '+xhr);
+			console.log('error 3: '+xhr.responseText);
+		}
+	});
+}
+
+function llamarHistorialAsignacion(vivienda_id){
+	var id = vivienda_id; //ui.item.Expediente.id;
+	$.ajax({
+		url: urlServer+"/Bsvs/getArriendo/"+id
+		,dataType: "json"
+		,beforeSend: function(xhr){ }
+		,success: function(data){
+			var linea = 0;
+			$('#tablaAsignaciones tr').each(function() {
+				if (linea > 0)
+					$(this).remove();
+				linea++;
+			});
+			var nuevaFila="<tr><td colspan='6'>Sin Resultados</td></tr>";
+			var losDatos = data.Arriendo,valViv='Asignación';
+			if( losDatos ){
+				for(var i=0;i<(losDatos.length);i++){
+					nuevaFila="<tr>";
+					// añadimos las columnas
+					var object = losDatos[i];					
+					for(property in object) {
+						var valor = object[property]; //+', '+property;						
+						var linkDoc = '', urlDoc='';
+						if( property == 'destino' && i==0 ){
+							valViv = valor;
+						}
+						if(property == 'documento'){
+							urlDoc=valor;
+							linkDoc = '<a href="/appCasasFiscalesV02/bsvs/../'+urlDoc+'" target="_blank" class="btn btn-info">Informe de Asignaciones</a>';
+							//valor += linkDoc;
+							valor = linkDoc;
+						}
+						nuevaFila+="<td>"+valor+"</td>";
+					}
+					nuevaFila+="</tr>";
+					$("#tablaAsignaciones").append(nuevaFila);
+				}
+			}else{
+				$("#tablaAsignaciones").append(nuevaFila);
+			}
+			
+			$("#btnNuevaAsignacion").attr("href", $("#btnNuevaAsignacion").attr("href")+'/'+valViv );
+			
+		}
+		,error: function(xhr,status,error){
+			console.log('error 1: '+error);
+			console.log('error 2: '+xhr);
+			console.log('error 3: '+xhr.responseText);
 		}
 	});
 }

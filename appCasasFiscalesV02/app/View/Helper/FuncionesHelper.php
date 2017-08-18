@@ -39,7 +39,7 @@ class FuncionesHelper extends AppHelper {
 		return;
 	}
 	
-	public function arrayJquery($elArray = null){
+	public function arrayJqueryConComa($elArray = null){
 		$elArrayPrincipal = '';
 		foreach($elArray as $pnt => $lista){
 			$pos = strpos($lista, ',');
@@ -51,11 +51,41 @@ class FuncionesHelper extends AppHelper {
 		}
 		return trim($elArrayPrincipal);
 	}
+	
+	public function arrayJquery($elArray = null){
+		$elArrayPrincipal = '';
+		foreach($elArray as $pnt => $lista){
+			$texto = $lista;
+			$key = $pnt;
+			$elArray = '{value: "'.$key.'", label: "'.$texto.'"},';
+			$elArrayPrincipal .= trim($elArray);
+		}
+		return trim($elArrayPrincipal);
+	}
+	public function generaArray($elArray = null){
+		$elArrayPrincipal = array();
+		foreach($elArray as $pnt => $lista){
+			//$texto = $lista;
+			//$key = $pnt;
+			//$elArray = '{value: "'.$key.'", label: "'.$texto.'"},';
+			$elArrayPrincipal[$pnt] = trim($lista);
+		}
+		return $elArrayPrincipal;
+	}
 
 	public function arrayInNodo1($arrayDatos = null, $nodo1){
 		$arraySalida = array();
 		foreach($arrayDatos as $pnt => $lista){
 			$arraySalida[$nodo1][$pnt] = $lista[$nodo1];
+		}
+		return $arraySalida;
+	}
+	
+	public function beneficiarioNombrePersona($arrayBeneficiarios = null){
+		$arraySalida = array();
+		foreach($arrayBeneficiarios as $lista){
+			// $arraySalida[$lista['Beneficiario']['id']] = (trim($lista['Beneficiario']['nombres'])).' '.(trim($lista['Beneficiario']['paterno'])).' '.(trim($lista['Beneficiario']['materno']));
+			$arraySalida[$lista['0']['id']] = array(trim($lista['0']['nombres']).' '.trim($lista['0']['paterno']).' '.trim($lista['0']['materno']) , trim($lista['0']['sueldo_base']) );
 		}
 		return $arraySalida;
 	}
