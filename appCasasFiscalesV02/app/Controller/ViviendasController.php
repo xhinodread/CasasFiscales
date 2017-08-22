@@ -145,16 +145,15 @@ class ViviendasController extends AppController {
 			$this->redirect(array('controller' => 'viviendas', 'action'=>'index'));
 		}
 				
-		$sql= "SELECT TOP 1 (rtrim(nombres)+' '+ rtrim(paterno)+' '+ rtrim(materno)) nombreBeneficiario,"
-		.'T3.nombre nombreServicio, T3.jefe_servicio'
-		.' FROM Beneficiarios as T1'
-		.' LEFT JOIN Bsvs as T2 ON (T1.id = T2.beneficiario_id)'
-		.' LEFT JOIN beneficiarios_servicios as T4 ON (T1.id = T4.beneficiario_id)'
-		.' LEFT JOIN Servicios as T3 ON (T3.id = T4.servicio_id)'
-		.' WHERE T2.vivienda_id = '.$id_vivienda
-		.' AND T3.id is not null '
+		$sql= "SELECT TOP 1 (rtrim(nombres)+' '+ rtrim(paterno)+' '+ rtrim(materno)) nombreBeneficiario, T5.nombre nombreServicio, T5.jefe_servicio, destino_id, T1.beneficiario_id"
+		.' FROM Bsvs as T1'
+		.' LEFT JOIN Arriendos_historials as T2 ON (T2.bsv_id = T1.id)'
+		.' LEFT JOIN beneficiarios_servicios as T3 ON (T3.beneficiario_id = T1.beneficiario_id)'
+		.' LEFT JOIN Beneficiarios as T4 ON (T4.id = T3.beneficiario_id)'
+		.' LEFT JOIN Servicios as T5 ON (T5.id = T3.servicio_id)'
+		.' WHERE T1.vivienda_id = '.$id_vivienda		
 		.' ORDER BY T2.created DESC';
-		
+				
 		$asignado = $this->Vivienda->query($sql);
 
 		

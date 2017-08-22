@@ -9,7 +9,7 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
 // echo 'arrayConsume<pre class="little">this:'.print_r($arrayConsume, 1).'</pre>';
 // echo '<pre class="little">this:'.print_r($datos, 1).'</pre>';
 // echo '<pre class="little">estados_civil:'.print_r($estados_civil, 1).'</pre>';
-//echo '<pre>comunas:'.print_r($comunas, 1).'</pre>';
+// echo '<pre>comunas:'.print_r($comunas, 1).'</pre>';
 // echo '<pre>provincias:'.print_r($provincias, 1).'</pre>';
 
 $latitud = trim($datos['Vivienda']['latitud']); // -29.902087;
@@ -188,10 +188,20 @@ $map_marker_options = array(
 
 								<tr>
 									<th>Servicio</th>
+									<?
+										$nombreServicio = "Sin Asignación";
+										$jefe_servicio = $nombreServicio;
+										$nombreBeneficiario = $jefe_servicio;
+										if( isset($asignado[0][0]['destino_id']) && $asignado[0][0]['destino_id'] == 1 ){
+											$nombreServicio = $asignado[0][0]['nombreServicio'];
+											$jefe_servicio = $asignado[0][0]['jefe_servicio'];
+											$nombreBeneficiario = $asignado[0][0]['nombreBeneficiario'];
+										}
+									?>
 									<td>
 										<?=$this->Form->input('Servicio.nombre', array('div'=>array('class'=>'col-sm-12 col-md-12 col-lg-12'),
 																								 'type'=>'text',
-																								 'default' => $asignado[0][0]['nombreServicio'],
+																								 'default' => $nombreServicio,
 																								 'label' => '',
 																								 'class' => 'form-control inputRut',
 																								 'readonly'=>'readonly') );
@@ -200,7 +210,7 @@ $map_marker_options = array(
 									<td>
 										<?=$this->Form->input('Servicio.nombre_jefe', array('div'=>array('class'=>'col-sm-12 col-md-12 col-lg-12'),
 																								 'type'=>'text',
-																								 'default' => $asignado[0][0]['jefe_servicio'],
+																								 'default' => $jefe_servicio,
 																								 'label' => 'Jefe de Servicio',
 																								 'class' => 'form-control inputRut',
 																								 'readonly'=>'readonly') );
@@ -213,7 +223,7 @@ $map_marker_options = array(
 									<td colspan="2">
 										<?=$this->Form->input('Beneficiario.nombre', array('div'=>array('class'=>'col-sm-12 col-md-12 col-lg-12'),
 																								 'type'=>'text',
-																								 'default' => $asignado[0][0]['nombreBeneficiario'],
+																								 'default' => $nombreBeneficiario,
 																								 'label' => '',
 																								 'class' => 'form-control inputRut',
 																								 'readonly'=>'readonly') );
@@ -398,7 +408,7 @@ $(document).ready(function(){
 			$( "#dialogAsignaciones" ).dialog( "open" );
 			if ( $("#dialogAsignaciones").dialog("isOpen") == true ){
 				//console.log('isOpen');
-				llamarHistorialAsignacion( $("#ViviendaId").val() );
+				llamarHistorialAsignacion( $("#ViviendaId").val(), <?=( isset($asignado[0][0]['beneficiario_id'])?$asignado[0][0]['beneficiario_id']:0 );?> );
 			}
 		}
 	});

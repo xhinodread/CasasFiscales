@@ -37,7 +37,7 @@ class BsvsController extends AppController {
 			foreach($datos as $listaUno){
 				if( isset($listaUno['Arriendos_historial']) ){					
 					foreach($listaUno['Arriendos_historial'] as $listaDos){
-						$arrayDatos[] = array('created'=>trim($listaDos['created']),
+						$arrayDatos[] = array('created'=>$listaDos['created'], //date('d/m/Y', strtotime(trim($listaDos['created']))), // trim(date("d/m/Y", strtotime(trim($listaDos['created'])))),
 																	'destino'=>trim($listaDos['Destino']['descripcion']), 
 																	'beneficiario'=>trim($listaUno['Beneficiario']['nombres']).' '.trim($listaUno['Beneficiario']['paterno']).' '.trim($listaUno['Beneficiario']['materno']),
 																	'monto_arriendo'=>trim($listaDos['monto_arriendo']), 
@@ -49,7 +49,7 @@ class BsvsController extends AppController {
 			foreach ($arrayDatos as $key => $row) {
 				$aux[$key] = $row['created'];
 			}
-			array_multisort($aux, SORT_ASC, $arrayDatos);
+			array_multisort($aux, SORT_DESC, $arrayDatos);
 			
 			$datosX = array();
 			$datosX['Arriendo'] =$arrayDatos;
@@ -57,7 +57,7 @@ class BsvsController extends AppController {
 		}
 	}
 	
-	public function agrega($vivienda_id = null, $ultimo_estado = null){
+	public function agrega($vivienda_id = null, $ultimo_estado = null, $beneficiario_id = null){
 		
 		$this->loadModel('Destino');
 		$this->loadModel('Vivienda');
@@ -65,7 +65,9 @@ class BsvsController extends AppController {
 		
 		if ($this->request->is('post')) {
 			
-			
+			unset($this->request->data['Vivienda']);
+			unset($this->request->data['X']);
+		
 			unset($this->request->data['bsv']['beneficiario_nombre']);
 			$this->request->data['Arriendos_historial']['bsv_id'] = 123;
 			$this->request->data['Arriendos_historial']['fecha_desde'] = $this->request->data['bsv']['created'];
@@ -103,16 +105,37 @@ class BsvsController extends AppController {
 		
 		$this->Vivienda->recursive = 0;
 		$this->Vivienda->read(null, $vivienda_id);
+
 		
+		$this->Beneficiario->recursive = 1;
+		$elBeneficiario = $this->Beneficiario->find( 'first', array('conditions'=> array('Beneficiario.id'=> $beneficiario_id), 
+																																'fields'=> array('Beneficiario.id', 'Beneficiario.nombres', 'Beneficiario.paterno', 'Beneficiario.materno'
+																																								, 'beneficiarios_servicio.servicio_id')
+																															 )
+																							 );
+		
+				
 		$this->Beneficiario->recursive = -1;
 		$beneficiarios = $this->Beneficiario->find( 'all', array('fields'=> array('Beneficiario.id', 'Beneficiario.nombres',
-																																							'Beneficiario.paterno', 'Beneficiario.materno')) );
+																																							'Beneficiario.paterno', 'Beneficiario.materno')
+																														) 
+																							);
+		
+				
 		$sql = 'SELECT T1.id, T1.nombres, T1.paterno, T1.materno, T1.sueldo_base, T3.servicio_id'
 			.' FROM Beneficiarios as T1'
 			.' LEFT JOIN bsvs as T2 ON (T1.id = T2.beneficiario_id)'
 			.' LEFT JOIN beneficiarios_servicios as T3 ON (T1.id = T3.beneficiario_id)'
 			.' WHERE T2.beneficiario_id is null'
 			.' AND T3.beneficiario_id is not null';
+		
+		$sql = 'SELECT T1.id, T1.nombres, T1.paterno, T1.materno, T1.sueldo_base, T2.servicio_id'	
+					.' FROM Beneficiarios as T1'
+					.' LEFT JOIN beneficiarios_servicios as T2 ON (T2.beneficiario_id = T1.id)'
+					.' LEFT JOIN bsvs as T3 ON (T3.beneficiario_id = T1.id)'
+					.' LEFT JOIN Arriendos_historials as T4 ON (T4.bsv_id = T3.id)'
+					.' WHERE T2.servicio_id is not null'
+					.' AND T4.monto_arriendo is null';
 		$beneficiariosX = $this->Beneficiario->query($sql);
 		
 		$this->set( array(
@@ -122,6 +145,7 @@ class BsvsController extends AppController {
 				'ultimo_estado' => $ultimo_estado,
 				'listaDestino' => array_reverse($listaDestino, true),
 				'vivienda' => $this->Vivienda->data,
+				'elBeneficiario' => $elBeneficiario,
 				'beneficiarios' => $beneficiarios,
 				'beneficiariosX' => $beneficiariosX
 			) 

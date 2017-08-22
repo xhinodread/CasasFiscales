@@ -1,5 +1,7 @@
+<?//='elBeneficiario:<pre>'.print_r(count($elBeneficiario), 1).'</pre>';?>
+<?//='elBeneficiario:<pre>'.print_r($elBeneficiario, 1).'</pre>';?>
 <?//='<pre>'.print_r($beneficiarios, 1).'</pre>';?>
-<?//='<pre>'.print_r($beneficiariosX, 1).'</pre>';?>
+<?//='beneficiariosX: <pre>'.print_r($beneficiariosX, 1).'</pre>';?>
 <?//='<pre>'.print_r($this->Funciones->beneficiarioNombrePersona($beneficiarios), 1).'</pre>';?>
 <?//='listaDestino: <pre>'.print_r($listaDestino, 1).'</pre>';?>
 <?// ='listaBeneficiarios: <pre>'.print_r($listaBeneficiarios, 1).'</pre>';?>
@@ -15,6 +17,20 @@
 		$servicioBeneficiario[$pnt] =$lista[2];
 	}
 	$listaSueldos = $this->Funciones->generaArray($sueldoBeneficiarios);
+
+	// $elBeneficiarioNombre = ( count($elBeneficiario) > 0 ? trim($elBeneficiario['Beneficiario']['nombres']).' '.trim($elBeneficiario['Beneficiario']['paterno']).' '.trim($elBeneficiario['Beneficiario']['materno']) : '');
+
+	$elBeneficiarioNombre = '';
+	$estadoTxtBeneficiarioNombre = $elBeneficiarioNombre;
+	$elBeneficiarioId = 0;
+	$servicio_id = $elBeneficiarioId;
+	if( count($elBeneficiario) > 0 ){
+		$elBeneficiarioNombre = trim($elBeneficiario['Beneficiario']['nombres']).' '.trim($elBeneficiario['Beneficiario']['paterno']).' '.trim($elBeneficiario['Beneficiario']['materno']);
+		$elBeneficiarioId = $elBeneficiario['Beneficiario']['id'];
+		$estadoTxtBeneficiarioNombre = array('readonly'=>'readonly');
+		$servicio_id = $elBeneficiario['beneficiarios_servicio']['servicio_id'];
+	}
+
 ?>
 
 <div class="container-flex">
@@ -88,24 +104,36 @@
 								?>
 							</td>
 							<td>
-								<?=$this->Form->hidden('servicio_id', array('default' => 0) );?>
-								<?=$this->Form->hidden('beneficiario_id', array('default' => 0) );?>
+								<?=$this->Form->hidden('servicio_id', array('default' => $servicio_id) );?>
+								<?=$this->Form->hidden('beneficiario_id', array('default' => $elBeneficiarioId) );?>
 								<?=$this->Form->input('beneficiario_nombre', array('div'=>array('class'=>'col-md-'),
 																						 'type'=>'text',
+																						 'default' => $elBeneficiarioNombre,
 																						 'label' => 'Beneficiario',
 																						 'placeholder'=>'Nombre del Beneficiario',
 																						 'class' => 'form-control inputRut',
-																						 'style'=>"text-align: center;") );
+																						 'style'=>"text-align: center;",
+																						 $estadoTxtBeneficiarioNombre) );
 								?>
 							</td>
 							<td>
-								<?=$this->Form->input('Arriendos_historial.tipo_destino_id', array('div'=>array('class'=>'col-md-'),
+								<? if(0): $this->Form->input('Arriendos_historial.tipo_destino_idX', array('div'=>array('class'=>'col-md-'),
 																						 'type'=>'select',
 																						 'options' => $listaDestino,
 																						 'selected' => $idEstado,
 																						 'label' => 'Destino',
-																						 'class' => 'form-control inputRut') );
+																						 'class' => 'form-control inputRut',
+																						 'readonly'=>'readonly') ); endif;
 								?>
+								<?=$this->Form->hidden('Arriendos_historial.tipo_destino_id', array('default' => $idEstado) );?>
+								<?=$this->Form->input('X.tipo_destino_nombre', array('div'=>array('class'=>'col-md-'),
+																						 'type'=>'text',
+																						 'default' => $listaDestino[$idEstado],
+																						 'label' => 'Destino',
+																						 'class' => 'form-control inputRut',
+																						 'readonly'=>'readonly') );
+								?>
+								
 							</td>
 						</tr>
 						
@@ -126,6 +154,7 @@
 																						 'default' => '',
 																						 'placeholder'=>'Descripción del tipo',
 																						 'cols'=>200,
+																						 'maxlength'=>106,
 																						 'label' => 'Observación',
 																						 'class' => 'form-control inputRut') );
 								?>

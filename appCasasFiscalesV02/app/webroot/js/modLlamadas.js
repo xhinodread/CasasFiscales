@@ -113,7 +113,7 @@ function llamarHistorialMantencion(bsv_id){
 	});
 }
 
-function llamarHistorialAsignacion(vivienda_id){
+function llamarHistorialAsignacion(vivienda_id, beneficiario_id){
 	var id = vivienda_id; //ui.item.Expediente.id;
 	$.ajax({
 		url: urlServer+"/Bsvs/getArriendo/"+id
@@ -127,7 +127,7 @@ function llamarHistorialAsignacion(vivienda_id){
 				linea++;
 			});
 			var nuevaFila="<tr><td colspan='6'>Sin Resultados</td></tr>";
-			var losDatos = data.Arriendo,valViv='Asignación';
+			var losDatos = data.Arriendo,valViv='';
 			if( losDatos ){
 				for(var i=0;i<(losDatos.length);i++){
 					nuevaFila="<tr>";
@@ -153,14 +153,12 @@ function llamarHistorialAsignacion(vivienda_id){
 			}else{
 				$("#tablaAsignaciones").append(nuevaFila);
 			}
-			
-			console.log(losDatos.length);
-			
-			if( valViv == 'Asignación' ){valViv='Devolución';}else{valViv='Asignación';}
-			if( (losDatos.length) == 0) {valViv='Asignación';}
-			
-			$("#btnNuevaAsignacion").attr("href", $("#btnNuevaAsignacion").attr("href")+'/'+valViv );
-			
+			var urlFinal = $("#btnNuevaAsignacion").attr("href");
+			if( valViv == 'Asignación' ){ valViv='Devolución/'+beneficiario_id;}else{valViv='Asignación'; }
+			if( (losDatos.length) == 0 ){ valViv='Asignación'; }
+			var stringPos = urlFinal.indexOf(valViv);
+			if( stringPos <= 0 ){	urlFinal = $("#btnNuevaAsignacion").attr("href")+'/'+valViv; }
+			$("#btnNuevaAsignacion").attr("href", urlFinal);
 		}
 		,error: function(xhr,status,error){
 			console.log('error 1: '+error);
