@@ -57,11 +57,12 @@ class FuncionesHelper extends AppHelper {
 		foreach($elArray as $pnt => $lista){
 			$texto = $lista;
 			$key = $pnt;
-			$elArray = '{value: "'.$key.'", label: "'.$texto.'"},';
+			$elArray = '{value: "'.trim($key).'", label: "'.trim($texto).'"},';
 			$elArrayPrincipal .= trim($elArray);
 		}
 		return trim($elArrayPrincipal);
 	}
+	
 	public function generaArray($elArray = null){
 		$elArrayPrincipal = array();
 		foreach($elArray as $pnt => $lista){
@@ -86,6 +87,13 @@ class FuncionesHelper extends AppHelper {
 		foreach($arrayBeneficiarios as $lista){
 			// $arraySalida[$lista['Beneficiario']['id']] = (trim($lista['Beneficiario']['nombres'])).' '.(trim($lista['Beneficiario']['paterno'])).' '.(trim($lista['Beneficiario']['materno']));
 			$arraySalida[$lista['0']['id']] = array(trim($lista['0']['nombres']).' '.trim($lista['0']['paterno']).' '.trim($lista['0']['materno']) , trim($lista['0']['sueldo_base']) );
+			
+			
+			$arraySalida[$lista['0']['id']] = array(trim($lista['0']['nombres']).' '.trim($lista['0']['paterno']).' '.trim($lista['0']['materno']) ,
+																							trim($lista['0']['sueldo_base']) ,
+																							trim($lista['0']['servicio_id']) 
+																						 );
+			
 		}
 		return $arraySalida;
 	}

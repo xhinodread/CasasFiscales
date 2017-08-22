@@ -7,7 +7,7 @@ $elMensaje=''; $arrayConsume='';
 if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->consume('losValidates'); }						
 									
 // echo '<pre class="little">this:'.print_r($datos, 1).'</pre>';
-// echo '<pre class="little">estados_civil:'.print_r($estados_civil, 1).'</pre>';
+// echo '<pre class="little">servicios:'.print_r($servicios, 1).'</pre>';
 ?>
 
 <div class="container-flex">
@@ -87,7 +87,11 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
 						</tr>
 						<tr>
 							<td>Servicio</td>
-							<td colspan="2"><?=$this->Form->input('Servicio.nombre', array('div'=>array('class'=>'col-md-12'), 'default' => '', 'label' => false, 'class' => 'form-control inputNombreServicio', 'readonly '=>true ) );?></td>
+							<td colspan="2">
+								<? $nombreServicio = ( isset($servicios[$datos['beneficiarios_servicio']['servicio_id']]) ? trim($servicios[$datos['beneficiarios_servicio']['servicio_id']]) : '');?>
+								<?=$this->Form->hidden('beneficiario_servicio.servicio_id', array('default' => $datos['beneficiarios_servicio']['servicio_id']) );?>
+								<?=$this->Form->input('beneficiario_servicio.nombre', array('div'=>array('class'=>'col-md-12'), 'type'=>'text', 'default' => $nombreServicio, 'label' => false, 'placeholder'=>'Digite un servicio', 'class' => 'form-control inputNombreServicio' ) );?>
+							</td>
 						</tr>
 						<tr>
 							<td>Casa Asignada</td>
@@ -162,6 +166,58 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
 			</div>
 		</div>
 	</div>
-    
-    
+
 </div>
+
+<script>
+$(document).ready(function(){
+
+	var losServicios = [<?=$this->Funciones->arrayJquery($servicios);?>];
+
+	$( "#beneficiario_servicioNombre" ).autocomplete({ 
+		source: losServicios,
+		select: function( event, ui ) {
+			$( "#beneficiario_servicioNombre" ).val( ui.item.label );
+			$( "#beneficiario_servicioServicioId" ).val( ui.item.value );
+			console.log( ui.item.value );
+			return false;
+			}
+	});
+
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

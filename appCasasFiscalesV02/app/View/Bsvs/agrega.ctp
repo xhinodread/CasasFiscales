@@ -1,21 +1,21 @@
 <?//='<pre>'.print_r($beneficiarios, 1).'</pre>';?>
 <?//='<pre>'.print_r($beneficiariosX, 1).'</pre>';?>
 <?//='<pre>'.print_r($this->Funciones->beneficiarioNombrePersona($beneficiarios), 1).'</pre>';?>
-
-
-<? $listaBeneficiariosTmp = $this->Funciones->beneficiarioNombrePersona($beneficiariosX); ?>
-<?//='listaBeneficiariosTmp: <pre>'.print_r($listaBeneficiariosTmp, 1).'</pre>';?>
-<? 
-	foreach( $listaBeneficiariosTmp as $pnt => $lista){
-		$listaBeneficiarios[$pnt] =$lista[0];
-		$sueldoBeneficiarios[$pnt] =$lista[1];
-	}
-	$listaSueldos = $this->Funciones->generaArray($sueldoBeneficiarios);
-?>
+<?//='listaDestino: <pre>'.print_r($listaDestino, 1).'</pre>';?>
 <?// ='listaBeneficiarios: <pre>'.print_r($listaBeneficiarios, 1).'</pre>';?>
 <?//='sueldoBeneficiarios: <pre>'.print_r($sueldoBeneficiarios, 1).'</pre>';?>
 <?//='listaSueldos: <pre>'.print_r($listaSueldos, 1).'</pre>';?>
 <?//='generaArray: <pre>'.print_r($this->Funciones->generaArray($listaSueldos), 1).'</pre>';?>
+
+<? 
+	$listaBeneficiariosTmp = $this->Funciones->beneficiarioNombrePersona($beneficiariosX);  
+	foreach( $listaBeneficiariosTmp as $pnt => $lista){
+		$listaBeneficiarios[$pnt] =$lista[0];
+		$sueldoBeneficiarios[$pnt] =$lista[1];
+		$servicioBeneficiario[$pnt] =$lista[2];
+	}
+	$listaSueldos = $this->Funciones->generaArray($sueldoBeneficiarios);
+?>
 
 <div class="container-flex">
 
@@ -88,6 +88,7 @@
 								?>
 							</td>
 							<td>
+								<?=$this->Form->hidden('servicio_id', array('default' => 0) );?>
 								<?=$this->Form->hidden('beneficiario_id', array('default' => 0) );?>
 								<?=$this->Form->input('beneficiario_nombre', array('div'=>array('class'=>'col-md-'),
 																						 'type'=>'text',
@@ -98,29 +99,29 @@
 								?>
 							</td>
 							<td>
-								<?=$this->Form->input('destino', array('div'=>array('class'=>'col-md-'),
+								<?=$this->Form->input('Arriendos_historial.tipo_destino_id', array('div'=>array('class'=>'col-md-'),
 																						 'type'=>'select',
 																						 'options' => $listaDestino,
 																						 'selected' => $idEstado,
 																						 'label' => 'Destino',
-																						 'class' => 'form-control inputRut',
-																						 'style'=>"text-align: center;") );
+																						 'class' => 'form-control inputRut') );
 								?>
 							</td>
 						</tr>
 						
 						<tr>
 							<td>
-								<?=$this->Form->input('Arriendo.monto_arriendo', array('div'=>array('class'=>'col-md-'),
+								<?=$this->Form->input('Arriendos_historial.monto_arriendo', array('div'=>array('class'=>'col-md-'),
 																						 'type'=>'text',
 																						 'default' => 0,
 																						 'label' => 'Monto Arriendo',
 																						 'class' => 'form-control inputRut',
-																						 'style'=>"text-align: center;") );
+																						 'style'=>"text-align: center;",
+																						 'readonly'=>'readonly') );
 								?>
 							</td>
 							<td >
-								<?=$this->Form->input('Arriendo.observacion', array('div'=>array('class'=>'col-md-'),
+								<?=$this->Form->input('Arriendos_historial.observacion', array('div'=>array('class'=>'col-md-'),
 																						 'type'=>'textarea',
 																						 'default' => '',
 																						 'placeholder'=>'Descripción del tipo',
@@ -130,15 +131,15 @@
 								?>
 							</td>
 							<td>
-								<?=$this->Form->input('doc_respaldo', array('label' => 'Documento',
+								<?=$this->Form->input('Arriendos_historial.doc_respaldo', array('label' => 'Documento',
 																												'between' => '<br />',
                                                         'type'  => 'file',
 																												'accept' => 'application/pdf',
                                                         'class' => 'form-control form_control',
-                                                        'required'    => 'required',
+                                                        /*'required'    => 'required',*/
                                                         'placeholder' => 'Documento'
 																												));
-                  ?>
+                ?>
 							</td>
 						</tr>
 					</table>
@@ -155,15 +156,18 @@ $(document).ready(function(){
 
 	var beneficiarios = [<?=$this->Funciones->arrayJquery($listaBeneficiarios);?>];	
 	/*var sueldoBeneficiarios = [<?//=$this->Funciones->generaArray($listaSueldos);?>];	*/
-	var sueldoBeneficiarios = <?=json_encode($listaSueldos);?>;
+	var sueldoBeneficiario = <?=json_encode($listaSueldos);?>;
+	var servicioBeneficiario = <?=json_encode($servicioBeneficiario);?>;
 	
 	
 	$( "#bsvBeneficiarioNombre" ).autocomplete({ 
 		source: beneficiarios,
 		select: function( event, ui ) {
+			var montoAriendo = Math.round(sueldoBeneficiario[ui.item.value] * 0.10) ;
+			$( "#bsvServicioId" ).val( servicioBeneficiario[ui.item.value] );
 			$( "#bsvBeneficiarioNombre" ).val( ui.item.label );
 			$( "#bsvBeneficiarioId" ).val( ui.item.value );
-			$( "#ArriendoMontoArriendo" ).val( sueldoBeneficiarios[ui.item.value] * 0.10 );
+			$( "#Arriendos_historialMontoArriendo" ).val( montoAriendo.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1.') );
 			return false;
 			}
 	});

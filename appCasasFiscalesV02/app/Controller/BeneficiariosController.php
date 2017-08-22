@@ -123,6 +123,10 @@ class BeneficiariosController extends AppController {
 	}
 	
 	public function edita(){
+		
+		$this->loadModel('Servicio');
+		$this->loadModel('beneficiarios_servicio');
+		
 		$id_deneficiario = 0;
 		$msg ='';
 		$losValidates = $this->Beneficiario->invalidFields();
@@ -178,7 +182,19 @@ class BeneficiariosController extends AppController {
 			if( $this->Beneficiario->validates() ){
 				if( $this->Beneficiario->save() ){
 					
+					$this->request->data['beneficiario_servicio']['beneficiario_id'] = $this->request->data['Beneficiario']['id'];
+					unset($this->request->data['beneficiario_servicio']['nombre']);
+					$asociarServicio = $this->Beneficiario->agrega_beneficiario_servicio($this->request->data['beneficiario_servicio']['beneficiario_id'], 
+																																							 $this->request->data['beneficiario_servicio']['servicio_id']);
+					
 					if(1){
+						$msgAsociar = '';
+						$this->request->data['beneficiario_servicio']['beneficiario_id'] = $this->request->data['Beneficiario']['id'];
+						// unset($this->request->data['beneficiario_servicio']['nombre']);
+						$asociarServicio = $this->Beneficiario->agrega_beneficiario_servicio($this->request->data['beneficiario_servicio']['beneficiario_id'], 
+																																								 $this->request->data['beneficiario_servicio']['servicio_id']);
+						if( $asociarServicio <=0 ){ $msgAsociar = '<br>No se pudo asociar el Servicio'; }
+
 						
 						// 0 nuevo conyuge, benefi sin conyuge, INSERSION
 						// 1 nuevo conyuge, benefi CON conyuge, ACTUALIZACION
@@ -214,7 +230,7 @@ class BeneficiariosController extends AppController {
 						if( strlen(trim($this->request->data['Conyuge']['rut'])) == 0 ){
 							//debug($this->request->data['Conyuge']['beneficiario_id']);
 							$tieneConyuge = $this->Beneficiario->busca_conyugue_beneficiario($this->request->data['Conyuge']['beneficiario_id']);
-							debug($tieneConyuge);
+							// debug($tieneConyuge);
 							if( isset($tieneConyuge[0]['Conyuge']['id']) 
 								 && isset($tieneConyuge[0]['Conyuge']['beneficiario_id']) 
 								 && $tieneConyuge[0]['Conyuge']['beneficiario_id'] == $this->request->data['Conyuge']['beneficiario_id'] ){
@@ -225,7 +241,7 @@ class BeneficiariosController extends AppController {
 						}
 						
 						if($this->Beneficiario->edita_conyugue($this->request->data['Conyuge'])){
-							$this->Flash->guardado('Se ha actualizado un registro.');
+							$this->Flash->guardado('Se ha actualizado un registro.'.$msgAsociar);
 						}else{
 							$this->Flash->sin_id('No pudo registrarse, verifique.');
 						}
@@ -233,7 +249,10 @@ class BeneficiariosController extends AppController {
 					
 					}else{
 						
-						$this->Flash->guardado('Registro'.print_r($this->request->data['Conyuge']),1);
+					  //	$this->Flash->guardado( 'Registro'.print_r($this->request->data, 1) );
+						//$this->Flash->guardado('Registro'.print_r($this->request->data['Conyuge']),1);
+						echo '<pre>valor'.print_r($valor, 1),'</pre>'.$valor;
+						echo '<pre>Registro'.print_r($this->request->data, 1),'</pre>';
 						
 						/****
 						// $this->data['Conyuge']['id'] /*** $this->data DEPRECADO *** /
@@ -296,10 +315,14 @@ class BeneficiariosController extends AppController {
 		//echo '<pre>resultsSocket:'.print_r($escalafon, 1).'</pre>';
 		if( !is_array($escalafon) ){ $escalafon = ''; }
 		
+		$this->Servicio->recursive = -1;
+		$servicios = $this->Servicio->find( 'list', array( 'fields' =>array('id', 'nombre') ) );
+		
 		$estados_civil = $this->Estcivil->find('list', array('fields'=>array('id', 'descripcion')) );
 		$this->set( array( 'datos' => $datos,
 						   'estados_civil' => $estados_civil,
-						   'escalafon' => $escalafon 
+						   'escalafon' => $escalafon, 
+							 'servicios' => $servicios
 						 )
 				  );
 	}

@@ -5,10 +5,11 @@ App::import('Vendor', 'Funcionespropias');
 $elMensaje=''; $arrayConsume='';
 if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->consume('losValidates'); }						
 
+// echo '<pre>asignado:'.print_r($asignado, 1).'</pre>';
 // echo 'arrayConsume<pre class="little">this:'.print_r($arrayConsume, 1).'</pre>';
 // echo '<pre class="little">this:'.print_r($datos, 1).'</pre>';
 // echo '<pre class="little">estados_civil:'.print_r($estados_civil, 1).'</pre>';
-// echo '<pre>comunas:'.print_r($comunas, 1).'</pre>';
+//echo '<pre>comunas:'.print_r($comunas, 1).'</pre>';
 // echo '<pre>provincias:'.print_r($provincias, 1).'</pre>';
 
 $latitud = trim($datos['Vivienda']['latitud']); // -29.902087;
@@ -190,7 +191,7 @@ $map_marker_options = array(
 									<td>
 										<?=$this->Form->input('Servicio.nombre', array('div'=>array('class'=>'col-sm-12 col-md-12 col-lg-12'),
 																								 'type'=>'text',
-																								 'default' => 'Servicio.nombre',
+																								 'default' => $asignado[0][0]['nombreServicio'],
 																								 'label' => '',
 																								 'class' => 'form-control inputRut',
 																								 'readonly'=>'readonly') );
@@ -199,7 +200,7 @@ $map_marker_options = array(
 									<td>
 										<?=$this->Form->input('Servicio.nombre_jefe', array('div'=>array('class'=>'col-sm-12 col-md-12 col-lg-12'),
 																								 'type'=>'text',
-																								 'default' => 'Jefe de Servicio',
+																								 'default' => $asignado[0][0]['jefe_servicio'],
 																								 'label' => 'Jefe de Servicio',
 																								 'class' => 'form-control inputRut',
 																								 'readonly'=>'readonly') );
@@ -212,7 +213,7 @@ $map_marker_options = array(
 									<td colspan="2">
 										<?=$this->Form->input('Beneficiario.nombre', array('div'=>array('class'=>'col-sm-12 col-md-12 col-lg-12'),
 																								 'type'=>'text',
-																								 'default' => 'Beneficiario.nombre',
+																								 'default' => $asignado[0][0]['nombreBeneficiario'],
 																								 'label' => '',
 																								 'class' => 'form-control inputRut',
 																								 'readonly'=>'readonly') );

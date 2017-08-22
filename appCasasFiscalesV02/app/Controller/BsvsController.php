@@ -63,13 +63,20 @@ class BsvsController extends AppController {
 		$this->loadModel('Vivienda');
 		$this->loadModel('Beneficiario');
 		
-		
 		if ($this->request->is('post')) {
-			$this->Flash->Alert('post');
+			
+			
+			unset($this->request->data['bsv']['beneficiario_nombre']);
+			$this->request->data['Arriendos_historial']['bsv_id'] = 123;
+			$this->request->data['Arriendos_historial']['fecha_desde'] = $this->request->data['bsv']['created'];
+			$this->request->data['Arriendos_historial']['fecha_hasta'] = date("d/m/Y", strtotime ( '+10 year' , strtotime( str_replace('/', '-', $this->request->data['bsv']['created']))));
+			$this->request->data['Arriendos_historial']['fecha_vencimiento'] = date("d/m/Y", strtotime("01/05/2017"));
+			
+			echo '<pre>'.print_r($this->request->data, 1).'</pre>';
+			// $this->Flash->exito( '<pre>'.print_r($this->request->data, 1).'</pre>' );
+			
 		}
-		
-		
-		
+			
 		$options = array('fields'=>array('descripcion', 'id'));
 		$destinos = $this->Destino->find('list', $options );
 		
@@ -100,7 +107,12 @@ class BsvsController extends AppController {
 		$this->Beneficiario->recursive = -1;
 		$beneficiarios = $this->Beneficiario->find( 'all', array('fields'=> array('Beneficiario.id', 'Beneficiario.nombres',
 																																							'Beneficiario.paterno', 'Beneficiario.materno')) );
-		$sql = 'SELECT T1.id, T1.nombres, T1.paterno, T1.materno, T1.sueldo_base FROM Beneficiarios as T1 LEFT JOIN bsvs as T2 ON (T1.id = T2.beneficiario_id) WHERE T2.beneficiario_id is null';
+		$sql = 'SELECT T1.id, T1.nombres, T1.paterno, T1.materno, T1.sueldo_base, T3.servicio_id'
+			.' FROM Beneficiarios as T1'
+			.' LEFT JOIN bsvs as T2 ON (T1.id = T2.beneficiario_id)'
+			.' LEFT JOIN beneficiarios_servicios as T3 ON (T1.id = T3.beneficiario_id)'
+			.' WHERE T2.beneficiario_id is null'
+			.' AND T3.beneficiario_id is not null';
 		$beneficiariosX = $this->Beneficiario->query($sql);
 		
 		$this->set( array(
@@ -108,7 +120,7 @@ class BsvsController extends AppController {
 				'idEstado' => $idEstado,
 				'vivienda_id' => $vivienda_id,
 				'ultimo_estado' => $ultimo_estado,
-				'listaDestino' => array_reverse($listaDestino),
+				'listaDestino' => array_reverse($listaDestino, true),
 				'vivienda' => $this->Vivienda->data,
 				'beneficiarios' => $beneficiarios,
 				'beneficiariosX' => $beneficiariosX

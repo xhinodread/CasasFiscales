@@ -154,6 +154,11 @@ function llamarHistorialAsignacion(vivienda_id){
 				$("#tablaAsignaciones").append(nuevaFila);
 			}
 			
+			console.log(losDatos.length);
+			
+			if( valViv == 'Asignación' ){valViv='Devolución';}else{valViv='Asignación';}
+			if( (losDatos.length) == 0) {valViv='Asignación';}
+			
 			$("#btnNuevaAsignacion").attr("href", $("#btnNuevaAsignacion").attr("href")+'/'+valViv );
 			
 		}

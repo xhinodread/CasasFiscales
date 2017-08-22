@@ -36,7 +36,7 @@ class Beneficiario extends AppModel {
 	*/
 
 	public $belongsTo = array('Estcivil');
-	public $hasOne = array('Conyuge');
+	public $hasOne = array('Conyuge', 'beneficiarios_servicio');
 
 	public function existe_rut($elRut = null){
 		return $this->find('first', array('conditions'=>array('Beneficiario.rut'=>$elRut)) );
@@ -166,5 +166,23 @@ class Beneficiario extends AppModel {
 		}
 	}
 	
+	public function agrega_beneficiario_servicio($idBeneficiario = null, $idServicio = null){
+		if( $idServicio <= 0 ){ return -1; }
+		if( $this->beneficiarios_servicio->find('count', array('conditions'=> array('beneficiario_id'=>$idBeneficiario))) > 0){
+			$this->beneficiarios_servicio->updateAll( array('servicio_id' => $idServicio), array('beneficiario_id' => $idBeneficiario));
+			return 1;
+		}else{
+			$this->beneficiarios_servicio->create();
+			if( $this->beneficiarios_servicio->save(array('servicio_id' => $idServicio, 'beneficiario_id' => $idBeneficiario)) ){
+				return 1;
+			}
+		}
+		return 0;
+	}
+	
+	public function busca_beneficiario_servicio($idBeneficiario = null){
+		$varX = $this->beneficiarios_servicio->find('all', array('conditions'=> array('beneficiario_id'=>$idBeneficiario) ) );
+		return $varX;
+	}
 	
 }

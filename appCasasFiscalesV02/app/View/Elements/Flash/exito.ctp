@@ -1,6 +1,6 @@
-<div class="flash flash_success center-block" id="flashGuardado" >
+<div class="flash flash_success center-block" id="flashExito" >
   	<div class="row">
-  		<div class="col-md-11 text-center text-black">Guardado</div>
+  		<div class="col-md-11 text-center text-black">EXITO</div>
   		<div class="col-md-1">
    			<label title="CERRAR" id="btnCerrar" class="btn btn-alert" >[X]</label>
    		</div>
@@ -10,7 +10,7 @@
 <script>
 $(document).ready(function () {
 	$('#btnCerrar').click(function () {
-		$('#flashGuardado').fadeOut( "slow", function() {  $('#flashGuardado').hide(); });
+		$('#flashExito').fadeOut( "slow", function() {  $('#flashExito').hide(); });
 	});
 });
 </script>
