@@ -73,7 +73,7 @@ $map_marker_options = array(
 								</tr>
 
 								<tr>
-									<th>Dirección</th>
+									<th>Dirección </th>
 									<td>
 										<?=$this->Form->input('Vivienda.calle', array('div'=>array('class'=>'col-sm-10 col-md-10 col-lg-10'),
 																								 'type'=>'text',
