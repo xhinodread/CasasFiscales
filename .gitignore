@@ -4,6 +4,6 @@
 _notes/
 /bower_components/
 /node_modules/
-/app/tmp/*
-/app/Config/core.php
-/app/Config/database.php
+appCasasFiscalesV02/app/tmp/*
+appCasasFiscalesV02/app/Config/core.php
+appCasasFiscalesV02/app/Config/database.php
