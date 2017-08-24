@@ -38,6 +38,11 @@ class BeneficiariosController extends AppController {
 			}
 		}
 		//// $listado = $this->Beneficiario->find('all', array('fields' => $fields, 'conditions' => $conditions ) );
+		
+		$this->loadModel('beneficiarios_servicio');
+		$this->beneficiarios_servicio->bindModel(array('belongsTo' =>array('Servicio' => array('className' => 'Servicio', 'foreignKey' => 'servicio_id'))));
+		//echo 'beneficiarios_servicio: <pre>'.print_r($this->beneficiarios_servicio, 1).'</pre>';
+		
 		$this->Beneficiario->recursive = 2;
 		$listado = $this->paginate('Beneficiario',  array( $conditions ) );
 		//echo 'listado: <pre>'.print_r($listado[0], 1).'</pre>';
@@ -323,12 +328,13 @@ class BeneficiariosController extends AppController {
 		
 		$casaAsignada = 'Sin Asignación';
 		if( isset($datos['beneficiarios_servicio']['beneficiario_id']) ){
-			$sql = "SELECT (select rtrim(calle)+'# '+rtrim(cast(numero as nchar))+', '+rtrim(sector) from viviendas where id = T1.vivienda_id) casa_asignada"
+			$sql = "SELECT (select rtrim(calle)+' # '+rtrim(cast(numero as nchar))+', '+rtrim(isnull(sector, '')) from viviendas where id = T1.vivienda_id) casa_asignada"
 						 .' FROM bsvs AS T1'
 						 .' LEFT JOIN Arriendos_historials AS T2 ON (T2.bsv_id = T1.id)'
 						 .' WHERE T1.beneficiario_id = '.$datos['beneficiarios_servicio']['beneficiario_id']
 						 .' AND T1.servicio_id = '.$datos['beneficiarios_servicio']['servicio_id']
 						 .' AND T2.destino_id = 1';
+			//echo '<pre>sql:'.print_r($sql, 1).'</pre>';
 			$casaAsignadaTmp = $this->Arriendos_historial->query($sql);
 			//echo '<pre>count:'.count($casaAsignadaTmp).'</pre>';
 			//echo '<pre>casaAsignadaTmp:'.print_r($casaAsignadaTmp, 1).'</pre>';
@@ -345,20 +351,24 @@ class BeneficiariosController extends AppController {
 	}
 
 	public function borra($id_deneficiario = null){
+		/*** FALTA FUNCION PARA VALIDAR QUE NO TENGA MOROSIDAD EL BENEFICIARIO ***/
 		$this->render(false);
-		if( strlen($id_deneficiario)>0 && $id_deneficiario > 0 && is_numeric($id_deneficiario) ){
-			//echo '<pre>id_deneficiario:'.print_r($id_deneficiario, 1).'</pre>';
-			//echo '<pre>data:'.print_r($this->data, 1).'</pre>';
-			/*
-			echo '<pre>Beneficiario:'.print_r($this->Beneficiario->read(array('activo'), $id_deneficiario), 1).'</pre>';
-			*/
-			$this->Beneficiario->id = $id_deneficiario; 
-   			$this->Beneficiario->read(array('activo')); 
-			//echo '<pre>Beneficiario:'.print_r($this->Beneficiario, 1).'</pre>';
-			$this->Beneficiario->saveField('activo', 0);			
-		}/*else{
-			$this->redirect(array('controller' => 'beneficiarios', 'action'=>'index'));
-		}*/
+		if(1){
+			$this->Flash->info('Beneficiario - Accion omitida temporalmemte.');
+		}else{
+			if( strlen($id_deneficiario)>0 && $id_deneficiario > 0 && is_numeric($id_deneficiario) ){
+				//echo '<pre>id_deneficiario:'.print_r($id_deneficiario, 1).'</pre>';
+				//echo '<pre>data:'.print_r($this->data, 1).'</pre>';
+				/*
+				echo '<pre>Beneficiario:'.print_r($this->Beneficiario->read(array('activo'), $id_deneficiario), 1).'</pre>';
+				*/
+				$this->Beneficiario->id = $id_deneficiario; 
+					$this->Beneficiario->read(array('activo')); 
+				//echo '<pre>Beneficiario:'.print_r($this->Beneficiario, 1).'</pre>';
+				$this->Beneficiario->saveField('activo', 0);
+				$this->Flash->exito('Registro Eliminado.');
+			}		
+		}
 		$this->redirect(array('controller' => 'beneficiarios', 'action'=>'index'));
 	}
 

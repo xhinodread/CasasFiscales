@@ -166,15 +166,20 @@ class ViviendasController extends AppController {
 
 	public function borra($id_vivienda = null){
 		$this->render(false);
-		if( strlen($id_vivienda)>0 && $id_vivienda > 0 && is_numeric($id_vivienda) ){
-			$this->Vivienda->id = $id_vivienda; 
-   		$this->Vivienda->read(array('activo')); 
-			$this->Vivienda->saveField('activo', 0); // INACTIVO = BORRADO...
-			// FALTA LA LLAMADA AL METODO pago->morosas()
-			$this->Flash->error('Vivienda - Registro Eliminado.');
+		if(1){
+			$this->Flash->info('Vivienda - Accion omitida temporalmemte.');
+		}else{
+			if( strlen($id_vivienda)>0 && $id_vivienda > 0 && is_numeric($id_vivienda) ){
+				$this->Vivienda->id = $id_vivienda; 
+				$this->Vivienda->read(array('activo')); 
+				$this->Vivienda->saveField('activo', 0); // INACTIVO = BORRADO...
+				// FALTA LA LLAMADA AL METODO pago->morosas()
+				$this->Flash->exito('Registro Eliminado.');
+			}
 		}
 		$this->redirect(array('controller' => 'viviendas', 'action'=>'index'));
 	}
+		
 
 }
 ?>

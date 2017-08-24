@@ -136,10 +136,9 @@ function llamarHistorialAsignacion(vivienda_id, beneficiario_id){
 					for(property in object) {
 						var valor = object[property]; //+', '+property;						
 						var linkDoc = '', urlDoc='';
-						if( property == 'destino' && i==0 ){
-							valViv = valor;
-						}
-						if(property == 'documento'){
+						//console.log(property);
+						if( property == 'destino' && i==0 ){ valViv = valor; }
+						if( property == 'doc_respaldo' ){
 							urlDoc=valor;
 							linkDoc = '<a href="/appCasasFiscalesV02/bsvs/../'+urlDoc+'" target="_blank" class="btn btn-info">Informe de Asignaciones</a>';
 							//valor += linkDoc;

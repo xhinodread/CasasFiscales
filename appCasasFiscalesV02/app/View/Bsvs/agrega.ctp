@@ -42,6 +42,9 @@
  	<div class="row">
 		<div class="col-md-11">
 			<div class="table-responsiveDos">
+				<div style="float:right; margin-bottom:20px; ">
+					<?=$this->Html->link('Vovler', '/viviendas/edita/id:'.trim($vivienda['Vivienda']['id']) , array('id'=>'btnNuevaAsignacion', 'class'=>'btn btn-primary') )?>
+				</div>
 				<?=$this->Form->Create('bsv', array('enctype' => 'multipart/form-data'));?>
 					<table class="table table-bordered table-condensed table-responsive" >
 					
@@ -111,6 +114,7 @@
 																						 'default' => $elBeneficiarioNombre,
 																						 'label' => 'Beneficiario',
 																						 'placeholder'=>'Nombre del Beneficiario',
+																						 'required'    => 'required',
 																						 'class' => 'form-control inputRut',
 																						 'style'=>"text-align: center;",
 																						 $estadoTxtBeneficiarioNombre) );
@@ -129,14 +133,14 @@
 								<?=$this->Form->input('X.tipo_destino_nombre', array('div'=>array('class'=>'col-md-'),
 																						 'type'=>'text',
 																						 'default' => $listaDestino[$idEstado],
-																						 'label' => 'Destino',
+																						 'label' => 'Destino',																						 
 																						 'class' => 'form-control inputRut',
 																						 'readonly'=>'readonly') );
 								?>
 								
 							</td>
 						</tr>
-						
+
 						<tr>
 							<td>
 								<?=$this->Form->input('Arriendos_historial.monto_arriendo', array('div'=>array('class'=>'col-md-'),
@@ -153,6 +157,7 @@
 																						 'type'=>'textarea',
 																						 'default' => '',
 																						 'placeholder'=>'Descripción del tipo',
+																						 'required'    => 'required',
 																						 'cols'=>200,
 																						 'maxlength'=>106,
 																						 'label' => 'Observación',
@@ -165,14 +170,15 @@
                                                         'type'  => 'file',
 																												'accept' => 'application/pdf',
                                                         'class' => 'form-control form_control',
-                                                        /*'required'    => 'required',*/
+                                                        'required'    => 'required',
                                                         'placeholder' => 'Documento'
 																												));
                 ?>
 							</td>
 						</tr>
 					</table>
-				<?=$this->Form->submit('Guardar Cambios', array('class' => 'btn btn-primary', 'div'=>false) );?>
+				<?//=$this->Form->submit('Guardar Cambios', array('class' => 'btn btn-primary', 'div'=>false) );?>
+				<?=$this->Form->button('Guardar Cambios', array('id'=>'agregar', 'type'  => 'submit', 'class' => 'btn btn-block btn-info form_control col-mx-12'));?>
 				<?=$this->Form->end();?>
 			</div>
 		</div>
@@ -199,6 +205,19 @@ $(document).ready(function(){
 			$( "#Arriendos_historialMontoArriendo" ).val( montoAriendo.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1.') );
 			return false;
 			}
+	});
+	
+	$('#Arriendos_historialDocRespaldo').change(function(){
+		var msxTamano = 2048;
+		var f=this.files[0]
+		var peso = (f.size||f.fileSize);
+		if( Math.round(peso/1024) > msxTamano){
+			alert('Tamaña de archivo no permitido, maximo 2MB');
+			$('#agregar').attr('disabled', true);
+			$("#Arriendos_historialDocRespaldo").val('');
+		}else{
+			$('#agregar').attr('disabled', false);
+		}
 	});
 
 });

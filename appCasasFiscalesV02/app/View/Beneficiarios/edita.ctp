@@ -6,7 +6,7 @@ $attributesOptionCumple=array('legend'=>false, 'default' => $datos['Beneficiario
 $elMensaje=''; $arrayConsume='';
 if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->consume('losValidates'); }						
 									
-// echo '<pre class="little">casaAsignada:'.print_r($casaAsignada, 1).'</pre>';
+ //echo '<pre class="little">casaAsignada:'.print_r($casaAsignada, 1).'</pre>';
 // echo '<pre class="little">this:'.print_r($datos, 1).'</pre>';
 // echo '<pre class="little">servicios:'.print_r($servicios, 1).'</pre>';
 ?>

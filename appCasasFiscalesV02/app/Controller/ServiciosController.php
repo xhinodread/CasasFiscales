@@ -153,12 +153,18 @@ class ServiciosController extends AppController {
 	}
 
 	public function borra($id_servicio = null){
+		/*** FALTA FUNCION PARA VALIDAR QUE NO TENGA MOROSIDAD EL SERVICIO ***/
 		$this->render(false);
-		if( strlen($id_servicio)>0 && $id_servicio > 0 && is_numeric($id_servicio) ){
-			$this->Servicio->id = $id_servicio; 
-   		$this->Servicio->read(array('activo')); 
-			$this->Servicio->saveField('activo', 0); // INACTIVO, BORRADO...
-			// FALTA LA LLAMADA AL METODO pago->morosas()
+		if(1){
+			$this->Flash->info('Servicio - Accion omitida temporalmemte.');
+		}else{
+			if( strlen($id_servicio)>0 && $id_servicio > 0 && is_numeric($id_servicio) ){
+				$this->Servicio->id = $id_servicio; 
+				$this->Servicio->read(array('activo')); 
+				$this->Servicio->saveField('activo', 0); // INACTIVO, BORRADO...
+				// FALTA LA LLAMADA AL METODO pago->morosas()
+				$this->Flash->exito('Registro Eliminado.');
+			}
 		}
 		$this->redirect(array('controller' => 'servicios', 'action'=>'index'));
 	}

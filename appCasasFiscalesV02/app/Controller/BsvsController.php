@@ -1,6 +1,8 @@
 <?php 
 class BsvsController extends AppController {
 	
+	public $uploadDirAsigDevol = 'files/AsignacionDevolucion/';
+	
 	public function beforeFilter() {
 		parent::beforeFilter();
   }
@@ -62,67 +64,126 @@ class BsvsController extends AppController {
 		$this->loadModel('Destino');
 		$this->loadModel('Vivienda');
 		$this->loadModel('Beneficiario');
+		$this->loadModel('Arriendos_historial');
 		
 		if ($this->request->is('post')) {
 			
+			$swCargarDoc = 0;
 			unset($this->request->data['Vivienda']);
 			unset($this->request->data['X']);		
 			unset($this->request->data['bsv']['beneficiario_nombre']);
 			
 			$this->request->data['Arriendos_historial']['fecha_desde'] = $this->request->data['bsv']['created'];
 			$this->request->data['Arriendos_historial']['fecha_hasta'] = date("d/m/Y", strtotime ( '+10 year' , strtotime( str_replace('/', '-', $this->request->data['bsv']['created']))));
-			$this->request->data['Arriendos_historial']['fecha_vencimiento'] = date("d/m/Y", strtotime(date('m')."/05/".date('Y')));
-			
-			//echo '<pre>'.print_r($this->request->data, 1).'</pre>';
-			// $this->Flash->exito( '<pre>'.print_r($this->request->data, 1).'</pre>' );
-			
-			if( isset($this->request->data['Arriendos_historial']) && $this->request->data['Arriendos_historial']['destino_id'] == 2 ){
-				$opciones = array( 'conditions' => array( 'beneficiario_id'=> $this->request->data['bsv']['beneficiario_id'],
-																								 	'vivienda_id'=> $this->request->data['bsv']['vivienda_id'],
-																								 	'servicio_id'=> $this->request->data['bsv']['servicio_id']
-																								) 
-												 );
-				$this->Bsv->recursive=-1;
-				$idBsv = $this->Bsv->find('first', $opciones);
-				//echo 'idBsv<pre>'.print_r($idBsv, 1).'</pre>';
-				
-				if( isset($idBsv['Bsv']['id']) ){
-					$this->request->data['Arriendos_historial']['bsv_id'] = $idBsv['Bsv']['id'];
-					
-					/***
-					$this->Arriendos_historial->create();
-					if( $this->Arriendos_historial->save($this->request->data['Arriendos_historial']) ){
-						$this->Flash->exito('Registro agregado.');
-					}else{
-						$this->Flash->error('No se pudo agregar el historial.');
-					}
-					***/
+			/***$this->request->data['Arriendos_historial']['fecha_vencimiento'] = date("d/m/Y", strtotime(date('m')."/05/".date('Y')));
+			//$this->request->data['Arriendos_historial']['created'] = date("d/m/Y H:i:s");
+			$this->request->data['Arriendos_historial']['doc_respaldo'] = $this->request->data['Arriendos_historial']['doc_respaldo']['name'];
+			***/
+			if(0){
+				echo '1<pre>'.print_r($this->request->data, 1).'</pre>';
+				/*** PREPARA LA CARGA DE DOCUMENTO ***/
+				$fileName = $this->request->data['Arriendos_historial']['doc_respaldo']['name'];
+				$extension = $this->request->data['Arriendos_historial']['doc_respaldo']['type'];
+				$laExtension = explode('/', $extension);
+				$uploadPath = $this->uploadDirAsigDevol;
+				$nombre = str_replace('/', '_', $this->request->data['bsv']['created']).'_'.$this->request->data['Arriendos_historial']['destino_id'].
+								'_vivienda_'.$this->request->data['bsv']['vivienda_id'].'_'.date("H_i_s").'.'.$laExtension[1];
+				$this->request->data['Arriendos_historial']['doc_respaldo']['name'] = $nombre;
+				$uploadFile = $uploadPath.$nombre;
+				if( $extension != 'application/pdf' ){
+					$this->Flash->error('Extensión no valida, solo PDF.');
+					$this->redirect( array('controller'=> 'mantenciones', 'action'=>'agrega', $this->request->data['bsv']['vivienda_id'] ) );
 				}
-				
-				$this->Flash->exito('Devolucion');				
-			}else{
-				$this->Flash->exito('Asignacion');
-			}
-			
-			
-			if(0):
-			$this->Bsv->create();
-			if( $this->Bsv->save($this->request->data['bsv']) ){
-				$lastInsertID = $this->Bsv->getLastInsertID();
-				$this->request->data['Arriendos_historial']['bsv_id'] = $lastInsertID;
-				$this->Arriendos_historial->create();
-				if( $this->Arriendos_historial->save($this->request->data['Arriendos_historial']) ){
-					$this->Flash->exito('Registro agregado.');
+				$this->request->data['Arriendos_historial']['doc_respaldo'] = $nombre;
+				/***
+				if( move_uploaded_file($this->request->data['Arriendos_historial']['doc_respaldo']['tmp_name'], $uploadFile) ){
+					$this->Flash->exito('Archivo Cargado.');
 				}else{
-					$this->Flash->error('No se pudo agregar el historial.');
+					$this->Flash->sin_id('SIN ACCION');
 				}
+				***/
+				/*** FIN CARGA DE DOCUMENTO ***/
+				//$this->redirect( array('controller'=> 'viviendas', 'action'=>'edita', 'id'=>$this->request->data['bsv']['vivienda_id'] ) );
+				echo '2<pre>'.print_r($this->request->data, 1).'</pre>';
+				echo 'uploadPath<pre>'.print_r($uploadPath, 1).'</pre>';
+				
 			}else{
-				$this->Flash->error('No se pudo agregarel registro.');
+				// $this->Flash->exito( '<pre>'.print_r($this->request->data, 1).'</pre>' );
+				if( isset($this->request->data['Arriendos_historial']) && $this->request->data['Arriendos_historial']['destino_id'] == 2 ){
+					$opciones = array( 'conditions' => array( 'beneficiario_id'=> $this->request->data['bsv']['beneficiario_id'],
+																										'vivienda_id'=> $this->request->data['bsv']['vivienda_id'],
+																										'servicio_id'=> $this->request->data['bsv']['servicio_id']
+																									) 
+													 );
+					$this->Bsv->recursive=-1;
+					$idBsv = $this->Bsv->find('first', $opciones);
+					//echo 'idBsv<pre>'.print_r($idBsv, 1).'</pre>';
+					/*****/
+					$fileName = $this->request->data['Arriendos_historial']['doc_respaldo']['name'];
+					$extension = $this->request->data['Arriendos_historial']['doc_respaldo']['type'];
+					$laExtension = explode('/', $extension);
+					$uploadPath = $this->uploadDirAsigDevol;
+					$nombre = str_replace('/', '_', $this->request->data['bsv']['created']).'_'.$this->request->data['Arriendos_historial']['destino_id'].
+									'_vivienda_'.$this->request->data['bsv']['vivienda_id'].'_'.date("H_i_s").'.'.$laExtension[1];
+					$this->request->data['Arriendos_historial']['doc_respaldo']['name'] = $nombre;
+					$uploadFile = $uploadPath.$nombre;
+					/*****/
+					if( isset($idBsv['Bsv']['id']) ){
+						$this->request->data['Arriendos_historial']['bsv_id'] = $idBsv['Bsv']['id'];
+						$this->Arriendos_historial->create();
+						if( $this->Arriendos_historial->save($this->request->data['Arriendos_historial'], array($uploadFile)) ){
+							$this->Flash->exito('Registro agregado.<br>Vivienda Devuelta.');
+							$swCargarDoc = 1;
+						}else{
+							$this->Flash->error('No se pudo agregar el historial.');
+						}
+					}
+					//$this->Flash->exito('Devolucion');				
+				}else{
+					$this->Bsv->create();
+					if( $this->Bsv->save($this->request->data['bsv']) ){
+						$lastInsertID = $this->Bsv->getLastInsertID();
+						$this->request->data['Arriendos_historial']['bsv_id'] = $lastInsertID;
+						$this->Arriendos_historial->create();
+						if( $this->Arriendos_historial->save($this->request->data['Arriendos_historial'], array($uploadFile)) ){
+							$this->Flash->exito('Registro agregado.<br>Vivienda Asignada.');
+							$swCargarDoc = 1;
+						}else{
+							$this->Flash->error('No se pudo agregar el historial.');
+						}
+					}else{
+						$this->Flash->error('No se pudo agregar el registro.');
+					}
+					//$this->Flash->exito('Asignacion');
+				}
+				//echo '<pre>'.print_r($this->request->data, 1).'</pre>';
+				
+				/*** PREPARA LA CARGA DE DOCUMENTO ***/
+				if($swCargarDoc){
+					$fileName = $this->request->data['Arriendos_historial']['doc_respaldo']['name'];
+					$extension = $this->request->data['Arriendos_historial']['doc_respaldo']['type'];
+					$laExtension = explode('/', $extension);
+					$uploadPath = $this->uploadDirAsigDevol;
+					$nombre = str_replace('/', '_', $this->request->data['bsv']['created']).'_'.$this->request->data['Arriendos_historial']['destino_id'].
+									'_vivienda_'.$this->request->data['bsv']['vivienda_id'].'_'.date("H_i_s").'.'.$laExtension[1];
+					$this->request->data['Arriendos_historial']['doc_respaldo']['name'] = $nombre;
+					$uploadFile = $uploadPath.$nombre;
+					if( $extension != 'application/pdf' ){
+						$this->Flash->error('Extensión no valida, solo PDF.');
+						$this->redirect( array('controller'=> 'mantenciones', 'action'=>'agrega', $this->request->data['bsv']['vivienda_id'] ) );
+					}
+					if( move_uploaded_file($this->request->data['Arriendos_historial']['doc_respaldo']['tmp_name'], $uploadFile) ){
+						$this->Flash->exito('Registro agregado.<br>Vivienda Asignada<br>Archivo Cargado.');
+					}else{
+						$this->Flash->sin_id('Registro agregado.<br>Vivienda Asignada<br>Sin Carga de documentacion');
+					}
+				}else{
+					$this->Flash->sin_id('Registro agregado.<br>Vivienda Asignada<br>Sin Carga de documentacion');
+				}
+				/*** FIN CARGA DE DOCUMENTO ***/
+				
+				$this->redirect( array('controller'=>'viviendas', 'action'=>'edita', 'id'=>$this->request->data['bsv']['vivienda_id']) );
 			}
-			endif;
-			
-			echo '<pre>'.print_r($this->request->data, 1).'</pre>';
-			
 		}/*** FIN SECCION GRABADO ***/
 			
 		$options = array('fields'=>array('descripcion', 'id'));
@@ -166,14 +227,6 @@ class BsvsController extends AppController {
 																																							'Beneficiario.paterno', 'Beneficiario.materno')
 																														) 
 																							);
-		
-				
-		$sql = 'SELECT T1.id, T1.nombres, T1.paterno, T1.materno, T1.sueldo_base, T3.servicio_id'
-			.' FROM Beneficiarios as T1'
-			.' LEFT JOIN bsvs as T2 ON (T1.id = T2.beneficiario_id)'
-			.' LEFT JOIN beneficiarios_servicios as T3 ON (T1.id = T3.beneficiario_id)'
-			.' WHERE T2.beneficiario_id is null'
-			.' AND T3.beneficiario_id is not null';
 		
 		$sql = 'SELECT T1.id, T1.nombres, T1.paterno, T1.materno, T1.sueldo_base, T2.servicio_id'	
 					.' FROM Beneficiarios as T1'

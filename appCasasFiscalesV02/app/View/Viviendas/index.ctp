@@ -49,7 +49,7 @@ $FormatoTitleTxtNombre_vivie = 'Formato: Calle número o Calle';
                             	Pagar -
                             	<?=$this->Html->link('Administrar', '/viviendas/edita/id:'.$lista['Vivienda']['id'], array('class'=> 'btn btn-info btn-xs'));?>
                               -
-                              <?=$this->Html->link('Eliminar', array('controller' => 'viviendas', 'action' => 'borra', $lista['Vivienda']['id']), array('class'=> 'btn btn-info btn-xs'), "Are you sure you wish to delete this recipe?" );?>
+                              <?=$this->Html->link('Eliminar', array('controller' => 'viviendas', 'action' => 'borra', $lista['Vivienda']['id']), array('class'=> 'btn btn-info btn-xs'), "Are you sure you wish to delete this Vivienda?" );?>
                             </td>
                             <td style="text-align: center;">(Ultimo Pago)</td>
                             <td><?=$lista['Vivienda']['rol'];?> <?//=$funciones->formatoNum($lista['Servicio']['rut']).'-0';?></td>

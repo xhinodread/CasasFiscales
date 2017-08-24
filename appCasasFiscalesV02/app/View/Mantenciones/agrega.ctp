@@ -13,6 +13,9 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
 	<div class="row">
 		<div class="col-md-11">
 				<div class="table-responsiveDos">
+					<div style="float:right; margin-bottom:20px; ">
+						<?=$this->Html->link('Vovler', '/viviendas/edita/id:'.trim($vivienda['Vivienda']['id']) , array('id'=>'btnNuevaAsignacion', 'class'=>'btn btn-primary') )?>
+					</div>
 					<?=$this->Form->Create('Mantencione', array('enctype' => 'multipart/form-data'));?>
 						<table class="table table-bordered table-condensed table-responsive" >
 							<tr>
@@ -21,7 +24,6 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
 								<?=$this->Form->input('Vivienda.rol', array('div'=>array('class'=>'col-md-2'),
 																					 'type'=>'text',
 																					 'default' => trim($vivienda['Vivienda']['rol']),
-																					 /*'label' => false,*/
 																					 'class' => 'form-control inputRut',
 																					 'maxlength' => 12,
 																					 'style'=>"text-align: center;",
@@ -116,13 +118,9 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
                   ?>
 								</td>
 							</tr>							
-							
+
 						</table>
-					<?=$this->Form->button('Agregar',
-                                        array('id'=>'agregar', 'type'  => 'submit', 
-                                              'class' => 'btn btn-block btn-info form_control col-mx-12')
-																);
-                ?>
+					<?=$this->Form->button('Agregar', array('id'=>'agregar', 'type'  => 'submit', 'class' => 'btn btn-block btn-info form_control col-mx-12'));?>
 					<?=$this->Form->end();?> 
 				</div>
 		</div>
@@ -143,7 +141,7 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
 		created.datepicker($.datepicker.regional['es']);
 		
 		$('#MantencioneDocumento').change(function(){
-			var msxTamano = 2000;
+			var msxTamano = 2048;
 			var f=this.files[0]
 			var peso = (f.size||f.fileSize);
 			if( Math.round(peso/1024) > msxTamano){
@@ -153,7 +151,7 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
 			}else{
 				$('#agregar').attr('disabled', false);
 			}
-		})
+		});
 		
 	})
 </script>
