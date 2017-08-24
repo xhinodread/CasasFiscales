@@ -4,4 +4,6 @@
 _notes/
 /bower_components/
 /node_modules/
-/app/config/
+/app/tmp/*
+/app/Config/core.php
+/app/Config/database.php

@@ -125,7 +125,7 @@
 																						 'class' => 'form-control inputRut',
 																						 'readonly'=>'readonly') ); endif;
 								?>
-								<?=$this->Form->hidden('Arriendos_historial.tipo_destino_id', array('default' => $idEstado) );?>
+								<?=$this->Form->hidden('Arriendos_historial.destino_id', array('default' => $idEstado) );?>
 								<?=$this->Form->input('X.tipo_destino_nombre', array('div'=>array('class'=>'col-md-'),
 																						 'type'=>'text',
 																						 'default' => $listaDestino[$idEstado],

@@ -126,6 +126,7 @@ class BeneficiariosController extends AppController {
 		
 		$this->loadModel('Servicio');
 		$this->loadModel('beneficiarios_servicio');
+		$this->loadModel('Arriendos_historial');
 		
 		$id_deneficiario = 0;
 		$msg ='';
@@ -319,10 +320,26 @@ class BeneficiariosController extends AppController {
 		$servicios = $this->Servicio->find( 'list', array( 'fields' =>array('id', 'nombre') ) );
 		
 		$estados_civil = $this->Estcivil->find('list', array('fields'=>array('id', 'descripcion')) );
+		
+		$casaAsignada = 'Sin Asignación';
+		if( isset($datos['beneficiarios_servicio']['beneficiario_id']) ){
+			$sql = "SELECT (select rtrim(calle)+'# '+rtrim(cast(numero as nchar))+', '+rtrim(sector) from viviendas where id = T1.vivienda_id) casa_asignada"
+						 .' FROM bsvs AS T1'
+						 .' LEFT JOIN Arriendos_historials AS T2 ON (T2.bsv_id = T1.id)'
+						 .' WHERE T1.beneficiario_id = '.$datos['beneficiarios_servicio']['beneficiario_id']
+						 .' AND T1.servicio_id = '.$datos['beneficiarios_servicio']['servicio_id']
+						 .' AND T2.destino_id = 1';
+			$casaAsignadaTmp = $this->Arriendos_historial->query($sql);
+			//echo '<pre>count:'.count($casaAsignadaTmp).'</pre>';
+			//echo '<pre>casaAsignadaTmp:'.print_r($casaAsignadaTmp, 1).'</pre>';
+			$casaAsignada = (count($casaAsignadaTmp) > 0 ? $casaAsignadaTmp[0][0]['casa_asignada'] : 'Sin Asignación');
+		}
+		
 		$this->set( array( 'datos' => $datos,
 						   'estados_civil' => $estados_civil,
 						   'escalafon' => $escalafon, 
-							 'servicios' => $servicios
+							 'servicios' => $servicios,
+							 'casaAsignada' => $casaAsignada
 						 )
 				  );
 	}

@@ -66,18 +66,64 @@ class BsvsController extends AppController {
 		if ($this->request->is('post')) {
 			
 			unset($this->request->data['Vivienda']);
-			unset($this->request->data['X']);
-		
+			unset($this->request->data['X']);		
 			unset($this->request->data['bsv']['beneficiario_nombre']);
-			$this->request->data['Arriendos_historial']['bsv_id'] = 123;
+			
 			$this->request->data['Arriendos_historial']['fecha_desde'] = $this->request->data['bsv']['created'];
 			$this->request->data['Arriendos_historial']['fecha_hasta'] = date("d/m/Y", strtotime ( '+10 year' , strtotime( str_replace('/', '-', $this->request->data['bsv']['created']))));
-			$this->request->data['Arriendos_historial']['fecha_vencimiento'] = date("d/m/Y", strtotime("01/05/2017"));
+			$this->request->data['Arriendos_historial']['fecha_vencimiento'] = date("d/m/Y", strtotime(date('m')."/05/".date('Y')));
 			
-			echo '<pre>'.print_r($this->request->data, 1).'</pre>';
+			//echo '<pre>'.print_r($this->request->data, 1).'</pre>';
 			// $this->Flash->exito( '<pre>'.print_r($this->request->data, 1).'</pre>' );
 			
-		}
+			if( isset($this->request->data['Arriendos_historial']) && $this->request->data['Arriendos_historial']['destino_id'] == 2 ){
+				$opciones = array( 'conditions' => array( 'beneficiario_id'=> $this->request->data['bsv']['beneficiario_id'],
+																								 	'vivienda_id'=> $this->request->data['bsv']['vivienda_id'],
+																								 	'servicio_id'=> $this->request->data['bsv']['servicio_id']
+																								) 
+												 );
+				$this->Bsv->recursive=-1;
+				$idBsv = $this->Bsv->find('first', $opciones);
+				//echo 'idBsv<pre>'.print_r($idBsv, 1).'</pre>';
+				
+				if( isset($idBsv['Bsv']['id']) ){
+					$this->request->data['Arriendos_historial']['bsv_id'] = $idBsv['Bsv']['id'];
+					
+					/***
+					$this->Arriendos_historial->create();
+					if( $this->Arriendos_historial->save($this->request->data['Arriendos_historial']) ){
+						$this->Flash->exito('Registro agregado.');
+					}else{
+						$this->Flash->error('No se pudo agregar el historial.');
+					}
+					***/
+				}
+				
+				$this->Flash->exito('Devolucion');				
+			}else{
+				$this->Flash->exito('Asignacion');
+			}
+			
+			
+			if(0):
+			$this->Bsv->create();
+			if( $this->Bsv->save($this->request->data['bsv']) ){
+				$lastInsertID = $this->Bsv->getLastInsertID();
+				$this->request->data['Arriendos_historial']['bsv_id'] = $lastInsertID;
+				$this->Arriendos_historial->create();
+				if( $this->Arriendos_historial->save($this->request->data['Arriendos_historial']) ){
+					$this->Flash->exito('Registro agregado.');
+				}else{
+					$this->Flash->error('No se pudo agregar el historial.');
+				}
+			}else{
+				$this->Flash->error('No se pudo agregarel registro.');
+			}
+			endif;
+			
+			echo '<pre>'.print_r($this->request->data, 1).'</pre>';
+			
+		}/*** FIN SECCION GRABADO ***/
 			
 		$options = array('fields'=>array('descripcion', 'id'));
 		$destinos = $this->Destino->find('list', $options );

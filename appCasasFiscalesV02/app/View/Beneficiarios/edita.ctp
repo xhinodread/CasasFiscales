@@ -6,6 +6,7 @@ $attributesOptionCumple=array('legend'=>false, 'default' => $datos['Beneficiario
 $elMensaje=''; $arrayConsume='';
 if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->consume('losValidates'); }						
 									
+// echo '<pre class="little">casaAsignada:'.print_r($casaAsignada, 1).'</pre>';
 // echo '<pre class="little">this:'.print_r($datos, 1).'</pre>';
 // echo '<pre class="little">servicios:'.print_r($servicios, 1).'</pre>';
 ?>
@@ -95,7 +96,9 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
 						</tr>
 						<tr>
 							<td>Casa Asignada</td>
-							<td colspan="2"><?=$this->Form->input('Vivienda.direccion', array('div'=>array('class'=>'col-md-12'), 'default' => '', 'label' => false, 'class' => 'form-control inputNombreServicio readOnly', 'readonly '=>true) );?></td>
+							<td colspan="2">
+								<?=$this->Form->input('Vivienda.direccion', array('div'=>array('class'=>'col-md-12'), 'default' => $casaAsignada, 'label' => false, 'class' => 'form-control inputNombreServicio readOnly', 'readonly '=>true) );?>
+							</td>
 						</tr>
 						<tr>
 							<td>Cumple Condicion</td>
