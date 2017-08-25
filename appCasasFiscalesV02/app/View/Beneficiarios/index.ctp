@@ -15,8 +15,9 @@ $FormatoTitleTxtNombre_benef = 'Formato: Nombre APaterno AMaterno o Nombre APate
 		<?=$this->Form->Create('');?>
             <div class="col-md-3"><legend>Beneficiario</legend></div>
             <div class="col-md-4">
-            	<?=$this->Form->input('nombre_benef', array('label' => false, 'class'=> 'form-control',
+            	<?=$this->Form->input('nombre_benef', array('label' => false, 'class'=> 'resaltar form-control',
 																													'placeholder'=>$TitleTxtNombre_benef, 'title'=>$FormatoTitleTxtNombre_benef) );?>
+							<label>Mínimo 3 caracteres.</label>
             </div>
             <div class="col-md-5"><?=$this->Form->submit("Buscar", array('class'=> 'btn btn-primary') );?></div>
         <?=$this->Form->end();?>  

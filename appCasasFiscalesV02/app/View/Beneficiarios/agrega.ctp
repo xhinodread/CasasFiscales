@@ -29,7 +29,7 @@ $attributesOptionCumple=array('legend'=>false, 'default' => 0, 'div'=>true, 'sep
 							<?=$this->Form->input('Beneficiario.rut', array('div'=>array('class'=>'col-md-2'),
 																	  'type'=>'text',
 																	  'default' => '', 'label' => false,
-																	  'class' => 'form-control inputRut',
+																	  'class' => 'resaltar form-control inputRut',
 																	  'placeholder' =>'11.111.111-1',
 																	  'maxlength' => 12) );?>
                       	</td>
@@ -40,43 +40,43 @@ $attributesOptionCumple=array('legend'=>false, 'default' => 0, 'div'=>true, 'sep
 							<?=$this->Form->input('Beneficiario.nombres', array('div'=>array('class'=>'col-md-3'), 
 								'default' => '',
 								'placeholder' =>'Juan Patricio',
-								'label' => false, 'class' => 'form-control inputNombre') );?>
+								'label' => false, 'class' => 'resaltar form-control inputNombre') );?>
                        		<?=$this->Form->input('Beneficiario.paterno', array('div'=>array('class'=>'col-md-3'), 
 								'default' => '',
 								'placeholder' =>'Pérez',
-								'label' => false, 'class' => 'form-control inputNombre') );?>
+								'label' => false, 'class' => 'resaltar form-control inputNombre') );?>
 							<?=$this->Form->input('Beneficiario.materno', array('div'=>array('class'=>'col-md-3'), 
 								'default' => '',
 								'placeholder' =>'Pérez',
-								'label' => false, 'class' => 'form-control inputNombre') );?>
+								'label' => false, 'class' => 'resaltar form-control inputNombre') );?>
                         </td>
                       </tr>
                       <tr>
                         <td>Telefono</td>
-                        <td colspan="2"><?=$this->Form->input('Beneficiario.celular', array('div'=>array('class'=>'col-md-2'), 'default' => '', 'placeholder' =>'512 207200 - 97854615', 'label' => false, 'class' => 'form-control inputNombre') );?></td>
+                        <td colspan="2"><?=$this->Form->input('Beneficiario.celular', array('div'=>array('class'=>'col-md-2'), 'default' => '', 'placeholder' =>'512 207200 - 97854615', 'label' => false, 'class' => 'resaltar form-control inputNombre') );?></td>
                       </tr>
                       <tr>
                         <td>E-Mail</td>
-                        <td colspan="2"><?=$this->Form->input('Beneficiario.email', array('div'=>array('class'=>'col-md-3'), 'default' => '', 'placeholder' =>'soporte@gorecoquimbo.cl', 'label' => false, 'class' => 'form-control inputNombre') );?></td>
+                        <td colspan="2"><?=$this->Form->input('Beneficiario.email', array('div'=>array('class'=>'col-md-3'), 'default' => '', 'placeholder' =>'soporte@gorecoquimbo.cl', 'label' => false, 'class' => 'resaltar form-control inputNombre') );?></td>
                       </tr>
                       <tr>
                         <td>Estado Civil</td>
-                        <td colspan="2"><?=$this->Form->input('Beneficiario.estcivil_id', array('div'=>array('class'=>'col-md-2'), 'options'=>$estados_civil, 'empty' =>'-- Seleccione --', 'selected' => 0, 'label' => false, 'class'=>'form-control') );?></td>
+                        <td colspan="2"><?=$this->Form->input('Beneficiario.estcivil_id', array('div'=>array('class'=>'col-md-2'), 'options'=>$estados_civil, 'empty' =>'-- Seleccione --', 'selected' => 0, 'label' => false, 'class'=>'resaltar form-control') );?></td>
                       </tr>
                       <tr>
                         <td>Rut Conyuge</td>
-                        <td colspan="2"><?=$this->Form->input('Conyuge.rut', array('div'=>array('class'=>'col-md-2'), 'default' => "", 'placeholder' =>'11.111.111-1', 'label' => false, 'class' => 'form-control inputRut') );?></td>
+                        <td colspan="2"><?=$this->Form->input('Conyuge.rut', array('div'=>array('class'=>'col-md-2'), 'default' => "", 'placeholder' =>'11.111.111-1', 'label' => false, 'class' => 'resaltar form-control inputRut') );?></td>
                       </tr>
                       <tr>
                         <td>Nombre Conyuge</td>
                         <td colspan="2">
-                        	<?=$this->Form->input('Conyuge.nombres', array('div'=>array('class'=>'col-md-3'), 'default' => "", 'placeholder' =>'Juanita Eleonor', 'label' => false, 'class' => 'form-control inputNombre') );?>
-                        	<?=$this->Form->input('Conyuge.apellidos', array('div'=>array('class'=>'col-md-3'), 'default' => '', 'placeholder' =>'Pérez Garcia', 'label' => false, 'class' => 'form-control inputNombre') );?>
+                        	<?=$this->Form->input('Conyuge.nombres', array('div'=>array('class'=>'col-md-3'), 'default' => "", 'placeholder' =>'Juanita Eleonor', 'label' => false, 'class' => 'resaltar form-control inputNombre') );?>
+                        	<?=$this->Form->input('Conyuge.apellidos', array('div'=>array('class'=>'col-md-3'), 'default' => '', 'placeholder' =>'Pérez Garcia', 'label' => false, 'class' => 'resaltar form-control inputNombre') );?>
                         </td>
                       </tr>
                       <tr>
                         <td>Estado Civil Conyuge</td>
-                        <td colspan="2"><?=$this->Form->input('Conyuge.estcivil_id', array('div'=>array('class'=>'col-md-2'), 'options'=>$estados_civil, 'empty' =>'-- Seleccione --', 'selected' => 0, 'label' => false, 'class'=>'form-control') );?></td>
+                        <td colspan="2"><?=$this->Form->input('Conyuge.estcivil_id', array('div'=>array('class'=>'col-md-2'), 'options'=>$estados_civil, 'empty' =>'-- Seleccione --', 'selected' => 0, 'label' => false, 'class'=>'resaltar form-control') );?></td>
                       </tr>
                       <tr>
                         <td>Servicio</td>
@@ -100,12 +100,12 @@ $attributesOptionCumple=array('legend'=>false, 'default' => 0, 'div'=>true, 'sep
                       <tr>
                         <td>Escalafón</td>
                         <td colspan="2">
-                        <?=$this->Form->input('Beneficiario.escalafon', array('div'=>array('class'=>'col-md-2'), 'options'=>$escalafon, 'empty' =>'-- Seleccione --', 'selected' => 0, 'label' => false, 'class'=>'form-control') );?>
+                        <?=$this->Form->input('Beneficiario.escalafon', array('div'=>array('class'=>'col-md-2'), 'options'=>$escalafon, 'empty' =>'-- Seleccione --', 'selected' => 0, 'label' => false, 'class'=>'resaltar form-control') );?>
                         <? //=$this->Form->input('Beneficiario.escalafon', array('div'=>array('class'=>'col-md-2'), 'default' => '', 'placeholder' =>'Honorario', 'label' => false, 'class' => 'form-control inputRut') );?></td>
                       </tr>
                       <tr>
                         <td>Grado</td>
-                        <td colspan="2"><?=$this->Form->input('Beneficiario.grado', array('div'=>array('class'=>'col-md-1'), 'default' => '', 'placeholder' =>'0', 'label' => false, 'class' => 'form-control inputRut', 'min'=>'1', 'max'=>'20' ) );?></td>
+                        <td colspan="2"><?=$this->Form->input('Beneficiario.grado', array('div'=>array('class'=>'col-md-1'), 'default' => '', 'placeholder' =>'0', 'label' => false, 'class' => 'resaltar form-control inputRut', 'min'=>'1', 'max'=>'20' ) );?></td>
                       </tr>
                       <tr>
                         <td>Sueldo Base $</td>
@@ -117,7 +117,7 @@ $attributesOptionCumple=array('legend'=>false, 'default' => 0, 'div'=>true, 'sep
 																	    , 'placeholder' =>'1.111.111'
 																		, 'maxlength' => 10
 																	    , 'style' => array('text-align: right;')
-																		, 'class' => 'elForm-control inputRut form-control-danger'
+																		, 'class' => 'resaltar elForm-control inputRut form-control-danger'
 																	) 
 												 );								
 							?>

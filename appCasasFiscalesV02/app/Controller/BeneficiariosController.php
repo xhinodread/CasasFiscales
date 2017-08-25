@@ -249,7 +249,7 @@ class BeneficiariosController extends AppController {
 						if($this->Beneficiario->edita_conyugue($this->request->data['Conyuge'])){
 							$this->Flash->guardado('Se ha actualizado un registro.'.$msgAsociar);
 						}else{
-							$this->Flash->sin_id('No pudo registrarse, verifique.');
+							$this->Flash->sin_id('Conyuge - No pudo registrarse, verifique.');
 						}
 						$this->redirect(array('controller' => 'beneficiarios', 'action'=>'edita', 'id'=>$id_deneficiario));
 					

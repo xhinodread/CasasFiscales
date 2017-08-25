@@ -1,6 +1,6 @@
-<div class="flash flash_errorDos center-block" id="flashError" >
+<div class="flash flash_errorLogin center-block" id="flashError" >
   	<div class="row">
-  		<div class="col-md-11 text-center text-black">Error</div>
+  		<div class="col-md-11 text-center text-black">Error de Ingreso</div>
   		<div class="col-md-1">
    			<label title="CERRAR" id="btnCerrar" class="btn btn-alert" >[X]</label>
    		</div>
@@ -12,6 +12,8 @@ $(document).ready(function () {
 	$('#btnCerrar').click(function () {
 		$('#flashError').fadeOut( "slow", function() {  $('#flashError').hide(); });
 	});
-	setTimeout( function(){ $('#flashError').fadeOut( "slow", function() {  $('#flashError').hide(); }) } , 3000);
+	
+	setTimeout( function(){ $('#flashError').fadeOut( "slow", function() {  $('#flashError').hide(); }) } , 3000); 
+	
 });
 </script>

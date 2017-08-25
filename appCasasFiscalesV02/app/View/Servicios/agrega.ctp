@@ -35,7 +35,7 @@ $funciones = new Funcionespropias();
 																		 /*** 'default' => $funciones->formatoNum($datos['Servicio']['rut']), ***/
 																		 'default' => '',
 																		 'label' => false,
-																		 'class' => 'form-control inputRut',
+																		 'class' => 'resaltar form-control inputRut',
 																		 'placeholder' =>'11.111.111-1',
 																		 'maxlength' => 12) );
 											?>
@@ -46,7 +46,7 @@ $funciones = new Funcionespropias();
 										<td>
 											<?=$this->Form->input('nombre', array('div'=>array('class'=>'col-md-12'), 
 																														'default' => '', 'placeholder' =>'Nombre del Servicio',
-																														'label' => false, 'class' => 'form-control inputNombre') );
+																														'label' => false, 'class' => 'resaltar form-control inputNombre') );
 											?>
 										</td>
 									</tr>
@@ -56,7 +56,7 @@ $funciones = new Funcionespropias();
 												<?=$this->Form->input('siglas', array('div'=>array('class'=>'col-md-2'), 
 																															'default' => '', 'placeholder' =>'ABC',
 																															'label' => false,
-																															'class' => 'form-control inputNombre') );
+																															'class' => 'resaltar form-control inputNombre') );
 												?>
 										</td>
 									</tr>
@@ -66,7 +66,7 @@ $funciones = new Funcionespropias();
 											<?=$this->Form->input('jefe_servicio', array('div'=>array('class'=>'col-md-12'), 
 																															'default' => '', 'placeholder' =>'Nombre del Jefe del Servicio',
 																															'label' => false,
-																															'class' => 'form-control inputNombre') );
+																															'class' => 'resaltar form-control inputNombre') );
 												?>
 										</td>
 									</tr>
@@ -76,7 +76,7 @@ $funciones = new Funcionespropias();
 											<?=$this->Form->input('subrogante', array('div'=>array('class'=>'col-md-12'), 
 																															'default' => '', 'placeholder' =>'Nombre del Jefe Subrogante del Servicio',
 																															'label' => false,
-																															'class' => 'form-control inputNombre') );
+																															'class' => 'resaltar form-control inputNombre') );
 											?>
 										</td>
 									</tr>  
@@ -86,7 +86,7 @@ $funciones = new Funcionespropias();
 												<?=$this->Form->input('direccion', array('div'=>array('class'=>'col-md-12'), 
 																															'default' => '', 'placeholder' =>'Calle n° 2',
 																															'label' => false,
-																															'class' => 'form-control inputNombre') );
+																															'class' => 'resaltar form-control inputNombre') );
 												?>
 										</td>
 									</tr>
@@ -96,7 +96,7 @@ $funciones = new Funcionespropias();
 												<?=$this->Form->input('telefonos', array('div'=>array('class'=>'col-md-12'), 
 																															'default' => '', 'placeholder' =>'512 207200 - 97854615',
 																															'label' => false,
-																															'class' => 'form-control inputNombre') );
+																															'class' => 'resaltar form-control inputNombre') );
 												?>
 										</td>
 									</tr>
@@ -106,7 +106,7 @@ $funciones = new Funcionespropias();
 												<?=$this->Form->input('email', array('div'=>array('class'=>'col-md-12'), 
 																															'default' => '', 'placeholder' =>'soporte@gorecoquimbo.cl',
 																															'label' => false,
-																															'class' => 'form-control inputNombre') );
+																															'class' => 'resaltar form-control inputNombre') );
 												?>
 										</td>
 									</tr>

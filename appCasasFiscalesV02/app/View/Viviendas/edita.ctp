@@ -78,7 +78,7 @@ $map_marker_options = array(
 										<?=$this->Form->input('Vivienda.calle', array('div'=>array('class'=>'col-sm-10 col-md-10 col-lg-10'),
 																								 'type'=>'text',
 																								 'default' => trim($datos['Vivienda']['calle']),
-																								 'class' => 'form-control inputRut') );
+																								 'class' => 'resaltar form-control inputRut') );
 										?>
 										<?
 											$textoLabel = $this->Funciones->msgValidacion($arrayConsume, 'numero', 'ViviendaNumero');
@@ -89,24 +89,24 @@ $map_marker_options = array(
 																								 'type'=>'text',
 																									'label' => $textoLabel,
 																								 'default' => trim($datos['Vivienda']['numero']),
-																								 'class' => 'form-control inputRut') );
+																								 'class' => 'resaltar form-control inputRut') );
 										?>
 									</td>
 									<td>
 										<?=$this->Form->input('Vivienda.sector', array('div'=>array('class'=>'col-sm-5 col-md-5 col-lg-5'),
 																								 'type'=>'text',
 																								 'default' => trim($datos['Vivienda']['sector']),
-																								 'class' => 'form-control inputRut') );
+																								 'class' => 'resaltar form-control inputRut') );
 										?>
 										<?=$this->Form->input('Vivienda.block', array('div'=>array('class'=>'col-sm-3 col-md-3 col-lg-3'),
 																								 'type'=>'text',
 																								 'default' => trim($datos['Vivienda']['block']),
-																								 'class' => 'form-control inputRut') );
+																								 'class' => 'resaltar form-control inputRut') );
 										?>
 										<?=$this->Form->input('Vivienda.depto', array('div'=>array('class'=>'col-sm-3 col-md-3 col-lg-3'),
 																								 'type'=>'text',
 																								 'default' => trim($datos['Vivienda']['depto']),
-																								 'class' => 'form-control inputRut') );
+																								 'class' => 'resaltar form-control inputRut') );
 										?>
 									</td>
 								</tr>
@@ -118,7 +118,7 @@ $map_marker_options = array(
 																								 'type'=>'text',
 																								 'default' => trim($datos['Vivienda']['referencia']),
 																								 'label' => 'Referencia',
-																								 'class' => 'form-control inputRut') );
+																								 'class' => 'resaltar form-control inputRut') );
 										?>
 									</td>
 									<td>
@@ -133,7 +133,7 @@ $map_marker_options = array(
 																								 'type'=>'text',
 																								 'default' => $varComuna[0],
 																								 'label' => 'Comuna',
-																								 'class' => 'form-control inputRut') );
+																								 'class' => 'resaltar form-control inputRut') );
 										?>
 										<?=$this->Form->input('Provincia.id', array('div'=>array('class'=>'col-sm-3 col-md-3 col-lg-3'),
 																								 'type'=>'text',
@@ -146,7 +146,7 @@ $map_marker_options = array(
 																								 'type'=>'text',
 																								 'default' => trim($datos['Vivienda']['cod_postal']),
 																								 'label' => 'Codigo Postal',
-																								 'class' => 'form-control inputRut') );
+																								 'class' => 'resaltar form-control inputRut') );
 										?>
 									</td>
 								</tr>
@@ -163,7 +163,7 @@ $map_marker_options = array(
 																								 'type'=>'text',
 																								 'default' => trim($datos['Vivienda']['latitud']),
 																								 'label' => $textoLabel,
-																								 'class' => 'form-control inputRut') );
+																								 'class' => 'resaltar form-control inputRut') );
 										?>
 
 										<?
@@ -175,7 +175,7 @@ $map_marker_options = array(
 																								 'type'=>'text',
 																								 'default' => trim($datos['Vivienda']['longitud']),
 																								 'label' => $textoLabel,
-																								 'class' => 'form-control inputRut') );
+																								 'class' => 'resaltar form-control inputRut') );
 										?>
 									</td>
 									<td>
@@ -243,7 +243,7 @@ $map_marker_options = array(
 																								 'maxlength' => 12,
 																								 'value' => $this->Funciones->formatoNum(trim($datos['Vivienda']['monto_avaluo'])),
 																								 'label' => $textoLabel,
-																								 'class' => 'form-control inputRut') );
+																								 'class' => 'resaltar form-control inputRut') );
 										?>.-
 									</td>
 								</tr>

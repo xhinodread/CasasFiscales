@@ -1,4 +1,4 @@
-<div class="flash flash_errorDos center-block" id="flashError" >
+<div class="flash flash_error center-block" id="flashError" >
   	<div class="row">
   		<div class="col-md-11 text-center text-black">Error</div>
   		<div class="col-md-1">
@@ -12,6 +12,6 @@ $(document).ready(function () {
 	$('#btnCerrar').click(function () {
 		$('#flashError').fadeOut( "slow", function() {  $('#flashError').hide(); });
 	});
-	setTimeout( function(){ $('#flashError').fadeOut( "slow", function() {  $('#flashError').hide(); }) } , 3000);
+	setTimeout( function(){ $('#flashError').fadeOut( "slow", function() {  $('#flashError').hide(); }) } , 3000); 
 });
 </script>

@@ -14,8 +14,9 @@ $FormatoTitleTxtNombre_vivie = 'Formato: Calle número o Calle';
 		<?=$this->Form->Create('Vivienda', array('url'=>'index') );?>
 			<div class="col-md-3"><legend>Vivienda</legend></div>
 			<div class="col-md-4">
-				<?=$this->Form->input('calle', array('label' => false, 'class'=> 'form-control'
+				<?=$this->Form->input('calle', array('label' => false, 'class'=> 'resaltar form-control'
 																						 , 'placeholder'=>$TitleTxtNombre_vivie, 'title'=>$FormatoTitleTxtNombre_vivie) );?>
+				<label>Mínimo 3 caracteres.</label> 
 			</div>
 			<div class="col-md-5"><?=$this->Form->submit("Buscar", array('class'=> 'btn btn-primary') );?></div>
     <?=$this->Form->end();?>  

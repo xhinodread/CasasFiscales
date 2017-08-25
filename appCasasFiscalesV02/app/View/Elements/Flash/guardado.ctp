@@ -12,5 +12,6 @@ $(document).ready(function () {
 	$('#btnCerrar').click(function () {
 		$('#flashGuardado').fadeOut( "slow", function() {  $('#flashGuardado').hide(); });
 	});
+	setTimeout( function(){ $('#flashGuardado').fadeOut( "slow", function() {  $('#flashGuardado').hide(); }) } , 3000);
 });
 </script>

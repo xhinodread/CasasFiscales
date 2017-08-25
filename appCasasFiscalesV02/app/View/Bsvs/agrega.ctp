@@ -43,7 +43,7 @@
 		<div class="col-md-11">
 			<div class="table-responsiveDos">
 				<div style="float:right; margin-bottom:20px; ">
-					<?=$this->Html->link('Vovler', '/viviendas/edita/id:'.trim($vivienda['Vivienda']['id']) , array('id'=>'btnNuevaAsignacion', 'class'=>'btn btn-primary') )?>
+					<?=$this->Html->link('Volver', '/viviendas/edita/id:'.trim($vivienda['Vivienda']['id']) , array('id'=>'btnNuevaAsignacion', 'class'=>'btn btn-primary') )?>
 				</div>
 				<?=$this->Form->Create('bsv', array('enctype' => 'multipart/form-data'));?>
 					<table class="table table-bordered table-condensed table-responsive" >
@@ -161,7 +161,7 @@
 																						 'cols'=>200,
 																						 'maxlength'=>106,
 																						 'label' => 'Observación',
-																						 'class' => 'form-control inputRut') );
+																						 'class' => 'resaltar form-control inputRut') );
 								?>
 							</td>
 							<td>
@@ -169,7 +169,7 @@
 																												'between' => '<br />',
                                                         'type'  => 'file',
 																												'accept' => 'application/pdf',
-                                                        'class' => 'form-control form_control',
+                                                        'class' => 'resaltar form-control form_control',
                                                         'required'    => 'required',
                                                         'placeholder' => 'Documento'
 																												));

@@ -17,12 +17,12 @@ class UsersController extends AppController {
     if( $this->request->is('post') ) {
 			// debug($this->Auth->login());
 			if( $this->Auth->login() ) {
-				$this->Flash->loguin('Bienvenido');
+				// $this->Flash->loguin('Bienvenido');
 				return $this->redirect($this->Auth->redirectUrl());
 			}else{
 				$varsMsg = '<br>Talvez su cuenta se encuentra bloqueada o inactiva.';
 				// '<br>'.!($this->Auth->login()).', '.($this->Auth->login()).'<br>-'.print_r($this->Auth->login(), 1).print_r($this->request->data, 1);
-				$this->Flash->error(__('Nombre de usuario o contraseña incorrectos, reintente...'.$varsMsg.'...'));
+				$this->Flash->login_error('Nombre de usuario o contraseña incorrectos, reintente...'.$varsMsg.'...');
 			}
     }
 	}

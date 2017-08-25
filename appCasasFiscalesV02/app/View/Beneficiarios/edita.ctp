@@ -46,22 +46,22 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
 							<td colspan="2">
 								<?=$this->Form->input('nombres', array('div'=>array('class'=>'col-md-3'), 
 									'default' => trim($datos['Beneficiario']['nombres']),
-									'label' => false, 'class' => 'form-control inputNombre') );?>
+									'label' => false, 'class' => 'resaltar form-control inputNombre') );?>
 								<?=$this->Form->input('paterno', array('div'=>array('class'=>'col-md-3'), 
 									'default' => trim($datos['Beneficiario']['paterno']),
-									'label' => false, 'class' => 'form-control inputNombre') );?>
+									'label' => false, 'class' => 'resaltar form-control inputNombre') );?>
 								<?=$this->Form->input('materno', array('div'=>array('class'=>'col-md-3'), 
 									'default' => trim($datos['Beneficiario']['materno']),
-									'label' => false, 'class' => 'form-control inputNombre') );?>
+									'label' => false, 'class' => 'resaltar form-control inputNombre') );?>
 							</td>
 						</tr>
 						<tr>
 							<td>Telefono</td>
-							<td colspan="2"><?=$this->Form->input('celular', array('div'=>array('class'=>'col-md-2'), 'default' => trim($datos['Beneficiario']['celular']), 'label' => false, 'class' => 'form-control inputNombre') );?></td>
+							<td colspan="2"><?=$this->Form->input('celular', array('div'=>array('class'=>'col-md-2'), 'default' => trim($datos['Beneficiario']['celular']), 'label' => false, 'class' => 'resaltar form-control inputNombre') );?></td>
 						</tr>
 						<tr>
 							<td>E-Mail</td>
-							<td colspan="2"><?=$this->Form->input('email', array('div'=>array('class'=>'col-md-3'), 'default' => trim($datos['Beneficiario']['email']), 'label' => false, 'class' => 'form-control inputNombre') );?></td>
+							<td colspan="2"><?=$this->Form->input('email', array('div'=>array('class'=>'col-md-3'), 'default' => trim($datos['Beneficiario']['email']), 'label' => false, 'class' => 'resaltar form-control inputNombre') );?></td>
 						</tr>
 						<tr>
 							<td>Estado Civil</td>
@@ -72,26 +72,26 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
 							<td colspan="2">
 								<?=$this->Form->hidden('Conyuge.beneficiario_id', array('default' => (isset($datos['Beneficiario']['id']) ? $datos['Beneficiario']['id'] : 0 )) );?>
 								<?=$this->Form->hidden('Conyuge.id', array('default' => (isset($datos['Conyuge']['id']) ? $datos['Conyuge']['id'] : 0 )) );?>
-								<?=$this->Form->input('Conyuge.rut', array('div'=>array('class'=>'col-md-2'), 'default' => (isset($datos['Conyuge']['rut']) ? $this->Funciones->formatoRut($datos['Conyuge']['rut']) : '---' ), 'label' => false, 'class' => 'form-control inputRut') );?>
+								<?=$this->Form->input('Conyuge.rut', array('div'=>array('class'=>'col-md-2'), 'default' => (isset($datos['Conyuge']['rut']) ? $this->Funciones->formatoRut($datos['Conyuge']['rut']) : '---' ), 'label' => false, 'class' => 'resaltar form-control inputRut') );?>
 							</td>
 						</tr>
 						<tr>
 							<td>Nombre Conyuge</td>
 							<td colspan="2">
-								<?=$this->Form->input('Conyuge.nombres', array('div'=>array('class'=>'col-md-3'), 'default' => (isset($datos['Conyuge']['nombres']) ? trim($datos['Conyuge']['nombres']) : '---'), 'label' => false, 'class' => 'form-control inputNombre') );?>
-								<?=$this->Form->input('Conyuge.apellidos', array('div'=>array('class'=>'col-md-3'), 'default' => (isset($datos['Conyuge']['apellidos']) ? trim($datos['Conyuge']['apellidos']) : '---'), 'label' => false, 'class' => 'form-control inputNombre') );?>
+								<?=$this->Form->input('Conyuge.nombres', array('div'=>array('class'=>'col-md-3'), 'default' => (isset($datos['Conyuge']['nombres']) ? trim($datos['Conyuge']['nombres']) : '---'), 'label' => false, 'class' => 'resaltar form-control inputNombre') );?>
+								<?=$this->Form->input('Conyuge.apellidos', array('div'=>array('class'=>'col-md-3'), 'default' => (isset($datos['Conyuge']['apellidos']) ? trim($datos['Conyuge']['apellidos']) : '---'), 'label' => false, 'class' => 'resaltar form-control inputNombre') );?>
 							</td>
 						</tr>
 						<tr>
 							<td>Estado Civil Conyuge</td>
-							<td colspan="2"><?=$this->Form->input('Conyuge.estcivil_id', array('div'=>array('class'=>'col-md-2'), 'options'=>$estados_civil, 'empty' =>'-- Seleccione --', 'selected' => $datos['Conyuge']['estcivil_id'], 'label' => false, 'class'=>'form-control') );?></td>
+							<td colspan="2"><?=$this->Form->input('Conyuge.estcivil_id', array('div'=>array('class'=>'col-md-2'), 'options'=>$estados_civil, 'empty' =>'-- Seleccione --', 'selected' => $datos['Conyuge']['estcivil_id'], 'label' => false, 'class'=>'resaltar form-control') );?></td>
 						</tr>
 						<tr>
 							<td>Servicio</td>
 							<td colspan="2">
 								<? $nombreServicio = ( isset($servicios[$datos['beneficiarios_servicio']['servicio_id']]) ? trim($servicios[$datos['beneficiarios_servicio']['servicio_id']]) : '');?>
 								<?=$this->Form->hidden('beneficiario_servicio.servicio_id', array('default' => $datos['beneficiarios_servicio']['servicio_id']) );?>
-								<?=$this->Form->input('beneficiario_servicio.nombre', array('div'=>array('class'=>'col-md-12'), 'type'=>'text', 'default' => $nombreServicio, 'label' => false, 'placeholder'=>'Digite un servicio', 'class' => 'form-control inputNombreServicio' ) );?>
+								<?=$this->Form->input('beneficiario_servicio.nombre', array('div'=>array('class'=>'col-md-12'), 'type'=>'text', 'default' => $nombreServicio, 'label' => false, 'placeholder'=>'Digite un servicio', 'class' => 'resaltar form-control inputNombreServicio' ) );?>
 							</td>
 						</tr>
 						<tr>
@@ -114,7 +114,7 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
 						<tr>
 							<td>Escalafón</td>
 							<td colspan="2">
-								<?=$this->Form->input('escalafon', array('div'=>array('class'=>'col-md-2'), 'options'=>$escalafon, 'empty' =>'-- Seleccione --', 'selected' => trim($datos['Beneficiario']['escalafon']), 'label' => false, 'class'=>'form-control') );?>
+								<?=$this->Form->input('escalafon', array('div'=>array('class'=>'col-md-2'), 'options'=>$escalafon, 'empty' =>'-- Seleccione --', 'selected' => trim($datos['Beneficiario']['escalafon']), 'label' => false, 'class'=>'resaltar form-control') );?>
 								<? //=$this->Form->input('Beneficiario.escalafon', array('div'=>array('class'=>'col-md-2'), 'default' => trim($datos['Beneficiario']['escalafon']), 'label' => false, 'class' => 'form-control inputRut') );?>
 							</td>
 						</tr>
@@ -122,7 +122,7 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
 							<td>Grado</td>
 							<td colspan="2">
 								<?=$this->Funciones->msgValidacion($arrayConsume, 'grado', 'BeneficiarioGrado');?>
-								<?=$this->Form->input('grado', array('div'=>array('class'=>'col-md-1'), 'default' => trim($datos['Beneficiario']['grado']), 'label' => false, 'class' => 'form-control inputRut', 'min'=>'1', 'max'=>'20') );?>
+								<?=$this->Form->input('grado', array('div'=>array('class'=>'col-md-1'), 'default' => trim($datos['Beneficiario']['grado']), 'label' => false, 'class' => 'resaltar form-control inputRut', 'min'=>'1', 'max'=>'20') );?>
 							</td>
 						</tr>
 						<tr>
@@ -143,7 +143,7 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
 													 /* , 'style' => array('width:7%; text-align: right;')*/
 														, 'style' => array('text-align: right;')
 													, 'value' => $funciones->formatoNum($datos['Beneficiario']['sueldo_base'])
-													, 'class' => 'elForm-control inputRut form-control-danger'
+													, 'class' => 'resaltar elForm-control inputRut form-control-danger'
 												)
 							 );
 							 ?>

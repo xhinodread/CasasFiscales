@@ -12,5 +12,6 @@ $(document).ready(function () {
 	$('#btnCerrar').click(function () {
 		$('#flashError').fadeOut( "slow", function() {  $('#flashError').hide(); });
 	});
+	setTimeout( function(){ $('#flashError').fadeOut( "slow", function() {  $('#flashError').hide(); }) } , 3000);
 });
 </script>

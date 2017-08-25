@@ -14,7 +14,7 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
 		<div class="col-md-11">
 				<div class="table-responsiveDos">
 					<div style="float:right; margin-bottom:20px; ">
-						<?=$this->Html->link('Vovler', '/viviendas/edita/id:'.trim($vivienda['Vivienda']['id']) , array('id'=>'btnNuevaAsignacion', 'class'=>'btn btn-primary') )?>
+						<?=$this->Html->link('Volver', '/viviendas/edita/id:'.trim($vivienda['Vivienda']['id']) , array('id'=>'btnNuevaAsignacion', 'class'=>'btn btn-primary') )?>
 					</div>
 					<?=$this->Form->Create('Mantencione', array('enctype' => 'multipart/form-data'));?>
 						<table class="table table-bordered table-condensed table-responsive" >
@@ -78,19 +78,20 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
 									<?=$this->Form->input('fecha', array('label' => false,
 																												'default' => date("d-m-Y"),
                                                         'type'  => 'text',
-                                                        'class' => 'form-control form_control text-center',
+                                                        'class' => 'calendarioDisabled form-control form_control text-center',
                                                         'required'    => 'required',
                                                         'placeholder' => 'Fecha de Creación',
-                                                        'title'       => 'Filtro por fecha de creación',
+                                                        'title'       => 'Seleccione Fecha de Creación',
                                                         'readonly'));
                   ?>
+                  <label>Seleccione una fecha</label>
 								</td>
 								<td>
 									<?=$this->Form->input('mantentipo_id', array('div'=>array('class'=>'col-sm-12 col-md-12 col-lg-12'),
 																							 'label' => false,
 																							 'options'=> $mantencion_tipos,
 																							 'default' => 0,
-																							 'class' => 'form-control inputRut',
+																							 'class' => 'resaltar form-control inputRut',
 																							 'style'=>"text-align: center;",
 																							 ) );
 									?>
@@ -99,7 +100,7 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
 									<?=$this->Form->input('observacion', array('div'=>array('class'=>'col-sm-12 col-md-12 col-lg-12'),
 																												'label' => false,
                                                         'type'  => 'textarea',
-                                                        'class' => 'form-control form_control',
+                                                        'class' => 'resaltar form-control form_control',
                                                         'required'    => 'required',
                                                         'placeholder' => 'Descripción',
 																												'style' => 'resize:none;'
@@ -111,7 +112,7 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
 																												'between' => '<br />',
                                                         'type'  => 'file',
 																												'accept' => 'application/pdf',
-                                                        'class' => 'form-control form_control',
+                                                        'class' => 'resaltar form-control form_control',
                                                         'required'    => 'required',
                                                         'placeholder' => 'Documento'
 																												));

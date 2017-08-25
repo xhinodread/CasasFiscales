@@ -47,7 +47,7 @@ $funciones = new Funcionespropias();
 										<td colspan="2">
 											<?=$this->Form->input('nombre', array('div'=>array('class'=>'col-md-12'), 
 																														'default' => trim($datos['Servicio']['nombre']),
-																														'label' => false, 'class' => 'form-control inputNombre') );
+																														'label' => false, 'class' => 'resaltar form-control inputNombre') );
 											?>
 										</td>
 									</tr>
@@ -57,7 +57,7 @@ $funciones = new Funcionespropias();
 												<?=$this->Form->input('siglas', array('div'=>array('class'=>'col-md-2'), 
 																															'default' => trim($datos['Servicio']['siglas']),
 																															'label' => false,
-																															'class' => 'form-control inputNombre') );
+																															'class' => 'resaltar form-control inputNombre') );
 												?>
 										</td>
 									</tr>
@@ -67,7 +67,7 @@ $funciones = new Funcionespropias();
 											<?=$this->Form->input('jefe_servicio', array('div'=>array('class'=>'col-md-12'), 
 																															'default' => trim($datos['Servicio']['jefe_servicio']),
 																															'label' => false,
-																															'class' => 'form-control inputNombre') );
+																															'class' => 'resaltar form-control inputNombre') );
 												?>
 										</td>
 									</tr>
@@ -77,7 +77,7 @@ $funciones = new Funcionespropias();
 											<?=$this->Form->input('subrogante', array('div'=>array('class'=>'col-md-12'), 
 																															'default' => trim($datos['Servicio']['subrogante']),
 																															'label' => false,
-																															'class' => 'form-control inputNombre') );
+																															'class' => 'resaltar form-control inputNombre') );
 											?>
 										</td>
 									</tr>  
@@ -87,7 +87,7 @@ $funciones = new Funcionespropias();
 												<?=$this->Form->input('direccion', array('div'=>array('class'=>'col-md-12'), 
 																															'default' => trim($datos['Servicio']['direccion']),
 																															'label' => false,
-																															'class' => 'form-control inputNombre') );
+																															'class' => 'resaltar form-control inputNombre') );
 												?>
 										</td>
 									</tr>
@@ -97,7 +97,7 @@ $funciones = new Funcionespropias();
 												<?=$this->Form->input('telefonos', array('div'=>array('class'=>'col-md-12'), 
 																															'default' => trim($datos['Servicio']['telefonos']),
 																															'label' => false,
-																															'class' => 'form-control inputNombre') );
+																															'class' => 'resaltar form-control inputNombre') );
 												?>
 										</td>
 									</tr>
@@ -107,7 +107,7 @@ $funciones = new Funcionespropias();
 												<?=$this->Form->input('email', array('div'=>array('class'=>'col-md-12'), 
 																															'default' => trim($datos['Servicio']['email']),
 																															'label' => false,
-																															'class' => 'form-control inputNombre') );
+																															'class' => 'resaltar form-control inputNombre') );
 												?>
 										</td>
 									</tr>

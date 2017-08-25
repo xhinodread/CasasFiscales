@@ -13,7 +13,7 @@ $FormatoTitleTxtNombre_benef = 'Formato: Nombre del Servicio o Siglas del Servic
     <div class="row">
 		<?=$this->Form->Create('Servicio', array('url'=>'index') );?>
             <div class="col-md-3"><legend>Servicio</legend></div>
-            <div class="col-md-4"><?=$this->Form->input('nombre', array('label' => false, 'class'=> 'form-control', 'placeholder'=>'Nombre del Servicio. '.$TitleTxtNombre_benef, 'title'=>$FormatoTitleTxtNombre_benef) );?></div>
+            <div class="col-md-4"><?=$this->Form->input('nombre', array('label' => false, 'class'=> 'resaltar form-control', 'placeholder'=>'Nombre del Servicio. '.$TitleTxtNombre_benef, 'title'=>$FormatoTitleTxtNombre_benef) );?><label>Mínimo 3 caracteres.</label></div>
             <div class="col-md-5"><?=$this->Form->submit("Buscar", array('class'=> 'btn btn-primary') );?></div>
         <?=$this->Form->end();?>  
     </div>
