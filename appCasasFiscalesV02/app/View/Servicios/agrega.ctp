@@ -28,7 +28,7 @@ $funciones = new Funcionespropias();
 							<?=$this->Form->Create('Servicio');?>
 								<table class="table table-bordered table-condensed" >
 									<tr>
-										<td style="width:100px;" >Rut</td>
+										<td style="width:100px;" >Rut *</td>
 										<td >
 											<?=$this->Form->input('Servicio.rut', array('div'=>array('class'=>'col-md-2'),
 																		 'type'=>'text',
@@ -42,7 +42,7 @@ $funciones = new Funcionespropias();
 										</td>
 									</tr>
 									<tr>
-										<td>Nombre</td>
+										<td>Nombre *</td>
 										<td>
 											<?=$this->Form->input('nombre', array('div'=>array('class'=>'col-md-12'), 
 																														'default' => '', 'placeholder' =>'Nombre del Servicio',
@@ -51,7 +51,7 @@ $funciones = new Funcionespropias();
 										</td>
 									</tr>
 									<tr>
-										<td>Sigla</td>
+										<td>Sigla *</td>
 										<td>
 												<?=$this->Form->input('siglas', array('div'=>array('class'=>'col-md-2'), 
 																															'default' => '', 'placeholder' =>'ABC',
@@ -61,7 +61,7 @@ $funciones = new Funcionespropias();
 										</td>
 									</tr>
 									<tr>
-										<td>Jefe del servicio</td>
+										<td>Jefe del servicio *</td>
 										<td>
 											<?=$this->Form->input('jefe_servicio', array('div'=>array('class'=>'col-md-12'), 
 																															'default' => '', 'placeholder' =>'Nombre del Jefe del Servicio',
@@ -71,7 +71,7 @@ $funciones = new Funcionespropias();
 										</td>
 									</tr>
 									<tr>
-										<td>Subrogante</td>
+										<td>Subrogante *</td>
 										<td>
 											<?=$this->Form->input('subrogante', array('div'=>array('class'=>'col-md-12'), 
 																															'default' => '', 'placeholder' =>'Nombre del Jefe Subrogante del Servicio',
@@ -81,7 +81,7 @@ $funciones = new Funcionespropias();
 										</td>
 									</tr>  
 									<tr>
-										<td>Dirección</td>
+										<td>Dirección *</td>
 										<td>
 												<?=$this->Form->input('direccion', array('div'=>array('class'=>'col-md-12'), 
 																															'default' => '', 'placeholder' =>'Calle n° 2',
@@ -91,7 +91,7 @@ $funciones = new Funcionespropias();
 										</td>
 									</tr>
 									<tr>
-										<td>Teléfono</td>
+										<td>Teléfono *</td>
 										<td>
 												<?=$this->Form->input('telefonos', array('div'=>array('class'=>'col-md-12'), 
 																															'default' => '', 'placeholder' =>'512 207200 - 97854615',
@@ -101,7 +101,7 @@ $funciones = new Funcionespropias();
 										</td>
 									</tr>
 									<tr>
-										<td>E-mail</td>
+										<td>E-mail *</td>
 										<td>
 												<?=$this->Form->input('email', array('div'=>array('class'=>'col-md-12'), 
 																															'default' => '', 'placeholder' =>'soporte@gorecoquimbo.cl',
@@ -112,6 +112,7 @@ $funciones = new Funcionespropias();
 									</tr>
 									<tr>
 										<td colspan="2">
+											<div><label>* Requerido</label></div>
 											<?=$this->Form->button('Guardar Cambios', array( 'id'=>'subMit', 'class' => 'btn btn-primary inputRut', 'disabled'=>'disabled') );?>
 										</td>
 									</tr>
@@ -123,7 +124,9 @@ $funciones = new Funcionespropias();
 </div>
 <script type="text/javascript">
 $( document ).ready(function() {
+	
 	$( "#ServicioRut" ).keyup(function(e) {
+		$(this).val( formateaRut( $(this).val() ) );
 		if( $(this).val().length >=11 && $(this).val().length <= 12  ){
 			//console.log( evalua_formato_rut($(this).val()) );
 			if( !evalua_formato_rut($(this).val()) ){ $("#subMit").attr("disabled",true); $(this).css("background-color","red"); return; }
@@ -138,5 +141,7 @@ $( document ).ready(function() {
 		}
 		return;
 	});
+	
+	
 });
 </script>

@@ -1,5 +1,5 @@
 var RutRegex = new RegExp(/^(\d{1,2})[.](\d{3})[.](\d{3})[\-](\d{1}|k|K)$/);
-var RutNoPermitidos = ["11.111.111-1", "22.222.222-2", "33.333.333-3", "44.444.444-4", "55.555.555-5", "66.666.666-6", "77.777.777-7", "88.888.888-8", "99.999.999-9", "1.111.111-4", "2.222.222-8", "3.333.333-1", "4.444.444-5", "5.555.555-9", "6.666.666-2", "7.777.777-6", "8.888.888-k", "9.999.999-3"];
+var RutNoPermitidos = ["11.111.111-1", "22.222.222-2", "33.333.333-3", "44.444.444-4", "55.555.555-5", "66.666.666-6", "77.777.777-7", "88.888.888-8", "99.999.999-9"];
 
 function validarRut(){
 	//console.log($("#CrianceroRut").val().length );
@@ -52,10 +52,6 @@ function pintarTextoRut(color, estado){
 	$("#submitX").prop("disabled", estado);
 	return !(estado);
 }
-
-function evalua_formato_rut(valor_rut){ return RutRegex.test(valor_rut); }
-
-function evalua_rut_no_permitidos(valor_rut){ return jQuery.inArray( valor_rut, RutNoPermitidos ); }
 
 function Valida_Rut( Objeto ){
 	var tmpstr = "";
@@ -118,25 +114,5 @@ function Valida_Rut( Objeto ){
 		Objeto.focus()
 		return true;
 	}
-}
-
-function formateaRut(elrut){
-	var elValorTexto = elrut;
-	var elValorXdDos, elValorXd = elrut.replace( /(\d{1,2})\-?(\d{3})\-?(\d{3})/, '$1.$2.$3' );
-		
-	if( elrut.length >=10 && elrut.length <=12  ){
-		var elDv = elValorXd.substring(elValorTexto.length-1);
-		elValorXd = elValorXd.substring(0, elValorTexto.length-1);
-		elValorXd += '-' + elDv;			
-		if( elrut.length == 12 ){
-			elValorXd = elValorXd.replace( /-/m, '' );
-			elValorXd = NumerosChile(elValorXd)+ '-' + elDv; ;
-		}
-	}
-	//console.log( elValorXd.indexOf('-', 0) );
-	if( elValorXd.indexOf('-', 0) == 0 ){
-		elValorXd = elValorXd.substring(1, elValorTexto.length);
-	}
-	return elValorXd;
 }
 

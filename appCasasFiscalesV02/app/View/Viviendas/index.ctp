@@ -63,9 +63,15 @@ $FormatoTitleTxtNombre_vivie = 'Formato: Calle número o Calle';
                     </tbody>
                 </table>
                 <?
-				echo $this->Paginator->prev('« Prev ', null, null, array('class' => 'enabled'));
-				echo $this->Paginator->next(' Prox »', null, null, array('class' => 'disabled'));
+				//echo $this->Paginator->prev('« Prev ', null, null, array('class' => 'enabled'));
+				//echo $this->Paginator->next(' Prox »', null, null, array('class' => 'disabled'));
 				?>
+               	<?
+									echo $this->Paginator->first('< Primero');
+									if( $this->Paginator->first('< Primero') ){ echo $this->Paginator->prev(' « Prev ', null, null, array('class' => 'enabled')); }
+									if( $this->Paginator->last(' Ultimo |') ){ echo $this->Paginator->next(' Prox »', null, null, array('class' => 'disabled')); }
+									echo $this->Paginator->last(' Ultimo |'); 
+								?>
                 <?='<br>'.$this->Paginator->counter(array('format' => 'Pagina %page% de %pages%, mostrando %current% registros de un total de %count%, iniciando en %start%, con fin %end%'));?>
             </div>
         </div>

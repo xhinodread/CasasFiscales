@@ -11,17 +11,17 @@ $FormatoTitleTxtNombre_benef = 'Formato: Nombre APaterno AMaterno o Nombre APate
 <? //=debug($listado);?>
 <div class="container-flex warning">
 
-    <div class="row">
-		<?=$this->Form->Create('');?>
-            <div class="col-md-3"><legend>Beneficiario</legend></div>
-            <div class="col-md-4">
-            	<?=$this->Form->input('nombre_benef', array('label' => false, 'class'=> 'resaltar form-control',
-																													'placeholder'=>$TitleTxtNombre_benef, 'title'=>$FormatoTitleTxtNombre_benef) );?>
-							<label>Mínimo 3 caracteres.</label>
-            </div>
-            <div class="col-md-5"><?=$this->Form->submit("Buscar", array('class'=> 'btn btn-primary') );?></div>
-        <?=$this->Form->end();?>  
-    </div>
+	<div class="row">
+		<?=$this->Form->Create('', array('controller'=>'beneficiarios', 'url'=>'index') );?>
+			<div class="col-md-3"><legend>Beneficiario</legend></div>
+			<div class="col-md-4">
+				<?=$this->Form->input('nombre_benef', array('label' => false, 'class'=> 'resaltar form-control',
+																										'placeholder'=>$TitleTxtNombre_benef, 'title'=>$FormatoTitleTxtNombre_benef) );?>
+				<label>Mínimo 3 caracteres.</label>
+			</div>
+			<div class="col-md-5"><?=$this->Form->submit("Buscar", array('class'=> 'btn btn-primary') );?></div>
+		<?=$this->Form->end();?>  
+	</div>
     
 	<div class="row">
 		<div class="col-md-11">
@@ -64,8 +64,10 @@ $FormatoTitleTxtNombre_benef = 'Formato: Nombre APaterno AMaterno o Nombre APate
 								</tbody>
 						</table>
 						<?
-						echo $this->Paginator->prev('« Prev ', null, null, array('class' => 'enabled'));
-						echo $this->Paginator->next(' Prox »', null, null, array('class' => 'disabled'));
+							echo $this->Paginator->first('< Primero');
+							if( $this->Paginator->first('< Primero') ){ echo $this->Paginator->prev(' « Prev ', null, null, array('class' => 'enabled')); }
+							if( $this->Paginator->last(' Ultimo |') ){ echo $this->Paginator->next(' Prox »', null, null, array('class' => 'disabled')); }
+							echo $this->Paginator->last(' Ultimo |'); 
 						?>
 						<?='<br>'.$this->Paginator->counter(array('format' => 'Pagina %page% de %pages%, mostrando %current% registros de un total de %count%, iniciando en %start%, con fin %end%'));?>
 					</div>

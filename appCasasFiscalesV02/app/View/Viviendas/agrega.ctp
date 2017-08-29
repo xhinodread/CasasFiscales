@@ -53,18 +53,20 @@ $map_marker_options = array(
 <div class="row">
 	<div class="col-md-11">
 		<div class="table-responsiveDos">
-			<?=$this->Form->Create('Vivienda');?>
+			<?=$this->Form->Create('');?>
 				<table class="table table-bordered table-condensed" >
 					<tr>
-						<th>Rol</th>
+						<th>Rol *</th>
 						<td colspan="2">
 							<?=$this->Form->hidden('Vivienda.activo', array('default' => 1) );?>
 							<?=$this->Form->input('Vivienda.rol', array('div'=>array('class'=>'col-md-2'),
 																					 'type'=>'text',
-																					 'default' => 0,
+																					 'default' => '',
 																					 'label' => false,
+																					 'placeholder' =>'1111-01',
 																					 'class' => 'resaltar form-control inputRut',
 																					 'maxlength' => 12,
+																					/* 'required'=>'required',*/
 																					 'style'=>"text-align: center;"
 																	) );
 							?>
@@ -76,30 +78,44 @@ $map_marker_options = array(
 						<td>
 							<?=$this->Form->input('Vivienda.calle', array('div'=>array('class'=>'col-sm-10 col-md-10 col-lg-10'),
 																					 'type'=>'text',
+																					 'label'=>'Calle *',
 																					 'default' => '',
+																					 'placeholder' =>'Calle de la calle',
+																					/* 'required'=>'required',*/
 																					 'class' => 'resaltar form-control inputRut') );
 							?>
 							<?=$this->Form->input('Vivienda.numero', array('div'=>array('class'=>'col-xs-4 col-sm-4 col-md-2 col-lg-2'),
 																					 'type'=>'text',
-																					 'label' => 'Número',
+																					 'label' => 'Número *',
 																					 'default' => '',
+																					 'placeholder' =>'01',
+																					/* 'required'=>'required',*/
 																					 'class' => 'resaltar form-control inputRut') );
 							?>
 						</td>
 						<td>
 							<?=$this->Form->input('Vivienda.sector', array('div'=>array('class'=>'col-sm-5 col-md-5 col-lg-5'),
 																					 'type'=>'text',
+																					 'label'=>'Sector *',
 																					 'default' => '',
+																					 'placeholder' =>'Centro',
+																					/* 'required'=>'required',*/
 																					 'class' => 'resaltar form-control inputRut') );
 							?>
 							<?=$this->Form->input('Vivienda.block', array('div'=>array('class'=>'col-sm-3 col-md-3 col-lg-3'),
 																					 'type'=>'text',
+																					 'label'=>'Block',
 																					 'default' => '',
+																					 'placeholder' =>'A',
+																					 /*'required'=>'required',*/
 																					 'class' => 'resaltar form-control inputRut') );
 							?>
 							<?=$this->Form->input('Vivienda.depto', array('div'=>array('class'=>'col-sm-3 col-md-3 col-lg-3'),
 																					 'type'=>'text',
+																					 'label'=>'Depto',	
 																					 'default' => '',
+																					 'placeholder' =>'A-01',
+																					 /*'required'=>'required',*/
 																					 'class' => 'resaltar form-control inputRut') );
 							?>
 						</td>
@@ -112,6 +128,7 @@ $map_marker_options = array(
 																					 'type'=>'text',
 																					 'default' => '',
 																					 'label' => 'Referencia',
+																					 'placeholder' =>'Entre Cuartel de Bomberos y Chile atiende',
 																					 'class' => 'resaltar form-control inputRut') );
 							?>
 						</td>
@@ -123,7 +140,8 @@ $map_marker_options = array(
 							<?=$this->Form->input('Comuna.comuna_nom', array('div'=>array('class'=>'col-sm-3 col-md-3 col-lg-3'),
 																					 'type'=>'text',
 																					 'default' => $varComuna[0],
-																					 'label' => 'Comuna',
+																					 'label' => 'Comuna *',
+																					 'required'=>'required',
 																					 'class' => 'resaltar form-control inputRut') );
 							?>
 							<?=$this->Form->input('Provincia.id', array('div'=>array('class'=>'col-sm-3 col-md-3 col-lg-3'),
@@ -135,8 +153,9 @@ $map_marker_options = array(
 							?>
 							<?=$this->Form->input('Vivienda.cod_postal', array('div'=>array('class'=>'col-sm-3 col-md-3 col-lg-3'),
 																					 'type'=>'text',
-																					 'default' => 0,
+																					 'default' => '',
 																					 'label' => 'Codigo Postal',
+																					 'placeholder' =>'178776987',
 																					 'class' => 'resaltar form-control inputRut') );
 							?>
 						</td>
@@ -148,13 +167,15 @@ $map_marker_options = array(
 							<?=$this->Form->input('Vivienda.latitud', array('div'=>array('class'=>'col-sm-6 col-md-6 col-lg-6'),
 																					 'type'=>'text',
 																					 'default' => $latitud,
-																					 'label' => '',
+																					 'label' => 'Latitud',
+																					 'placeholder' =>'-29.902087',
 																					 'class' => 'resaltar form-control inputRut') );
 							?>
 							<?=$this->Form->input('Vivienda.longitud', array('div'=>array('class'=>'col-sm-6 col-md-6 col-lg-6'),
 																					 'type'=>'text',
 																					 'default' => $longitud,
-																					 'label' => '',
+																					 'label' => 'Longitud',
+																					 'placeholder' =>'-71.251971',
 																					 'class' => 'resaltar form-control inputRut') );
 							?>
 						</td>
@@ -202,13 +223,14 @@ $map_marker_options = array(
 					</tr>
 
 					<tr>
-						<th>Monto Avalúo $</th>
+						<th>Monto Avalúo $ *</th>
 						<td colspan="2">
 							<?=$this->Form->input('Vivienda.monto_avaluo', array('div'=>array('class'=>'col-sm-3 col-md-3 col-lg-3'),
 																					 'type'=>'text',
 																					 'maxlength' => 12,
-																					 'value' => 0,
+																					 'value' => '',
 																					 'label' => '',
+																					 'placeholder' =>'11.111.111-1',
 																					 'class' => 'resaltar form-control inputRut') );
 							?>.-
 						</td>
@@ -228,7 +250,9 @@ $map_marker_options = array(
 					</tr>
 
 				</table>
-				<?=$this->Form->submit('Guardar Cambios', array('class' => 'btn btn-primary', 'div'=>false) );?>
+				<div><label>* Requerido</label></div>
+				<?//=$this->Form->submit('Guardar Cambios', array('class' => 'btn btn-primary', 'div'=>false) );?>
+				<?=$this->Form->button('Guardar Cambios', array( 'id'=>'subMit', 'class' => 'btn btn-primary inputRut') );?>
 			<?=$this->Form->end();?>       
 		</div>
 	</div>
@@ -247,6 +271,10 @@ $(document).ready(function(){
 				return false;
 				}
 		});
+	
+	$("#ViviendaMontoAvaluo").keyup(function(){
+		$(this).val( NumerosChile( $(this).val() ) );
+	});
 	
 	});
 </script>

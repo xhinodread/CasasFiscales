@@ -47,7 +47,9 @@ $FormatoTitleTxtNombre_benef = 'Formato: Nombre del Servicio o Siglas del Servic
 															-
 															<?=$this->Html->link('Eliminar', array('controller' => 'servicios', 'action' => 'borra', $lista['Servicio']['id']), array('class'=> 'btn btn-info btn-xs'), "Are you sure you wish to delete this recipe?" );?>
                             </td>
-                            <td><?=$lista['Servicio']['rut'];?> <?//=$funciones->formatoNum($lista['Servicio']['rut']).'-0';?></td>
+                            <td><?//=$lista['Servicio']['rut'];?>
+                            		<?=$funciones->formatoNum( substr( $lista['Servicio']['rut'], 0, strlen($lista['Servicio']['rut'])-2 ) ).substr( $lista['Servicio']['rut'], strlen($lista['Servicio']['rut'])-2 );?>
+                            </td>
                             <td><?=$lista['Servicio']['nombre']; /* .' '.$lista['Servicio']['paterno'].' '.$lista['Servicio']['materno'];*/ ?></td>
                             <td><?=$lista['Servicio']['siglas'];?></td>
                             <td><?=$lista['Servicio']['telefonos'];?></td>
@@ -57,9 +59,15 @@ $FormatoTitleTxtNombre_benef = 'Formato: Nombre del Servicio o Siglas del Servic
                     </tbody>
                 </table>
                 <?
-				echo $this->Paginator->prev('« Prev ', null, null, array('class' => 'enabled'));
-				echo $this->Paginator->next(' Prox »', null, null, array('class' => 'disabled'));
+			//	echo $this->Paginator->prev('« Prev ', null, null, array('class' => 'enabled'));
+			//	echo $this->Paginator->next(' Prox »', null, null, array('class' => 'disabled'));
 				?>
+								<?
+									echo $this->Paginator->first('< Primero');
+									if( $this->Paginator->first('< Primero') ){ echo $this->Paginator->prev(' « Prev ', null, null, array('class' => 'enabled')); }
+									if( $this->Paginator->last(' Ultimo |') ){ echo $this->Paginator->next(' Prox »', null, null, array('class' => 'disabled')); }
+									echo $this->Paginator->last(' Ultimo |'); 
+								?>
                 <?='<br>'.$this->Paginator->counter(array('format' => 'Pagina %page% de %pages%, mostrando %current% registros de un total de %count%, iniciando en %start%, con fin %end%'));?>
             </div>
         </div>

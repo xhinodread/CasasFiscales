@@ -44,12 +44,15 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
 						<tr>
 							<td>Nombre</td>
 							<td colspan="2">
+								<?=$this->Funciones->msgValidacion($arrayConsume, 'nombres', 'BeneficiarioNombres');?>
 								<?=$this->Form->input('nombres', array('div'=>array('class'=>'col-md-3'), 
 									'default' => trim($datos['Beneficiario']['nombres']),
 									'label' => false, 'class' => 'resaltar form-control inputNombre') );?>
+								<?=$this->Funciones->msgValidacion($arrayConsume, 'paterno', 'BeneficiarioPaterno');?>
 								<?=$this->Form->input('paterno', array('div'=>array('class'=>'col-md-3'), 
 									'default' => trim($datos['Beneficiario']['paterno']),
 									'label' => false, 'class' => 'resaltar form-control inputNombre') );?>
+								<?=$this->Funciones->msgValidacion($arrayConsume, 'materno', 'BeneficiarioMaterno');?>
 								<?=$this->Form->input('materno', array('div'=>array('class'=>'col-md-3'), 
 									'default' => trim($datos['Beneficiario']['materno']),
 									'label' => false, 'class' => 'resaltar form-control inputNombre') );?>
@@ -57,11 +60,17 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
 						</tr>
 						<tr>
 							<td>Telefono</td>
-							<td colspan="2"><?=$this->Form->input('celular', array('div'=>array('class'=>'col-md-2'), 'default' => trim($datos['Beneficiario']['celular']), 'label' => false, 'class' => 'resaltar form-control inputNombre') );?></td>
+							<td colspan="2">
+								<?=$this->Funciones->msgValidacion($arrayConsume, 'celular', 'BeneficiarioCelular');?>
+								<?=$this->Form->input('celular', array('div'=>array('class'=>'col-md-2'), 'default' => trim($datos['Beneficiario']['celular']), 'label' => false, 'class' => 'resaltar form-control inputNombre') );?>
+							</td>
 						</tr>
 						<tr>
 							<td>E-Mail</td>
-							<td colspan="2"><?=$this->Form->input('email', array('div'=>array('class'=>'col-md-3'), 'default' => trim($datos['Beneficiario']['email']), 'label' => false, 'class' => 'resaltar form-control inputNombre') );?></td>
+							<td colspan="2">
+								<?=$this->Funciones->msgValidacion($arrayConsume, 'email', 'BeneficiarioEmail');?>
+								<?=$this->Form->input('email', array('div'=>array('class'=>'col-md-3'), 'default' => trim($datos['Beneficiario']['email']), 'label' => false, 'class' => 'resaltar form-control inputNombre') );?>
+							</td>
 						</tr>
 						<tr>
 							<td>Estado Civil</td>
@@ -114,6 +123,7 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
 						<tr>
 							<td>Escalafón</td>
 							<td colspan="2">
+								<?=$this->Funciones->msgValidacion($arrayConsume, 'escalafon', 'BeneficiarioEscalafon');?>
 								<?=$this->Form->input('escalafon', array('div'=>array('class'=>'col-md-2'), 'options'=>$escalafon, 'empty' =>'-- Seleccione --', 'selected' => trim($datos['Beneficiario']['escalafon']), 'label' => false, 'class'=>'resaltar form-control') );?>
 								<? //=$this->Form->input('Beneficiario.escalafon', array('div'=>array('class'=>'col-md-2'), 'default' => trim($datos['Beneficiario']['escalafon']), 'label' => false, 'class' => 'form-control inputRut') );?>
 							</td>
@@ -185,6 +195,10 @@ $(document).ready(function(){
 			console.log( ui.item.value );
 			return false;
 			}
+	});
+	
+	$("#BeneficiarioSueldoBase").keyup(function(){
+		$(this).val( NumerosChile( $(this).val() ) );
 	});
 
 });

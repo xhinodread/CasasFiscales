@@ -1,7 +1,7 @@
 <?php 
 class BsvsController extends AppController {
 	
-	public $uploadDirAsigDevol = 'files/AsignacionDevolucion/';
+	// public $uploadDirAsigDevol = 'files/AsignacionDevolucion/';
 	
 	public function beforeFilter() {
 		parent::beforeFilter();
@@ -80,6 +80,7 @@ class BsvsController extends AppController {
 			$this->request->data['Arriendos_historial']['doc_respaldo'] = $this->request->data['Arriendos_historial']['doc_respaldo']['name'];
 			***/
 			if(0){
+				/*** DEBUG ***/
 				echo '1<pre>'.print_r($this->request->data, 1).'</pre>';
 				/*** PREPARA LA CARGA DE DOCUMENTO ***/
 				$fileName = $this->request->data['Arriendos_historial']['doc_respaldo']['name'];
@@ -109,6 +110,7 @@ class BsvsController extends AppController {
 				
 			}else{
 				// $this->Flash->exito( '<pre>'.print_r($this->request->data, 1).'</pre>' );
+				/*** DEVOLUCION ***/
 				if( isset($this->request->data['Arriendos_historial']) && $this->request->data['Arriendos_historial']['destino_id'] == 2 ){
 					$opciones = array( 'conditions' => array( 'beneficiario_id'=> $this->request->data['bsv']['beneficiario_id'],
 																										'vivienda_id'=> $this->request->data['bsv']['vivienda_id'],
@@ -119,6 +121,7 @@ class BsvsController extends AppController {
 					$idBsv = $this->Bsv->find('first', $opciones);
 					//echo 'idBsv<pre>'.print_r($idBsv, 1).'</pre>';
 					/*****/
+					/***
 					$fileName = $this->request->data['Arriendos_historial']['doc_respaldo']['name'];
 					$extension = $this->request->data['Arriendos_historial']['doc_respaldo']['type'];
 					$laExtension = explode('/', $extension);
@@ -127,8 +130,13 @@ class BsvsController extends AppController {
 									'_vivienda_'.$this->request->data['bsv']['vivienda_id'].'_'.date("H_i_s").'.'.$laExtension[1];
 					$this->request->data['Arriendos_historial']['doc_respaldo']['name'] = $nombre;
 					$uploadFile = $uploadPath.$nombre;
+					***/
+					$preparaArchivo = $this->Bsv->nombreFicheroSubirDevol($this->request->data);
+					$this->request->data['Arriendos_historial']['doc_respaldo']['name'] = $preparaArchivo[1];
+					$uploadFile = $preparaArchivo[0];
 					/*****/
 					if( isset($idBsv['Bsv']['id']) ){
+						/*** PREPARA LA CARGA DE DOCUMENTO ***/
 						$this->request->data['Arriendos_historial']['bsv_id'] = $idBsv['Bsv']['id'];
 						$this->Arriendos_historial->create();
 						if( $this->Arriendos_historial->save($this->request->data['Arriendos_historial'], array($uploadFile)) ){
@@ -140,6 +148,10 @@ class BsvsController extends AppController {
 					}
 					//$this->Flash->exito('Devolucion');				
 				}else{
+					/*** ENTREGA ***/
+					$preparaArchivo = $this->Bsv->nombreFicheroSubirAsig($this->request->data);
+					$this->request->data['Arriendos_historial']['doc_respaldo']['name'] = $preparaArchivo[1];
+					$uploadFile = $preparaArchivo[0];
 					$this->Bsv->create();
 					if( $this->Bsv->save($this->request->data['bsv']) ){
 						$lastInsertID = $this->Bsv->getLastInsertID();
@@ -160,6 +172,7 @@ class BsvsController extends AppController {
 				
 				/*** PREPARA LA CARGA DE DOCUMENTO ***/
 				if($swCargarDoc){
+					/***
 					$fileName = $this->request->data['Arriendos_historial']['doc_respaldo']['name'];
 					$extension = $this->request->data['Arriendos_historial']['doc_respaldo']['type'];
 					$laExtension = explode('/', $extension);
@@ -168,7 +181,14 @@ class BsvsController extends AppController {
 									'_vivienda_'.$this->request->data['bsv']['vivienda_id'].'_'.date("H_i_s").'.'.$laExtension[1];
 					$this->request->data['Arriendos_historial']['doc_respaldo']['name'] = $nombre;
 					$uploadFile = $uploadPath.$nombre;
-					if( $extension != 'application/pdf' ){
+					***/
+					
+					$preparaArchivo = $this->Bsv->nombreFicheroSubirAsig($this->request->data);
+					$this->request->data['Arriendos_historial']['doc_respaldo']['name'] = $preparaArchivo[1];
+					$uploadFile = $preparaArchivo[0];
+					
+					/***  if( $extension != 'application/pdf' ){ ***/
+					if( $preparaArchivo[2] != 'application/pdf' ){
 						$this->Flash->error('Extensión no valida, solo PDF.');
 						$this->redirect( array('controller'=> 'mantenciones', 'action'=>'agrega', $this->request->data['bsv']['vivienda_id'] ) );
 					}

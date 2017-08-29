@@ -78,6 +78,7 @@ $map_marker_options = array(
 										<?=$this->Form->input('Vivienda.calle', array('div'=>array('class'=>'col-sm-10 col-md-10 col-lg-10'),
 																								 'type'=>'text',
 																								 'default' => trim($datos['Vivienda']['calle']),
+																								 'placeholder' =>'Calle de la calle',
 																								 'class' => 'resaltar form-control inputRut') );
 										?>
 										<?
@@ -87,8 +88,9 @@ $map_marker_options = array(
 										<?//=$this->Funciones->msgValidacion($arrayConsume, 'numero', 'ViviendaNumero');?>
 										<?=$this->Form->input('Vivienda.numero', array('div'=>array('class'=>'col-xs-4 col-sm-4 col-md-2 col-lg-2'),
 																								 'type'=>'text',
-																									'label' => $textoLabel,
+																								 'label' => $textoLabel,
 																								 'default' => trim($datos['Vivienda']['numero']),
+																								 'placeholder' =>'01', 
 																								 'class' => 'resaltar form-control inputRut') );
 										?>
 									</td>
@@ -96,16 +98,19 @@ $map_marker_options = array(
 										<?=$this->Form->input('Vivienda.sector', array('div'=>array('class'=>'col-sm-5 col-md-5 col-lg-5'),
 																								 'type'=>'text',
 																								 'default' => trim($datos['Vivienda']['sector']),
+																					 			 'placeholder' =>'Centro',
 																								 'class' => 'resaltar form-control inputRut') );
 										?>
 										<?=$this->Form->input('Vivienda.block', array('div'=>array('class'=>'col-sm-3 col-md-3 col-lg-3'),
 																								 'type'=>'text',
 																								 'default' => trim($datos['Vivienda']['block']),
+																					 			 'placeholder' =>'A',
 																								 'class' => 'resaltar form-control inputRut') );
 										?>
 										<?=$this->Form->input('Vivienda.depto', array('div'=>array('class'=>'col-sm-3 col-md-3 col-lg-3'),
 																								 'type'=>'text',
 																								 'default' => trim($datos['Vivienda']['depto']),
+																					 			 'placeholder' =>'A-01',
 																								 'class' => 'resaltar form-control inputRut') );
 										?>
 									</td>
@@ -118,6 +123,7 @@ $map_marker_options = array(
 																								 'type'=>'text',
 																								 'default' => trim($datos['Vivienda']['referencia']),
 																								 'label' => 'Referencia',
+																								 'placeholder' =>'Entre Cuartel de Bomberos y Chile atiende',
 																								 'class' => 'resaltar form-control inputRut') );
 										?>
 									</td>
@@ -133,6 +139,7 @@ $map_marker_options = array(
 																								 'type'=>'text',
 																								 'default' => $varComuna[0],
 																								 'label' => 'Comuna',
+																					 			 'placeholder' =>'La Serena',
 																								 'class' => 'resaltar form-control inputRut') );
 										?>
 										<?=$this->Form->input('Provincia.id', array('div'=>array('class'=>'col-sm-3 col-md-3 col-lg-3'),
@@ -146,6 +153,7 @@ $map_marker_options = array(
 																								 'type'=>'text',
 																								 'default' => trim($datos['Vivienda']['cod_postal']),
 																								 'label' => 'Codigo Postal',
+																					 			 'placeholder' =>'178776987',
 																								 'class' => 'resaltar form-control inputRut') );
 										?>
 									</td>
@@ -163,6 +171,7 @@ $map_marker_options = array(
 																								 'type'=>'text',
 																								 'default' => trim($datos['Vivienda']['latitud']),
 																								 'label' => $textoLabel,
+																					 			 'placeholder' =>'-29.902087',
 																								 'class' => 'resaltar form-control inputRut') );
 										?>
 
@@ -175,6 +184,7 @@ $map_marker_options = array(
 																								 'type'=>'text',
 																								 'default' => trim($datos['Vivienda']['longitud']),
 																								 'label' => $textoLabel,
+																					 			 'placeholder' =>'-71.251971',
 																								 'class' => 'resaltar form-control inputRut') );
 										?>
 									</td>
@@ -192,10 +202,12 @@ $map_marker_options = array(
 										$nombreServicio = "Sin Asignación";
 										$jefe_servicio = $nombreServicio;
 										$nombreBeneficiario = $jefe_servicio;
+										$sueldoBase = '';
 										if( isset($asignado[0][0]['destino_id']) && $asignado[0][0]['destino_id'] == 1 ){
 											$nombreServicio = $asignado[0][0]['nombreServicio'];
 											$jefe_servicio = $asignado[0][0]['jefe_servicio'];
 											$nombreBeneficiario = $asignado[0][0]['nombreBeneficiario'];
+											$sueldoBase = $asignado[0][0]['sueldo_base'];
 										}
 									?>
 									<td>
@@ -243,6 +255,7 @@ $map_marker_options = array(
 																								 'maxlength' => 12,
 																								 'value' => $this->Funciones->formatoNum(trim($datos['Vivienda']['monto_avaluo'])),
 																								 'label' => $textoLabel,
+																					 			 'placeholder' =>'11.111.111-1',
 																								 'class' => 'resaltar form-control inputRut') );
 										?>.-
 									</td>
@@ -253,7 +266,7 @@ $map_marker_options = array(
 									<td colspan="2">
 										<?=$this->Form->input('Arriendo.monto_arriendo', array('div'=>array('class'=>'col-sm-3 col-md-3 col-lg-3'),
 																								 'type'=>'text',
-																								 'value' => 0,
+																								 'value' => $this->Funciones->formatoNum(round($sueldoBase * .1)),
 																								 'label' => '',
 																								 'class' => 'form-control inputRut',
 																								 'readonly'=>'readonly') );
@@ -411,6 +424,10 @@ $(document).ready(function(){
 				llamarHistorialAsignacion( $("#ViviendaId").val(), <?=( isset($asignado[0][0]['beneficiario_id'])?$asignado[0][0]['beneficiario_id']:0 );?> );
 			}
 		}
+	});
+	
+	$("#ViviendaMontoAvaluo").keyup(function(){
+		$(this).val( NumerosChile( $(this).val() ) );
 	});
 		
 });

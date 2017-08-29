@@ -67,47 +67,86 @@ class BeneficiariosController extends AppController {
 				//echo '<pre>existe_rut:'.print_r($existe_rut, 1).'</pre>';
 				if( is_array($existe_rut) && count($existe_rut)>=1 ){
 					$nombre = trim($existe_rut['Beneficiario']['nombres']).' '.trim($existe_rut['Beneficiario']['paterno']).' '.trim($existe_rut['Beneficiario']['materno']);
-					$this->Flash->sin_id('El Rut existe en la base de datos ('.$nombre.'), verifique. ');
+					$this->Flash->benef_existe('El Rut existe en la base de datos ('.$nombre.'), verifique. ');
 					//$this->redirect(array('controller' => 'beneficiarios', 'action'=>'index'));
 				}else{
-					
+
 					///$this->request->data['Conyuge']['rut'] = trim(str_replace('.', '', $this->request->data['Conyuge']['rut']));
+
+					if(0):
+						if( $this->Beneficiario->validates() ){
+						/*	if( $this->Beneficiario->save() ){
+								$this->Flash->guardado('Beneficiario - Se ha actualizado un registro.');
+								$this->redirect(array('controller' => 'servicios', 'action'=>'edita', 'id'=>$id_servicio));
+							}
+						*/
+							$this->Flash->guardado('Beneficiario - Se ha actualizado un registro.');
+							//$this->redirect(array('controller' => 'servicios', 'action'=>'edita', 'id'=>$id_servicio));
+						}else{
+							$losValidates = $this->Beneficiario->invalidFields();
+							// $this->Flash->error('Error en la edicion, verifique... <pre>'.print_r($losValidates,1).'</pre>');
+							$this->Flash->error('Beneficiario - Error en la edicion, verifique...');
+							$this->Session->write('losValidates', $losValidates);
+							//$this->redirect(array('controller' => 'beneficiarios', 'action'=>'edita', 'id'=>$id_servicio));
+						}
+						echo 'Se ha agregado un registro.<pre>'.print_r($this->request->data, 1).'</pre>';
+					endif;
 					
-					
+					//echo 'request_data:<pre>'.print_r($this->request->data, 1).'</pre>';
 					if(1){
 						$this->Beneficiario->create();
 						if( $this->Beneficiario->save($this->request->data['Beneficiario']) ){
 							$idRegistro = $this->Beneficiario->id;
-							
-							
-							if(1){
+							// $this->Beneficiario->tiene_conyuge($this->data['Conyuge']);							
+							/****
+							echo '<pre>dataConyuge:'.print_r($this->data['Conyuge'], 1).'</pre>'
+								.strlen(trim($this->data['Conyuge']['rut']))
+								.strlen(trim($this->data['Conyuge']['nombres']))
+								.strlen(trim($this->data['Conyuge']['apellidos']))
+								.strlen(trim($this->data['Conyuge']['estcivil_id']))
+								.'<br>.....fin';
+							****/
+							/*****/
+							/***if(1){***/
+							if( $this->Beneficiario->tiene_conyuge($this->data['Conyuge'] ) == 0 ){
 								$this->request->data['Conyuge']['beneficiario_id'] = $idRegistro;
+								$this->request->data['Conyuge']['created'] = date("d-m-Y H:i:s");
 								if( $this->Beneficiario->agrega_conyugue($this->request->data['Conyuge']) ){
 									$this->Flash->guardado('Se ha agregado un nuevo registro.'.$idRegistro);
-									$this->redirect(array('controller' => 'beneficiarios', 'action'=>'edita', 'id'=>$idRegistro));
-								}else{
-									$this->Flash->sin_id('No se pudo registrarse, verifique.');
-								}
-							}else{
-								// $this->data['Conyuge']['id'] /*** $this->data DEPRECADO ***/
+									//$this->redirect(array('controller' => 'beneficiarios', 'action'=>'edita', 'id'=>$idRegistro));
+								}else{ $this->Flash->sin_id('No se pudo registrarse, verifique.'); }
+							}else{ $this->Flash->guardado('Se ha agregado un nuevo registro.'); }
+							$this->redirect(array('controller' => 'beneficiarios', 'action'=>'edita', 'id'=>$idRegistro));
+							/***}***/
+							/**** DEPRECADO else{
+								// $this->data['Conyuge']['id'] /*** $this->data DEPRECADO *** /
 								$this->Beneficiario->Conyuge->read(null, $this->request->data['Conyuge']['id']);
 								$this->request->data['Conyuge']['rut'] = trim(str_replace('.', '', $this->request->data['Conyuge']['rut']));
 								$this->Beneficiario->Conyuge->set($this->request->data['Conyuge']);
 								$this->Beneficiario->Conyuge->save();
-							}
-							
+							}****/
+							/*****/
 							/*****
 							$this->Flash->guardado('Se ha agregado un registro.'.$idRegistro);
 							$this->redirect(array('controller' => 'beneficiarios', 'action'=>'edita', 'id'=>$idRegistro));
 							*****/
-						}
+							// $this->Flash->guardado('Se ha agregado un nuevo registro.'.$idRegistro);
+						}else{ $this->Flash->error('No se pudo agregarce... Verifique'); }
 					}else{
-						$this->Flash->guardado('Se ha agregado un registro.<pre>'.print_r($this->request->data, 1).'</pre>');
+						/**** DEBUG ****/
+						echo '<pre>data:'.print_r($this->data, 1).'</pre>';
+						echo '<pre>dataConyuge:'.print_r($this->Beneficiario->tiene_conyuge($this->data['Conyuge']), 1).'</pre>';
+						$tieneConyuge = 'NO tiene conyuge.';
+						if($this->Beneficiario->tiene_conyuge($this->data['Conyuge']) == 0){
+							$tieneConyuge = 'tiene conyuge.';
+						}
+						//$this->Flash->guardado('DEBUG - Se ha agregado un registro.<pre>'.print_r($this->request->data, 1).'</pre>'.'<br>'.$tieneConyuge);
+						$this->Flash->exito('DEBUG - Se ha agregado un registro.'.'<br>'.$tieneConyuge);
 						//$this->Flash->guardado('Se ha agregado un registro.<pre>'.print_r($this->request->data['Beneficiario'], 1).'</pre>');
 					}
 				}
 			}else{
-				$this->Flash->sin_id('El Rut no es valido, verifique. ');
+				// $this->Flash->sin_id('El Rut no es valido, verifique. ');
 				//$this->redirect(array('controller' => 'beneficiarios', 'action'=>'index'));
 			}
 			//echo '<pre>elRut:'.print_r($elRut, 1).'</pre>';
@@ -115,7 +154,7 @@ class BeneficiariosController extends AppController {
 		}
 		
 		$HttpSocket = new HttpSocket();
-		$resultsSocket = $HttpSocket->get('http://192.168.200.113:8080/tests/setSocketCasasFiscales.php', 'q=cakephp');
+		$resultsSocket = $HttpSocket->get($this->urlSocket, array('gabriel'=>0, 'tbl'=>0)) ;
 		$escalafon = json_decode($resultsSocket->body, 1);
 		//$escalafon = json_decode($resultsSocket['body'], 1);
 		//echo '<pre>resultsSocket:'.print_r($escalafon, 1).'</pre>';
@@ -185,6 +224,7 @@ class BeneficiariosController extends AppController {
 				'created' => date("d-m-Y H:i:s")
 			));
 			
+			/*** SECCION QUE GUARDA ***/
 			if( $this->Beneficiario->validates() ){
 				if( $this->Beneficiario->save() ){
 					
@@ -233,6 +273,7 @@ class BeneficiariosController extends AppController {
 						}
 						/* ***/
 						
+						/*** Conyuge ***/
 						if( strlen(trim($this->request->data['Conyuge']['rut'])) == 0 ){
 							//debug($this->request->data['Conyuge']['beneficiario_id']);
 							$tieneConyuge = $this->Beneficiario->busca_conyugue_beneficiario($this->request->data['Conyuge']['beneficiario_id']);
@@ -246,10 +287,13 @@ class BeneficiariosController extends AppController {
 							}
 						}
 						
+						$this->request->data['Conyuge']['created'] = date("d-m-Y H:i:s");
 						if($this->Beneficiario->edita_conyugue($this->request->data['Conyuge'])){
-							$this->Flash->guardado('Se ha actualizado un registro.'.$msgAsociar);
+							// $this->Flash->guardado('Conyuge - Se ha actualizado un registro.'.$msgAsociar);
+							$this->Flash->guardado('Se ha actualizado un registro con Conyuge.'.$msgAsociar);
 						}else{
-							$this->Flash->sin_id('Conyuge - No pudo registrarse, verifique.');
+							// $this->Flash->exito('Conyuge - No pudo registrarse, verifique.');
+							$this->Flash->exito('Registro actualizado sin Conyuge...');
 						}
 						$this->redirect(array('controller' => 'beneficiarios', 'action'=>'edita', 'id'=>$id_deneficiario));
 					
@@ -277,6 +321,8 @@ class BeneficiariosController extends AppController {
 					// $this->Flash->guardado('Se actualizado el registro'.$msg);
 					$this->redirect(array('controller' => 'beneficiarios', 'action'=>'edita', 'id'=>$id_deneficiario));
 					*****/
+				}else{
+					$this->Flash->error('No se ha actualizado el registro, verifique...');
 				}
 			}else{
 				$losValidates = $this->Beneficiario->invalidFields();

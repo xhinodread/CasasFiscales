@@ -3,29 +3,29 @@ class Beneficiario extends AppModel {
 	//public $name = 'Beneficiarios';
 	//public $useDbConfig = 'SRV58BDDEV02';
 	
-	public $validate = array('sueldo_base' => array('rule' => 'numeric', 'message' => 'Formato incorrecto, solo números y puntos')	
-							,'grado' => array(
-									'gradoRule1' => array(
-										'rule' => 'numeric',
-										'message' => 'Grado incorrecto',
-									 ),
-									'gradoRule2' => array(
-										'rule' => array('range', 0.99, 21),
-										'message' => 'Grado incorrecto, debe estar entre 1 and 20'
-									)
-								/**	,
-									'gradoRule2' => array(
-										'rule' => array('min', 1),
-										'message' => 'Minimum es uno 1.'
-									),
-									'gradoRule3' => array(
-										'rule' => array('max', 5),
-										'message' => 'Maximo es uno 5.'
-									)
-								***/
-								) 
-						/***	,'grado' => array('rule' => 'numeric', 'message' => 'Grado incorrecto') ***/
-							);
+	public $validate = array(
+			'rut' => array('rule' => 'isUnique', 'message' => 'Rut exite, verifique.'
+										,'rule' => 'notBlank', 'message' => 'Necesita un rut.')
+			,'dv' => array('rule' => 'notBlank', 'message' => 'Necesita un rut.')
+			,'nombres' => array('rule' => 'notBlank', 'message' => 'Necesita un nombre.')
+			,'paterno' => array('rule' => 'notBlank', 'message' => 'Necesita un apellido.')
+			,'materno' => array('rule' => 'notBlank', 'message' => 'Necesita un apellido.')
+			,'celular' => array('rule' => 'notBlank', 'message' => 'Necesita un telefono de contacto.')
+			,'estcivil_id' => array('rule' => 'notBlank', 'message' => 'Estado civil.')
+			,'email' => array('rule' => 'notBlank', 'message' => 'Correo electrónico requerido.')
+			,'sueldo_base' => array('rule' => 'numeric', 'message' => 'Formato incorrecto, solo números y puntos')
+			,'escalafon' => array('rule' => 'notBlank', 'message' => 'Escalafon requerido.')
+			,'grado' => array(
+					'gradoRule1' => array(
+						'rule' => 'numeric',
+						'message' => 'Grado incorrecto',
+					 ),
+					'gradoRule2' => array(
+						'rule' => array('range', 0.99, 21),
+						'message' => 'Grado incorrecto, debe estar entre 1 and 20'
+					)
+			)
+	);
 		
 	/*public $validate = array(
 		'sueldo_base' => array('numeric' => array('rule' => array('numeric')
@@ -132,7 +132,44 @@ class Beneficiario extends AppModel {
 		
 		return $res;
 	}
-
+	
+	public function tiene_conyuge($data = null){		
+		$tiene_conyuge = $this->ver_string($data['rut'])
+										+$this->ver_string($data['nombres'])
+										+$this->ver_string($data['apellidos'])
+										+$this->ver_string($data['estcivil_id']);
+		
+		/****
+		$tiene_conyuge = 1;
+		if( strlen(trim($data['rut'])) == 0 && trim($data['rut']) == '' ){
+			// $tiene_conyuge = 0;
+			if( strlen(trim($data['nombres'])) == 0 && trim($data['nombres']) == '' ){
+				// $tiene_conyuge = 0;
+				if( strlen(trim($data['apellidos'])) == 0 && trim($data['apellidos']) == '' ){
+					// $tiene_conyuge = 0;
+					if( strlen(trim($data['estcivil_id'])) == 0 && trim($data['estcivil_id']) == '' ){ 
+						$tiene_conyuge = 0;
+					}
+				}
+			}
+		}else{
+			if( strlen(trim($data['nombres'])) == 0 && trim($data['nombres']) == '' ){
+				
+			}
+		}
+		****/
+		/*
+		.strlen(trim($this->data['Conyuge']['nombres']))
+		.strlen(trim($this->data['Conyuge']['apellidos']))
+		.strlen(trim($this->data['Conyuge']['estcivil_id']))
+		*/
+		return $tiene_conyuge;
+	}
+	/*private function ver_string($el_string=null){
+		return ( trim($el_string) == '' ? 1 : 0 );
+	}*/
+	
+	
 	public function agrega_conyugue($array_datos = null){
 		$array_datos['rut'] = trim(str_replace('.', '',$array_datos['rut']));
 		$evaluador = preg_match("/^0*(\d{1,3}(\.?\d{3})*)\-?([\dkK])$/", $array_datos['rut'] );
@@ -168,7 +205,7 @@ class Beneficiario extends AppModel {
 	
 	public function agrega_beneficiario_servicio($idBeneficiario = null, $idServicio = null){
 		if( $idServicio <= 0 ){ return -1; }
-		if( $this->beneficiarios_servicio->find('count', array('conditions'=> array('beneficiario_id'=>$idBeneficiario))) > 0){
+		if( $this->beneficiarios_servicio->find('count', array('conditions'=> array('beneficiario_id'=>$idBeneficiario))) > 0 ){
 			$this->beneficiarios_servicio->updateAll( array('servicio_id' => $idServicio), array('beneficiario_id' => $idBeneficiario));
 			return 1;
 		}else{
@@ -184,5 +221,6 @@ class Beneficiario extends AppModel {
 		$varX = $this->beneficiarios_servicio->find('all', array('conditions'=> array('beneficiario_id'=>$idBeneficiario) ) );
 		return $varX;
 	}
+	
 	
 }

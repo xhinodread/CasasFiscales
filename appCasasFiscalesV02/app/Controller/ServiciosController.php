@@ -132,7 +132,7 @@ class ServiciosController extends AppController {
 							// $this->Flash->error('Error en la edicion, verifique... <pre>'.print_r($losValidates,1).'</pre>');
 							$this->Flash->error('Servicio - Error en la edicion, verifique...');
 							$this->Session->write('losValidates', $losValidates);
-							$this->redirect(array('controller' => 'servicios', 'action'=>'edita', 'id'=>$id_deneficiario));
+							$this->redirect(array('controller' => 'servicios', 'action'=>'edita', 'id'=>$id_servicio));
 						}
 			endif;
 		}

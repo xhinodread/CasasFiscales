@@ -2,6 +2,15 @@
 class Servicio extends AppModel {
 	//public $name = 'Servicio';
 	
+	public $validate = array('rut' => array('notBlank' => array('rule' => 'notBlank','required' => true,'message' => 'Formato incorrecto')),
+													 'nombre' => array('notBlank' => array('rule' => 'notBlank','required' => true,'message' => 'Requerido')),
+													 'siglas' => array('notBlank' => array('rule' => 'notBlank','required' => true,'message' => 'Requerido')),
+													 'jefe_servicio' => array('notBlank' => array('rule' => 'notBlank','required' => true,'message' => 'Requerido')),
+													 'subrogante' => array('notBlank' => array('rule' => 'notBlank','required' => true,'message' => 'Requerido')),
+													 'direccion' => array('notBlank' => array('rule' => 'notBlank','required' => true,'message' => 'Requerido')),
+													 'telefonos' => array('notBlank' => array('rule' => 'notBlank','required' => true,'message' => 'Requerido')),
+													 'email' => array('notBlank' => array('rule' => 'notBlank','required' => true,'message' => 'Requerido'))
+							);
 	
 	public function filtro_index($data = null){
 		//echo print_r($data, 1);

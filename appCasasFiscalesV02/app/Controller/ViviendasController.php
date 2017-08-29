@@ -17,8 +17,7 @@ class ViviendasController extends AppController {
 	
 	public function isAuthorized($user) {
 		 return true;
-	 }
-	
+	 }	
 	
 	public function index(){
 		$conditions = array('Vivienda.activo' =>1);
@@ -46,8 +45,11 @@ class ViviendasController extends AppController {
 		/***********************************************************/
 		
 		if ($this->request->is('post')) {
+			$this->request->data['Vivienda']['monto_avaluo'] = str_replace('.', '', $this->request->data['Vivienda']['monto_avaluo']);
 			if(0):
-				echo '<pre>request->data:'.print_r($this->request->data, 1).'</pre>'; // .'<pre>validates:'.print_r($this->Servicio->validates(), 1).'</pre>';
+				echo '<pre>request->dataVivienda:'.print_r($this->request->data['Vivienda'], 1).'</pre>'; 
+				echo '<pre>request->invalidFields:'.print_r($this->Vivienda->invalidFields(), 1).'</pre>';
+				//echo '<pre>request->data:'.print_r($this->request->data, 1).'</pre>'; // .'<pre>validates:'.print_r($this->Servicio->validates(), 1).'</pre>';
 			else:
 				if( $this->Vivienda->save($this->request->data['Vivienda']) ){
 					$this->Flash->guardado('Vivienda - Registro creado.');
@@ -129,7 +131,7 @@ class ViviendasController extends AppController {
 							$this->Session->write('losValidates', $losValidates);
 							$this->redirect(array('controller' => 'viviendas', 'action'=>'edita', 'id'=>$id_vivienda));
 						}
-			endif;
+				endif;
 		}
 
 		if( isset($this->passedArgs['id']) ){ $id_vivienda = $this->passedArgs['id']; }
@@ -145,7 +147,7 @@ class ViviendasController extends AppController {
 			$this->redirect(array('controller' => 'viviendas', 'action'=>'index'));
 		}
 				
-		$sql= "SELECT TOP 1 (rtrim(nombres)+' '+ rtrim(paterno)+' '+ rtrim(materno)) nombreBeneficiario, T5.nombre nombreServicio, T5.jefe_servicio, destino_id, T1.beneficiario_id"
+		$sql= "SELECT TOP 1 (rtrim(nombres)+' '+ rtrim(paterno)+' '+ rtrim(materno)) nombreBeneficiario, T5.nombre nombreServicio, T5.jefe_servicio, destino_id, T1.beneficiario_id, T4.sueldo_base"
 		.' FROM Bsvs as T1'
 		.' LEFT JOIN Arriendos_historials as T2 ON (T2.bsv_id = T1.id)'
 		.' LEFT JOIN beneficiarios_servicios as T3 ON (T3.beneficiario_id = T1.beneficiario_id)'
@@ -155,7 +157,6 @@ class ViviendasController extends AppController {
 		.' ORDER BY T2.created DESC';
 				
 		$asignado = $this->Vivienda->query($sql);
-
 		
 		$this->set( array( 'datos' => $datos,
 											 'asignado' => $asignado,
@@ -180,6 +181,5 @@ class ViviendasController extends AppController {
 		$this->redirect(array('controller' => 'viviendas', 'action'=>'index'));
 	}
 		
-
 }
 ?>

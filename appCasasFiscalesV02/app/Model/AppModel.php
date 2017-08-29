@@ -30,4 +30,7 @@ App::uses('Model', 'Model');
  * @package       app.Model
  */
 class AppModel extends Model {
+	
+	public function ver_string($el_string=null){return ( trim($el_string) == '' ? 1 : 0 );}
+	
 }
