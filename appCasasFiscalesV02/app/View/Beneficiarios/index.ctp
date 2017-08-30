@@ -1,8 +1,8 @@
 <?
 App::import('Vendor', 'Funcionespropias');
 $funciones = new Funcionespropias();
-$TitleTxtNombre_benef = 'Nombre del Beneficiario. Ej: Juan Pérez Diaz o Juan Pérez o Juan';
-$FormatoTitleTxtNombre_benef = 'Formato: Nombre APaterno AMaterno o Nombre APaterno o Nombre';
+$TitleTxtNombre_benef = 'Nombre del Beneficiario. Ej: Juan Pérez Diaz o Juan Pérez o Juan o Pérez';
+$FormatoTitleTxtNombre_benef = 'Formato: Nombre APaterno AMaterno o Nombre APaterno o Nombre o APaterno';
 //echo '<pre>conditions:'.print_r($conditions, 1).'</pre>';
 // $this->Paginator->options(array('url' => array($this->passedArgs, "Beneficiario.nombres"=> "Nombre" ) ));
 ////// $this->Paginator->options(array('url' => array($this->passedArgs, "Beneficiario.nombres"=>substr( $conditions['nombres LIKE'], 0, strlen($conditions['nombres LIKE'])-1 ) ) ));

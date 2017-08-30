@@ -1,7 +1,10 @@
 <?php
+App::uses('Funcionespropias', 'Vendor');
 class Beneficiario extends AppModel {
+	/*** id, rut, dv, nombres, paterno, materno, estcivil_id, email, celular, escalafon, grado, sueldo_base, cumple, activo, created ***/
 	//public $name = 'Beneficiarios';
-	//public $useDbConfig = 'SRV58BDDEV02';
+	//public $useDbConfig = 'SRV58BDDEV02';	
+	//public $actsAs = array('Difusa');
 	
 	public $validate = array(
 			'rut' => array('rule' => 'isUnique', 'message' => 'Rut exite, verifique.'
@@ -26,14 +29,6 @@ class Beneficiario extends AppModel {
 					)
 			)
 	);
-		
-	/*public $validate = array(
-		'sueldo_base' => array('numeric' => array('rule' => array('numeric')
-												  , 'message' => 'Formato incorrecto'
-												 )
-							  )
-	);
-	*/
 
 	public $belongsTo = array('Estcivil');
 	public $hasOne = array('Conyuge', 'beneficiarios_servicio');
@@ -55,8 +50,10 @@ class Beneficiario extends AppModel {
 	
 	public function filtro_index($data = null){
 		//echo print_r($data, 1);
+		$this->Behaviors->load('Tildes');
 		$conditions = '';
-		$funcionarioBucar = explode(' ', $data);
+		$textoNuevo = '';
+		$funcionarioBucar = explode(' ', trim($data));
 		switch( count($funcionarioBucar) ){
 			case 3:
 				$conditions = array('Beneficiario.nombres LIKE' => $funcionarioBucar[0].'%'
@@ -67,12 +64,103 @@ class Beneficiario extends AppModel {
 							, 'OR' => array('Beneficiario.paterno LIKE' => '%'.$funcionarioBucar[1].'%') );
 			break;
 			case 1:
-				$conditions = array('Beneficiario.nombres LIKE' => $funcionarioBucar[0].'%' );
+				//$conditions = array('Beneficiario.nombres LIKE' => '%'.trim($funcionarioBucar[0]).'%' );
+				//$conditions = array('Beneficiario.paterno LIKE' => '%'.trim($funcionarioBucar[0]).'%' );
+				$textoNuevo = $this->aplica_sin_tildes( trim($funcionarioBucar[0]) );				
+				//echo 'textoNuevo: '.print_r($textoNuevo.'-'.$funcionarioBucar[0], 1);
+				if( $textoNuevo ){
+					$textoBusqueda = $textoNuevo;
+				}else{
+					$textoBusqueda =  $this->aplica_sin_tildesNombre( trim($funcionarioBucar[0]) );
+				}
+				$tipoDeBusqueda = $this->tipo_de_busqueda(trim($textoBusqueda));
+				$conditions = array($tipoDeBusqueda.' LIKE' => '%'.$textoBusqueda.'%' );
 			break;
-			default: $conditions = array('Beneficiario.nombres LIKE' => '%'.trim($funcionarioBucar[0]).'%' );
+			default: 
+				$conditions = array('Beneficiario.nombres LIKE' => '%'.trim($funcionarioBucar[0]).'%' );
 			break;
 		}
+		/**** SECCION SIN TILDES ****/
+		/****
+		$Funcion = new Funcionespropias();
+		$arrayParecidosTmp = $this->find('all', array('fields'=>'DISTINCT(LTRIM(RTRIM(paterno))) as paterno',
+																														 'conditions'=>array('LTRIM(RTRIM(Beneficiario.paterno)) LIKE' => substr(trim($funcionarioBucar[0]), 0, 1).'%',
+																																								'LEN(LTRIM(RTRIM(Beneficiario.paterno))) >= '.(strlen(trim($funcionarioBucar[0]))-1),
+																																								'LEN(LTRIM(RTRIM(Beneficiario.paterno))) <= '.(strlen(trim($funcionarioBucar[0]))+1) ) 
+																							) );
+		$arrayParecidos = $Funcion->arrayIn($arrayParecidosTmp, '0', 'paterno');
+	  //array_unique($arrayParecidos);
+		$textoNuevo = $this->separa_string(trim($funcionarioBucar[0]), $arrayParecidos);
+		***/
+		// $textoNuevo = $this->aplica_sin_tildes( $funcionarioBucar[0] );
+		if(0):
+		echo 'filtro_index: '.count($funcionarioBucar)
+			.'<br>saca tilde: '.print_r($this->saca_tilde(trim($funcionarioBucar[0])), 1) 
+		/*		.'<br>saca tilde: '.print_r($this->saca_tilde(trim($funcionarioBucar[0])), 1) */
+			.'<br>'.print_r($conditions, 1)
+			.'<br>tipo_de_busqueda: '.print_r($this->tipo_de_busqueda(trim($funcionarioBucar[0])), 1)
+		/**	.'<br>Behaviors:'.print_r($this->Behaviors->loaded(), 1) **/
+		/**	.'<br>Behaviors:'.print_r($this->inicio(), 1) **/
+		/**	.'<br>arrayParecidos:'.print_r($arrayParecidos, 1).'' **/
+			.'<br>Behaviors separa_string:'.print_r( $textoNuevo , 1);
+		endif;
+		/**** FIN SECCION SIN TILDES ****/	
+		
 		return $conditions;
+	}
+	
+	private function aplica_sin_tildes($elString=null){
+		//echo 'elString: '.print_r($elString, 1);
+		$Funcion = new Funcionespropias();
+		$arrayParecidosTmp = $this->find('all', array('fields'=>'DISTINCT(LTRIM(RTRIM(paterno))) as paterno',
+																														 'conditions'=>array('LTRIM(RTRIM(Beneficiario.paterno)) LIKE' => substr(trim($elString), 0, 1).'%',
+																																								'LEN(LTRIM(RTRIM(Beneficiario.paterno))) >= '.(strlen(trim($elString))-1),
+																																								'LEN(LTRIM(RTRIM(Beneficiario.paterno))) <= '.(strlen(trim($elString))+1) ) 
+																							) );
+		$arrayParecidos = $Funcion->arrayIn($arrayParecidosTmp, '0', 'paterno');		
+	  //array_unique($arrayParecidos);
+		$textoNuevo = $this->separa_string(trim($elString), $arrayParecidos);
+		return $textoNuevo;
+	}
+	private function aplica_sin_tildesNombre($elString=null){
+		//echo 'elString: '.print_r($elString, 1);
+		$Funcion = new Funcionespropias();
+		$this->recursive = -1;
+		$arrayParecidosTmp = $this->find('all', array('fields'=>'DISTINCT(LTRIM(RTRIM(nombres))) as nombres',
+																														 'conditions'=>array('LTRIM(RTRIM(Beneficiario.nombres)) LIKE' => substr(trim($elString), 0, 1).'%'/**,
+																																								'LEN(LTRIM(RTRIM(Beneficiario.nombres))) >= '.(strlen(trim($elString))-1),
+																																								'LEN(LTRIM(RTRIM(Beneficiario.nombres))) <= '.(strlen(trim($elString))+1) **/) 
+																							) );
+		$arrayParecidos = $Funcion->arrayIn($arrayParecidosTmp, '0', 'nombres');
+		foreach($arrayParecidos as $pnt => $lista){
+			$arrayNombre = explode(" ", $lista);
+			$arrayParecidos[$pnt] = $arrayNombre[0];
+		}
+		
+		//echo 'arrayParecidos: '.print_r($arrayParecidos, 1);
+	  //array_unique($arrayParecidos);
+		$textoNuevo = $this->separa_string(trim($elString), $arrayParecidos);
+		return $textoNuevo;
+	}
+	
+	private function tipo_de_busqueda($elString=null){
+		$this->recursive=-1;
+		// $conditions= array('fields'=>array('id'),  'conditions'=>array('Beneficiario.paterno LIKE' => '%'.trim($elString).'%') );
+		$conditions= array('fields'=>'id',  'conditions'=>array('LTRIM(RTRIM(Beneficiario.paterno)) ' => trim($elString)) );
+		$resultado = $this->find('count', $conditions );
+		//echo '<br>resultado:'.print_r($resultado, 1);
+		if( $resultado == 0){
+			return 'Beneficiario.nombres';
+		}else{
+			return 'Beneficiario.paterno';
+		}
+		//return $resultado;
+	}
+	
+	private function saca_tilde($elString=null){
+		$arrayString = str_split(utf8_decode(trim($elString)));
+		array_push($arrayString, $elString, count($arrayString) );
+		return $arrayString;
 	}
 	
 	public function actualizar($elRut = null){		

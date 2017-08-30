@@ -26,7 +26,7 @@ class Funcionespropias {
 	static function arrayIn($arrayDatos = null, $nodo1, $nodo2){
 		$arraySalida = array();
 		foreach($arrayDatos as $lista){
-			$arraySalida[] = $lista[$nodo1][$nodo2];
+			$arraySalida[] = trim($lista[$nodo1][$nodo2]);
 		}
 		return $arraySalida;
 	}	
