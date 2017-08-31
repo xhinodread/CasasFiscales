@@ -14,16 +14,14 @@ class TildesBehavior extends ModelBehavior {
 		return $elString;
 	}
 	
-	public function inicio() {
-		return 'inicio'.date('his');
-	}
+	public function inicio(){ return 'inicio'.date('his'); }
 	
 	public function separa_string(Model $Model, $elString= null, $arrayParecidos = null){
 		
 		$varTmp01 = '';
 		$varTmp02 = print_r($arrayParecidos, 1);
 		$varTmp03 = '';
-		$varTmp04 = -1;
+		$swComparaString = -1;
 		
 		$arrayString = str_split(utf8_decode(trim($elString)));
 		//array_push($arrayString, $elString, count($arrayString) );
@@ -54,12 +52,15 @@ class TildesBehavior extends ModelBehavior {
 			//$varTmp03 = $this->CompararString( utf8_decode(trim($elString)), $arrayParecidos[0] );
 			$varTmp03 = print_r($arrayParecidosSinTilde, 1);
 			foreach($arrayParecidosSinTilde as $pnt => $lista){ 
-				//$varTmp04 .= $this->CompararString( utf8_decode(trim($elString)), trim($lista) ).', '; 
+				//$swComparaString .= $this->CompararString( utf8_decode(trim($elString)), trim($lista) ).', '; 
 				//echo '<br>'. (trim($elString)).', '.trim($lista);
 				if( $this->CompararString( utf8_decode(trim($elString)), trim($lista) ) ){
-					$varTmp04 = $pnt;
+					$swComparaString = $pnt;
 				}
 			}
+		}else{
+			$swComparaString = 0;
+			$arrayParecidos[0]=trim($elString);
 		}
 
 		if(0){
@@ -68,12 +69,23 @@ class TildesBehavior extends ModelBehavior {
 				.'<li>swAcierto: '.$swAcierto.' '.$varTmp01.'</li>'
 				.'<li>arrayParecidos: '.$varTmp02.'</li>'
 				.'<li>arrayNoAcentuados: '.$varTmp03.'</li>'
-				.'<li>CompararString: '.$varTmp04.'</li>'
-				.'<li>RESULTADO: '.$arrayParecidos[$varTmp04].'</li></ul>';
+				.'<li>CompararString: '.$swComparaString.'</li>'
+				.'<li>RESULTADO: '.$arrayParecidos[$swComparaString].'</li></ul>';
 		}else{
-			if($varTmp04 >= 0){
-				return $arrayParecidos[$varTmp04];
+			/***
+			echo '<li>elString: '.(trim($elString)).'</li>'
+				.'<ul><li>'.$strLetras.'</li>'
+				.'<li>'.$strNroLetras.'</li>'
+				.'<li>swAcierto: '.$swAcierto.' '.$varTmp01.'</li>'
+				.'<li>arrayParecidos: '.$varTmp02.'</li>'
+				.'<li>arrayNoAcentuados: '.$varTmp03.'</li>'
+				.'<li>CompararString: '.$swComparaString.'</li>'				
+				.'<li>RESULTADO: '.$arrayParecidos[$swComparaString].'</li></ul>';
+			***/
+			if($swComparaString >= 0){
+				return $arrayParecidos[$swComparaString];
 			}else{
+				//return trim($elString);
 				return false;
 			}
 		}

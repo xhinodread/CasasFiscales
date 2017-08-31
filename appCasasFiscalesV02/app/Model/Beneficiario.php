@@ -73,38 +73,37 @@ class Beneficiario extends AppModel {
 				}else{
 					$textoBusqueda =  $this->aplica_sin_tildesNombre( trim($funcionarioBucar[0]) );
 				}
+				
+				if( !$textoNuevo && !$textoBusqueda ){
+					$tipoDeBusqueda = 'Beneficiario.nombres LIKE';
+					$textoBusqueda = '%'.$funcionarioBucar[0].'%';
+				}
+				
 				$tipoDeBusqueda = $this->tipo_de_busqueda(trim($textoBusqueda));
 				$conditions = array($tipoDeBusqueda.' LIKE' => '%'.$textoBusqueda.'%' );
+				/**
+				echo '<br>Behaviors separa_string:'.print_r( $textoNuevo , 1)
+					.'<br>textoBusqueda: '.print_r($textoBusqueda, 1).'<hr>';
+				**/
 			break;
 			default: 
 				$conditions = array('Beneficiario.nombres LIKE' => '%'.trim($funcionarioBucar[0]).'%' );
 			break;
 		}
-		/**** SECCION SIN TILDES ****/
-		/****
-		$Funcion = new Funcionespropias();
-		$arrayParecidosTmp = $this->find('all', array('fields'=>'DISTINCT(LTRIM(RTRIM(paterno))) as paterno',
-																														 'conditions'=>array('LTRIM(RTRIM(Beneficiario.paterno)) LIKE' => substr(trim($funcionarioBucar[0]), 0, 1).'%',
-																																								'LEN(LTRIM(RTRIM(Beneficiario.paterno))) >= '.(strlen(trim($funcionarioBucar[0]))-1),
-																																								'LEN(LTRIM(RTRIM(Beneficiario.paterno))) <= '.(strlen(trim($funcionarioBucar[0]))+1) ) 
-																							) );
-		$arrayParecidos = $Funcion->arrayIn($arrayParecidosTmp, '0', 'paterno');
-	  //array_unique($arrayParecidos);
-		$textoNuevo = $this->separa_string(trim($funcionarioBucar[0]), $arrayParecidos);
-		***/
-		// $textoNuevo = $this->aplica_sin_tildes( $funcionarioBucar[0] );
 		if(0):
-		echo 'filtro_index: '.count($funcionarioBucar)
-			.'<br>saca tilde: '.print_r($this->saca_tilde(trim($funcionarioBucar[0])), 1) 
-		/*		.'<br>saca tilde: '.print_r($this->saca_tilde(trim($funcionarioBucar[0])), 1) */
-			.'<br>'.print_r($conditions, 1)
-			.'<br>tipo_de_busqueda: '.print_r($this->tipo_de_busqueda(trim($funcionarioBucar[0])), 1)
-		/**	.'<br>Behaviors:'.print_r($this->Behaviors->loaded(), 1) **/
-		/**	.'<br>Behaviors:'.print_r($this->inicio(), 1) **/
-		/**	.'<br>arrayParecidos:'.print_r($arrayParecidos, 1).'' **/
-			.'<br>Behaviors separa_string:'.print_r( $textoNuevo , 1);
+			echo 'filtro_index: '.count($funcionarioBucar)
+				.'<br>funcionarioBucar: '.print_r($funcionarioBucar, 1) 
+				.'<br>saca tilde: '.print_r($this->saca_tilde(trim($funcionarioBucar[0])), 1) 
+				/*		.'<br>saca tilde: '.print_r($this->saca_tilde(trim($funcionarioBucar[0])), 1) */
+				.'<br>'.print_r($conditions, 1)
+				/**	.'<br>tipo_de_busqueda: '.print_r($this->tipo_de_busqueda(trim($funcionarioBucar[0])), 1) **/
+				.'<br>tipo_de_busqueda: '.print_r($tipoDeBusqueda, 1)
+				.'<br>textoBusqueda: '.print_r($textoBusqueda, 1)
+				/**	.'<br>Behaviors:'.print_r($this->Behaviors->loaded(), 1) **/
+				/**	.'<br>Behaviors:'.print_r($this->inicio(), 1) **/
+				/**	.'<br>arrayParecidos:'.print_r($arrayParecidos, 1).'' **/
+				.'<br>Behaviors separa_string:'.print_r( $textoNuevo , 1);
 		endif;
-		/**** FIN SECCION SIN TILDES ****/	
 		
 		return $conditions;
 	}
