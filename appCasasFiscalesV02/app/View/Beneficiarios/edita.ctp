@@ -42,7 +42,7 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
 							</td>
 						</tr>
 						<tr>
-							<td>Nombre</td>
+							<td>Nombre *</td>
 							<td colspan="2">
 								<?=$this->Funciones->msgValidacion($arrayConsume, 'nombres', 'BeneficiarioNombres');?>
 								<?=$this->Form->input('nombres', array('div'=>array('class'=>'col-md-3'), 
@@ -59,21 +59,21 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
 							</td>
 						</tr>
 						<tr>
-							<td>Telefono</td>
+							<td>Telefono *</td>
 							<td colspan="2">
 								<?=$this->Funciones->msgValidacion($arrayConsume, 'celular', 'BeneficiarioCelular');?>
 								<?=$this->Form->input('celular', array('div'=>array('class'=>'col-md-2'), 'default' => trim($datos['Beneficiario']['celular']), 'label' => false, 'class' => 'resaltar form-control inputNombre') );?>
 							</td>
 						</tr>
 						<tr>
-							<td>E-Mail</td>
+							<td>E-Mail *</td>
 							<td colspan="2">
 								<?=$this->Funciones->msgValidacion($arrayConsume, 'email', 'BeneficiarioEmail');?>
 								<?=$this->Form->input('email', array('div'=>array('class'=>'col-md-3'), 'default' => trim($datos['Beneficiario']['email']), 'label' => false, 'class' => 'resaltar form-control inputNombre') );?>
 							</td>
 						</tr>
 						<tr>
-							<td>Estado Civil</td>
+							<td>Estado Civil *</td>
 							<td colspan="2"><?=$this->Form->input('estcivil_id', array('div'=>array('class'=>'col-md-2'), 'options'=>$estados_civil, 'empty' =>'-- Seleccione --', 'selected' => $datos['Estcivil']['id'], 'label' => false, 'class'=>'form-control') );?></td>
 						</tr>
 						<tr>
@@ -81,7 +81,7 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
 							<td colspan="2">
 								<?=$this->Form->hidden('Conyuge.beneficiario_id', array('default' => (isset($datos['Beneficiario']['id']) ? $datos['Beneficiario']['id'] : 0 )) );?>
 								<?=$this->Form->hidden('Conyuge.id', array('default' => (isset($datos['Conyuge']['id']) ? $datos['Conyuge']['id'] : 0 )) );?>
-								<?=$this->Form->input('Conyuge.rut', array('div'=>array('class'=>'col-md-2'), 'default' => (isset($datos['Conyuge']['rut']) ? $this->Funciones->formatoRut($datos['Conyuge']['rut']) : '---' ), 'label' => false, 'class' => 'resaltar form-control inputRut') );?>
+								<?=$this->Form->input('Conyuge.rut', array('div'=>array('class'=>'col-md-2'), 'default' => (isset($datos['Conyuge']['rut']) ? $this->Funciones->formatoRut($datos['Conyuge']['rut']) : '---' ), 'label' => false, 'class' => 'resaltar form-control inputRut', 'autocomplete'=>"off") );?>
 							</td>
 						</tr>
 						<tr>
@@ -110,7 +110,7 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
 							</td>
 						</tr>
 						<tr>
-							<td>Cumple Condicion</td>
+							<td>Cumple Condicion *</td>
 							<td colspan="2">
 									<div class="row">
 											<div class="col-md-1 ">
@@ -121,7 +121,7 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
 							</td>
 						</tr>
 						<tr>
-							<td>Escalafón</td>
+							<td>Escalafón *</td>
 							<td colspan="2">
 								<?=$this->Funciones->msgValidacion($arrayConsume, 'escalafon', 'BeneficiarioEscalafon');?>
 								<?=$this->Form->input('escalafon', array('div'=>array('class'=>'col-md-2'), 'options'=>$escalafon, 'empty' =>'-- Seleccione --', 'selected' => trim($datos['Beneficiario']['escalafon']), 'label' => false, 'class'=>'resaltar form-control') );?>
@@ -129,14 +129,14 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
 							</td>
 						</tr>
 						<tr>
-							<td>Grado</td>
+							<td>Grado *</td>
 							<td colspan="2">
 								<?=$this->Funciones->msgValidacion($arrayConsume, 'grado', 'BeneficiarioGrado');?>
 								<?=$this->Form->input('grado', array('div'=>array('class'=>'col-md-1'), 'default' => trim($datos['Beneficiario']['grado']), 'label' => false, 'class' => 'resaltar form-control inputRut', 'min'=>'1', 'max'=>'20') );?>
 							</td>
 						</tr>
 						<tr>
-							<td>Sueldo Base $</td>
+							<td>Sueldo Base $ *</td>
 							<td colspan="2">
 								<? //=$this->Form->input('Beneficiario.sueldo_base', array('div'=>array('class'=>'col-md-2'), 'type'=>'text', 'maxlength' => 10, 'default' => $funciones->formatoNum($datos['Beneficiario']['sueldo_base']), 'label' => false, 'class' => 'form-control inputRut') );?>
 								<?=$this->Funciones->msgValidacion($arrayConsume, 'sueldo_base', 'BeneficiarioSueldoBase');?>
@@ -170,6 +170,7 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
 						</tr>
 						<tr>
 							<td colspan="3">
+								<div><label><?=$this->Funciones->CampoRequerido;?></label></div>
 								<? //=$this->Form->button('Guardar Cambios', array('class' => 'btn btn-primary inputRut') );?>
 								<?=$this->Form->submit('Guardar Cambios', array('formnovalidate' => true, 'class' => 'btn btn-primary inputRut') );?>
 							</td>

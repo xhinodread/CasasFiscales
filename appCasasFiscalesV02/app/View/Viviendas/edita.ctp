@@ -78,12 +78,13 @@ $map_marker_options = array(
 										<?=$this->Form->input('Vivienda.calle', array('div'=>array('class'=>'col-sm-10 col-md-10 col-lg-10'),
 																								 'type'=>'text',
 																								 'default' => trim($datos['Vivienda']['calle']),
+																								 'label' => 'Calle *',
 																								 'placeholder' =>'Calle de la calle',
 																								 'class' => 'resaltar form-control inputRut') );
 										?>
 										<?
 											$textoLabel = $this->Funciones->msgValidacion($arrayConsume, 'numero', 'ViviendaNumero');
-											$textoLabel = ( strlen($textoLabel)>0 ? $textoLabel : 'Número' );
+											$textoLabel = ( strlen($textoLabel)>0 ? $textoLabel : 'Número *' );
 										?>
 										<?//=$this->Funciones->msgValidacion($arrayConsume, 'numero', 'ViviendaNumero');?>
 										<?=$this->Form->input('Vivienda.numero', array('div'=>array('class'=>'col-xs-4 col-sm-4 col-md-2 col-lg-2'),
@@ -98,6 +99,7 @@ $map_marker_options = array(
 										<?=$this->Form->input('Vivienda.sector', array('div'=>array('class'=>'col-sm-5 col-md-5 col-lg-5'),
 																								 'type'=>'text',
 																								 'default' => trim($datos['Vivienda']['sector']),
+																								 'label' => 'Sector *',
 																					 			 'placeholder' =>'Centro',
 																								 'class' => 'resaltar form-control inputRut') );
 										?>
@@ -138,7 +140,7 @@ $map_marker_options = array(
 										<?=$this->Form->input('Vivienda.comuna_nom', array('div'=>array('class'=>'col-sm-3 col-md-3 col-lg-3'),
 																								 'type'=>'text',
 																								 'default' => $varComuna[0],
-																								 'label' => 'Comuna',
+																								 'label' => 'Comuna *',
 																					 			 'placeholder' =>'La Serena',
 																								 'class' => 'resaltar form-control inputRut') );
 										?>
@@ -244,7 +246,7 @@ $map_marker_options = array(
 								</tr>
 
 								<tr>
-									<th>Monto Avalúo $</th>
+									<th>Monto Avalúo $ *</th>
 									<td colspan="2">
 										<?
 											$textoLabel = $this->Funciones->msgValidacion($arrayConsume, 'monto_avaluo', 'ViviendaMontoAvaluo');
@@ -275,9 +277,10 @@ $map_marker_options = array(
 								</tr>
 
 							</table>
+							<div><label><?=$this->Funciones->CampoRequerido;?></label></div>
 							<?=$this->Form->submit('Guardar Cambios', array('class' => 'btn btn-primary', 'div'=>false) );?>
-							<a href="#mantenciones" id="openerMantenciones" class="btn btn-info">Ver Mantenciones</a><!--<a name="mantenciones" id="mantenciones"></a>-->
-							<a href="#asignaciones" id="openerAsignaciones" class="btn btn-info">Ver Asignaciones</a>
+							<a href="#mantenciones" id="openerMantenciones" class="btn btn-info">Mantenciones</a><!--<a name="mantenciones" id="mantenciones"></a>-->
+							<a href="#asignaciones" id="openerAsignaciones" class="btn btn-info">Asignaciones</a>
 						<?=$this->Form->end();?>       
 					</div>
 			</div>

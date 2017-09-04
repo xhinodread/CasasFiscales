@@ -33,8 +33,10 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
 																	  'type'=>'text',
 																	  'default' => '', 'label' => false,
 																	  'class' => 'resaltar form-control inputRut',
-																	  'placeholder' =>'11.111.111-1',
-																	  'maxlength' => 12) );?>
+																	  'placeholder' =>'Rut sin punto ni guion.',
+																	  'maxlength' => 12,
+																		'autocomplete'=>"off", ) );?>
+                     		Rut sin punto ni guion.
                       	</td>
                       </tr>
                       <tr>
@@ -68,7 +70,7 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
                       </tr>
                       <tr>
                         <td>Rut Conyuge</td>
-                        <td colspan="2"><?=$this->Form->input('Conyuge.rut', array('div'=>array('class'=>'col-md-2'), 'default' => "", 'placeholder' =>'11.111.111-1', 'label' => false, 'class' => 'resaltar form-control inputRut') );?></td>
+                        <td colspan="2"><?=$this->Form->input('Conyuge.rut', array('div'=>array('class'=>'col-md-2'), 'default' => "", 'placeholder' =>'Rut sin punto ni guion.', 'label' => false, 'class' => 'resaltar form-control inputRut', 'autocomplete'=>"off" ) );?></td>
                       </tr>
                       <tr>
                         <td>Nombre Conyuge</td>
@@ -83,12 +85,19 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
                       </tr>
                       <tr>
                         <td>Servicio</td>
-                        <td colspan="2"><?=$this->Form->input('Servicio.nombre', array('div'=>array('class'=>'col-md-12'), 'default' => '', 'label' => false, 'class' => 'form-control inputNombreServicio', 'readonly '=>true ) );?></td>
+                        <td colspan="2">
+                        	<?=$this->Form->hidden('beneficiario_servicio.servicio_id', array('default' => 0) );?>
+                        	<?=$this->Form->input('beneficiario_servicio.nombre', array('div'=>array('class'=>'col-md-12'), 'type'=>'text', 'default' => '', 'label' => false, 'placeholder'=>'Digite un servicio', 'class' => 'resaltar form-control inputNombreServicio' ) );?>
+                        	
+                        	<?//=$this->Form->input('Servicio.nombre', array('div'=>array('class'=>'col-md-12'), 'default' => '', 'label' => false, 'class' => 'form-control inputNombreServicio' ) );?>
+                        </td>
                       </tr>
-                      <tr>
+                      <? if(0){ ?>
+                       <tr>
                         <td>Casa Asignada</td>
                         <td colspan="2"><?=$this->Form->input('Vivienda.direccion', array('div'=>array('class'=>'col-md-12'), 'default' => '', 'label' => false, 'class' => 'form-control inputNombreServicio readOnly', 'readonly '=>true) );?></td>
                       </tr>
+                      <? }else{ echo $this->Form->hidden('Vivienda.direccion', array('div'=>array('class'=>'col-md-12'), 'default' => '', 'label' => false, 'class' => 'form-control inputNombreServicio readOnly', 'readonly '=>true) );} ?>
                       <tr>
                         <td>Cumple Condicion *</td>
                         <td colspan="2">
@@ -128,7 +137,7 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
                       </tr>
                       <tr>
                         <td colspan="3">
-                        	<div><label>* Requerido</label></div>
+                        	<div><label><?=$this->Funciones->CampoRequerido;?></label></div>
                         	<?=$this->Form->button('Guardar Cambios', array( 'id'=>'subMit', 'class' => 'btn btn-primary inputRut', 'disabled'=>'disabled') );?>
                         </td>
                       </tr>
@@ -187,6 +196,17 @@ $( document ).ready(function(){
 			$(this).css("background-color","white");
 		}
 		return;
+	});
+	
+	var losServicios = [<?=$this->Funciones->arrayJquery($servicios);?>];
+	$( "#beneficiario_servicioNombre" ).autocomplete({ 
+		source: losServicios,
+		select: function( event, ui ) {
+			$( "#beneficiario_servicioNombre" ).val( ui.item.label );
+			$( "#beneficiario_servicioServicioId" ).val( ui.item.value );
+			console.log( ui.item.value );
+			return false;
+			}
 	});
 	
 	$("#BeneficiarioSueldoBase").keyup(function(){ $(this).val( NumerosChile( $(this).val() ) ); });

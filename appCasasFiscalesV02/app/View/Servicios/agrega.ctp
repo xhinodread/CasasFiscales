@@ -36,9 +36,10 @@ $funciones = new Funcionespropias();
 																		 'default' => '',
 																		 'label' => false,
 																		 'class' => 'resaltar form-control inputRut',
-																		 'placeholder' =>'11.111.111-1',
+																		 'placeholder' =>'Rut sin punto ni guion.',
 																		 'maxlength' => 12) );
 											?>
+											Rut sin punto ni guion.
 										</td>
 									</tr>
 									<tr>
@@ -112,7 +113,7 @@ $funciones = new Funcionespropias();
 									</tr>
 									<tr>
 										<td colspan="2">
-											<div><label>* Requerido</label></div>
+											<div><label><?=$this->Funciones->CampoRequerido;?></label></div>
 											<?=$this->Form->button('Guardar Cambios', array( 'id'=>'subMit', 'class' => 'btn btn-primary inputRut', 'disabled'=>'disabled') );?>
 										</td>
 									</tr>

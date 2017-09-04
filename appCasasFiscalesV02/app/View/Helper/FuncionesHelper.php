@@ -5,6 +5,9 @@ App::uses('AppHelper', 'View/Helper');
 class FuncionesHelper extends AppHelper {
   public $helpers = array('Html');
 
+	public $CampoRequerido='* Campo Requerido';
+		
+	
 	public function formatoRut($rut = null){
 		$piesas = explode('-', $rut);
 		if( !isset($piesas[0]) ){ $piesas[0] = ''; }

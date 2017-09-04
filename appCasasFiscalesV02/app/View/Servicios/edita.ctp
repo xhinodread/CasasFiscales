@@ -45,7 +45,7 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
                       	</td>
 									</tr>
 									<tr>
-										<td>Nombre</td>
+										<td>Nombre *</td>
 										<td colspan="2">
 											<?=$this->Form->input('nombre', array('div'=>array('class'=>'col-md-12'), 
 																														'default' => trim($datos['Servicio']['nombre']),
@@ -54,7 +54,7 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
 										</td>
 									</tr>
 									<tr>
-										<td>Sigla</td>
+										<td>Sigla *</td>
 										<td colspan="2">
 											<?=$this->Funciones->msgValidacion($arrayConsume, 'siglas', 'ServicioSiglas');?>
 											<?=$this->Form->input('siglas', array('div'=>array('class'=>'col-md-2'), 
@@ -65,7 +65,7 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
 										</td>
 									</tr>
 									<tr>
-										<td>Jefe del servicio</td>
+										<td>Jefe del servicio *</td>
 										<td colspan="2">
 											<?=$this->Funciones->msgValidacion($arrayConsume, 'jefe_servicio', 'ServicioJefeServicio');?>
 											<?=$this->Form->input('jefe_servicio', array('div'=>array('class'=>'col-md-12'), 
@@ -76,7 +76,7 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
 										</td>
 									</tr>
 									<tr>
-										<td>Subrogante</td>
+										<td>Subrogante *</td>
 										<td colspan="2">
 											<?=$this->Funciones->msgValidacion($arrayConsume, 'subrogante', 'ServicioSubrogante');?>
 											<?=$this->Form->input('subrogante', array('div'=>array('class'=>'col-md-12'), 
@@ -87,7 +87,7 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
 										</td>
 									</tr>  
 									<tr>
-										<td>Dirección</td>
+										<td>Dirección *</td>
 										<td colspan="2">
 											<?=$this->Funciones->msgValidacion($arrayConsume, 'direccion', 'ServicioDireccion');?>
 											<?=$this->Form->input('direccion', array('div'=>array('class'=>'col-md-12'), 
@@ -98,7 +98,7 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
 										</td>
 									</tr>
 									<tr>
-										<td>Teléfono</td>
+										<td>Teléfono *</td>
 										<td colspan="2">
 											<?=$this->Funciones->msgValidacion($arrayConsume, 'telefonos', 'ServicioTelefonos');?>
 											<?=$this->Form->input('telefonos', array('div'=>array('class'=>'col-md-12'), 
@@ -109,7 +109,7 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
 										</td>
 									</tr>
 									<tr>
-										<td>E-mail</td>
+										<td>E-mail *</td>
 										<td colspan="2">
 											<?=$this->Funciones->msgValidacion($arrayConsume, 'email', 'ServicioEmail');?>
 											<?=$this->Form->input('email', array('div'=>array('class'=>'col-md-12'), 
@@ -120,7 +120,10 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
 										</td>
 									</tr>
 									<tr>
-										<td colspan="3"><?=$this->Form->submit('Guardar Cambios', array('formnovalidate' => true, 'class' => 'btn btn-primary inputRut') );?></td>
+										<td colspan="3">
+											<div><label><?=$this->Funciones->CampoRequerido;?></label></div>
+											<?=$this->Form->submit('Guardar Cambios', array('formnovalidate' => true, 'class' => 'btn btn-primary inputRut') );?>
+										</td>
 									</tr>
 								</table>
 							<?=$this->Form->end();?>       

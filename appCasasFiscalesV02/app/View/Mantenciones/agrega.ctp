@@ -4,6 +4,13 @@
 $elMensaje=''; $arrayConsume='';
 if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->consume('losValidates'); }			
 ?>
+<style>
+
+input:read-only { 
+    background-color: yellow;
+}
+
+</style>
 <div class="container-flex">
 
 	<div class="row">
@@ -66,10 +73,10 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
 							</tr>
 							
 							<tr>
-								<th>Fecha</th>
-								<th>Tipo</th>
-								<th>Observación</th>
-								<th>Documento (pdf)</th>
+								<th>Fecha *</th>
+								<th>Tipo *</th>
+								<th>Observación *</th>
+								<th>Documento (pdf) *</th>
 							</tr>
 
 							<tr>
@@ -79,6 +86,7 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
 																												'default' => date("d-m-Y"),
                                                         'type'  => 'text',
                                                         'class' => 'calendarioDisabled form-control form_control text-center',
+																											  'style' => 'background-color: white;',
                                                         'required'    => 'required',
                                                         'placeholder' => 'Fecha de Creación',
                                                         'title'       => 'Seleccione Fecha de Creación',
@@ -121,6 +129,7 @@ if( $this->Session->check('losValidates') ) { $arrayConsume = $this->Session->co
 							</tr>							
 
 						</table>
+						<label><?=$this->Funciones->CampoRequerido;?></label>
 					<?=$this->Form->button('Agregar', array('id'=>'agregar', 'type'  => 'submit', 'class' => 'btn btn-block btn-info form_control col-mx-12'));?>
 					<?=$this->Form->end();?> 
 				</div>

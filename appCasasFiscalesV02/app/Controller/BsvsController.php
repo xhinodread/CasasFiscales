@@ -171,6 +171,7 @@ class BsvsController extends AppController {
 				//echo '<pre>'.print_r($this->request->data, 1).'</pre>';
 				
 				/*** PREPARA LA CARGA DE DOCUMENTO ***/
+				$textoAccion = ($ultimo_estado == 'Devolución' ? 'Devuelta' : 'Asignada');
 				if($swCargarDoc){
 					/***
 					$fileName = $this->request->data['Arriendos_historial']['doc_respaldo']['name'];
@@ -193,12 +194,12 @@ class BsvsController extends AppController {
 						$this->redirect( array('controller'=> 'mantenciones', 'action'=>'agrega', $this->request->data['bsv']['vivienda_id'] ) );
 					}
 					if( move_uploaded_file($this->request->data['Arriendos_historial']['doc_respaldo']['tmp_name'], $uploadFile) ){
-						$this->Flash->exito('Registro agregado.<br>Vivienda Asignada<br>Archivo Cargado.');
+						$this->Flash->exito('Registro agregado.<br>Vivienda '.$textoAccion.'<br>Archivo Cargado.');
 					}else{
-						$this->Flash->sin_id('Registro agregado.<br>Vivienda Asignada<br>Sin Carga de documentacion');
+						$this->Flash->sin_id('Registro agregado.<br>Vivienda '.$textoAccion.'<br>Sin Carga de documentacion');
 					}
 				}else{
-					$this->Flash->sin_id('Registro agregado.<br>Vivienda Asignada<br>Sin Carga de documentacion');
+					$this->Flash->sin_id('Registro agregado.<br>Vivienda '.$textoAccion.'<br>Sin Carga de documentacion');
 				}
 				/*** FIN CARGA DE DOCUMENTO ***/
 				

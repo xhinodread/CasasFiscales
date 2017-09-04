@@ -66,7 +66,8 @@ class ServiciosController extends AppController {
 						$this->Servicio->create();
 						if( $this->Servicio->save($this->request->data['Servicio']) ){
 							$idRegistro = $this->Servicio->id;
-							$this->Flash->guardado('Servicio - Se ha agregado un nuevo registro.'.$idRegistro);
+							//	$this->Flash->guardado('Servicio - Se ha agregado un nuevo registro.'.$idRegistro);
+							$this->Flash->guardado('Servicio - Se ha agregado un nuevo registro.');
 							$this->redirect(array('controller' => 'servicios', 'action'=>'edita', 'id'=>$idRegistro));
 						}else{
 							$this->Flash->sin_id('Servicio - No pudo agregarse.<pre>'.print_r($this->request->data, 1).'</pre>');

@@ -51,6 +51,9 @@ class BeneficiariosController extends AppController {
 	}
 	
 	public function agrega(){
+		$this->loadModel('Servicio');
+		$this->loadModel('beneficiarios_servicio');
+		
 		if ($this->request->is('post')) {
 			if( isset($this->data['Beneficiario']['rut']) && strlen($this->data['Beneficiario']['rut'])<= 12 && strlen($this->data['Beneficiario']['rut'])>=11 ){
 				$elRut = $this->Beneficiario->saca_str_rut($this->data['Beneficiario']['rut']);
@@ -72,8 +75,7 @@ class BeneficiariosController extends AppController {
 					//$this->redirect(array('controller' => 'beneficiarios', 'action'=>'index'));
 				}else{
 
-					///$this->request->data['Conyuge']['rut'] = trim(str_replace('.', '', $this->request->data['Conyuge']['rut']));
-
+					///$this->request->data['Conyuge']['rut'] = trim(str_replace('.', '', $this->request->data['Conyuge']['rut']));					
 					if(0):
 						if( $this->Beneficiario->validates() ){
 						/*	if( $this->Beneficiario->save() ){
@@ -94,8 +96,10 @@ class BeneficiariosController extends AppController {
 					endif;
 					
 					//echo 'request_data:<pre>'.print_r($this->request->data, 1).'</pre>';
+					/***** sw DEBUG ****/
 					if(1){
 						$this->Beneficiario->create();
+						$this->request->data['Beneficiario'] = str_replace('.', '', $this->request->data['Beneficiario']);
 						if( $this->Beneficiario->save($this->request->data['Beneficiario']) ){
 							$idRegistro = $this->Beneficiario->id;
 							// $this->Beneficiario->tiene_conyuge($this->data['Conyuge']);							
@@ -109,14 +113,31 @@ class BeneficiariosController extends AppController {
 							****/
 							/*****/
 							/***if(1){***/
+							
+							/*** Beneficiario Servicio ***/
+							$msgAsociarServicio = '';
+							if( isset($this->request->data['beneficiario_servicio']['servicio_id']) && $this->request->data['beneficiario_servicio']['servicio_id']>0 ){
+								$this->request->data['beneficiario_servicio']['beneficiario_id'] = $idRegistro;
+								////$this->request->data['beneficiario_servicio']['beneficiario_id'] = $this->Beneficiario->getLastInsertID();
+								//unset($this->request->data['beneficiario_servicio']['nombre']);
+								//$this->beneficiarios_servicio->create();
+								//	$this->beneficiarios_servicio->save($this->request->data['beneficiario_servicio']);
+								$asociarServicio = $this->Beneficiario->agrega_beneficiario_servicio($this->request->data['beneficiario_servicio']['beneficiario_id'], 
+																																								 		 $this->request->data['beneficiario_servicio']['servicio_id']);
+								if( $asociarServicio <=0 ){ $msgAsociarServicio = '<br>No se asoció un Servicio'; }
+								//$msgAsociarServicio = $asociarServicio;								
+							}else{$msgAsociarServicio = '<br>No se asoció un Servicio';}
+							
+							/*** Beneficiario Conyuge ***/
 							if( $this->Beneficiario->tiene_conyuge($this->data['Conyuge'] ) == 0 ){
 								$this->request->data['Conyuge']['beneficiario_id'] = $idRegistro;
 								$this->request->data['Conyuge']['created'] = date("d-m-Y H:i:s");
 								if( $this->Beneficiario->agrega_conyugue($this->request->data['Conyuge']) ){
-									$this->Flash->guardado('Se ha agregado un nuevo registro.'.$idRegistro);
+									//$this->Flash->guardado('Se ha agregado un nuevo registro.'.$idRegistro);
+									$this->Flash->guardado('Se ha agregado un nuevo registro.'.$msgAsociarServicio);
 									//$this->redirect(array('controller' => 'beneficiarios', 'action'=>'edita', 'id'=>$idRegistro));
-								}else{ $this->Flash->sin_id('No se pudo registrarse, verifique.'); }
-							}else{ $this->Flash->guardado('Se ha agregado un nuevo registro.'); }
+								}else{ $this->Flash->sin_id('No se pudo registrar, verifique.'); }
+							}else{ $this->Flash->guardado('Se ha agregado un nuevo registro.'.$msgAsociarServicio); }
 							$this->redirect(array('controller' => 'beneficiarios', 'action'=>'edita', 'id'=>$idRegistro));
 							/***}***/
 							/**** DEPRECADO else{
@@ -132,7 +153,7 @@ class BeneficiariosController extends AppController {
 							$this->redirect(array('controller' => 'beneficiarios', 'action'=>'edita', 'id'=>$idRegistro));
 							*****/
 							// $this->Flash->guardado('Se ha agregado un nuevo registro.'.$idRegistro);
-						}else{ $this->Flash->error('No se pudo agregarce... Verifique'); }
+						}else{ $this->Flash->error('No se pudo agregar... Verifique'); }
 					}else{
 						/**** DEBUG ****/
 						echo '<pre>data:'.print_r($this->data, 1).'</pre>';
@@ -140,6 +161,12 @@ class BeneficiariosController extends AppController {
 						$tieneConyuge = 'NO tiene conyuge.';
 						if($this->Beneficiario->tiene_conyuge($this->data['Conyuge']) == 0){
 							$tieneConyuge = 'tiene conyuge.';
+						}
+						/*** Beneficiario Servicio ***/
+						if( isset($this->request->data['beneficiario_servicio']['servicio_id']) && $this->request->data['beneficiario_servicio']['servicio_id']>0 ){
+							$this->request->data['beneficiario_servicio']['beneficiario_id'] = 999;
+							unset($this->request->data['beneficiario_servicio']['nombre']);
+							echo '<pre>beneficiario_servicio:'.print_r($this->request->data['beneficiario_servicio'], 1).'</pre>';
 						}
 						//$this->Flash->guardado('DEBUG - Se ha agregado un registro.<pre>'.print_r($this->request->data, 1).'</pre>'.'<br>'.$tieneConyuge);
 						$this->Flash->exito('DEBUG - Se ha agregado un registro.'.'<br>'.$tieneConyuge);
@@ -161,8 +188,11 @@ class BeneficiariosController extends AppController {
 		//echo '<pre>resultsSocket:'.print_r($escalafon, 1).'</pre>';
 		if( !is_array($escalafon) ){ $escalafon = ''; }
 		
+		$this->Servicio->recursive = -1;
+		$servicios = $this->Servicio->find( 'list', array( 'fields' =>array('id', 'nombre') ) );
+		
 		$estados_civil = $this->Estcivil->find('list', array('fields'=>array('id', 'descripcion')) );
-		$this->set( array( 'estados_civil' => $estados_civil,
+		$this->set( array( 'estados_civil' => $estados_civil, 'servicios' => $servicios,
 						  'escalafon' => $escalafon)
 				  );
 	}
@@ -231,9 +261,9 @@ class BeneficiariosController extends AppController {
 					
 					$this->request->data['beneficiario_servicio']['beneficiario_id'] = $this->request->data['Beneficiario']['id'];
 					unset($this->request->data['beneficiario_servicio']['nombre']);
-					$asociarServicio = $this->Beneficiario->agrega_beneficiario_servicio($this->request->data['beneficiario_servicio']['beneficiario_id'], 
+				/**	$asociarServicio = $this->Beneficiario->agrega_beneficiario_servicio($this->request->data['beneficiario_servicio']['beneficiario_id'], 
 																																							 $this->request->data['beneficiario_servicio']['servicio_id']);
-					
+				**/
 					if(1){
 						$msgAsociar = '';
 						$this->request->data['beneficiario_servicio']['beneficiario_id'] = $this->request->data['Beneficiario']['id'];
@@ -283,7 +313,7 @@ class BeneficiariosController extends AppController {
 								 && isset($tieneConyuge[0]['Conyuge']['beneficiario_id']) 
 								 && $tieneConyuge[0]['Conyuge']['beneficiario_id'] == $this->request->data['Conyuge']['beneficiario_id'] ){
 								$this->Beneficiario->borra_conyugue($this->request->data['Conyuge']['beneficiario_id']);
-								$this->Flash->guardado('Registro eliminado.');
+								$this->Flash->guardado('Actualizado - Registro de conyugue eliminado.');
 								$this->redirect(array('controller' => 'beneficiarios', 'action'=>'edita', 'id'=>$id_deneficiario));
 							}
 						}
@@ -294,7 +324,7 @@ class BeneficiariosController extends AppController {
 							$this->Flash->guardado('Se ha actualizado un registro con Conyuge.'.$msgAsociar);
 						}else{
 							// $this->Flash->exito('Conyuge - No pudo registrarse, verifique.');
-							$this->Flash->exito('Registro actualizado sin Conyuge...');
+							$this->Flash->exito('Registro actualizado sin Conyuge.');
 						}
 						$this->redirect(array('controller' => 'beneficiarios', 'action'=>'edita', 'id'=>$id_deneficiario));
 					

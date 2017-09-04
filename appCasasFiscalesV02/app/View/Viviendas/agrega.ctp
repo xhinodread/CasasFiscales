@@ -250,7 +250,7 @@ $map_marker_options = array(
 					</tr>
 
 				</table>
-				<div><label>* Requerido</label></div>
+				<div><label><?=$this->Funciones->CampoRequerido;?></label></div>
 				<?//=$this->Form->submit('Guardar Cambios', array('class' => 'btn btn-primary', 'div'=>false) );?>
 				<?=$this->Form->button('Guardar Cambios', array( 'id'=>'subMit', 'class' => 'btn btn-primary inputRut') );?>
 			<?=$this->Form->end();?>       

@@ -299,6 +299,8 @@ class Beneficiario extends AppModel {
 			$this->beneficiarios_servicio->create();
 			if( $this->beneficiarios_servicio->save(array('servicio_id' => $idServicio, 'beneficiario_id' => $idBeneficiario)) ){
 				return 1;
+			}else{
+				return 0;
 			}
 		}
 		return 0;

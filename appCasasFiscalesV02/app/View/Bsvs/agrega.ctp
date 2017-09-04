@@ -112,7 +112,7 @@
 								<?=$this->Form->input('beneficiario_nombre', array('div'=>array('class'=>'col-md-'),
 																						 'type'=>'text',
 																						 'default' => $elBeneficiarioNombre,
-																						 'label' => 'Beneficiario',
+																						 'label' => 'Beneficiario *',
 																						 'placeholder'=>'Nombre del Beneficiario',
 																						 'required'    => 'required',
 																						 'class' => 'form-control inputRut',
@@ -160,12 +160,12 @@
 																						 'required'    => 'required',
 																						 'cols'=>200,
 																						 'maxlength'=>106,
-																						 'label' => 'Observación',
+																						 'label' => 'Observación *',
 																						 'class' => 'resaltar form-control inputRut') );
 								?>
 							</td>
 							<td>
-								<?=$this->Form->input('Arriendos_historial.doc_respaldo', array('label' => 'Documento',
+								<?=$this->Form->input('Arriendos_historial.doc_respaldo', array('label' => 'Documento (pdf) *',
 																												'between' => '<br />',
                                                         'type'  => 'file',
 																												'accept' => 'application/pdf',
@@ -177,6 +177,7 @@
 							</td>
 						</tr>
 					</table>
+					<div><label><?=$this->Funciones->CampoRequerido;?></label></div>
 				<?//=$this->Form->submit('Guardar Cambios', array('class' => 'btn btn-primary', 'div'=>false) );?>
 				<?=$this->Form->button('Guardar Cambios', array('id'=>'agregar', 'type'  => 'submit', 'class' => 'btn btn-block btn-info form_control col-mx-12'));?>
 				<?=$this->Form->end();?>
@@ -186,13 +187,82 @@
    
 </div>
 
+<div id="dialog" title="Basic dialog">
+ 	<h3 class="ui-widget-header ui-corner-all">ATENCION</h3>
+  <p>Seleccione un beneficiario valido.</p>
+</div>
+
+<div class="toggler">
+	<div id="effect" class="ui-widget-content ui-corner-all">
+		<h3 class="ui-widget-header ui-corner-all">ATENCION</h3>
+		<p><label>Seleccione un beneficiario valido</label></p>
+	</div>
+</div>
+
+ <style>
+    .toggler { width: 500px; height: 200px; position: fixed; }
+    #button { padding: .5em 1em; text-decoration: none; }
+    #effect { width: 240px; height: 170px; padding: 0.4em; position: relative; }
+    #effect h3 { margin: 0; padding: 0.4em; text-align: center; }
+    .ui-effects-transfer { border: 2px dotted gray; }
+  </style>
+
 <script>
 $(document).ready(function(){
+	$( "#dialog" ).hide();
+	/**************************** Seleccione un beneficiario valido ********************************/
+	$( "button" ).click(function( event ){
+		if( $("#bsvBeneficiarioId").val() <= 1 ){
+			event.preventDefault();
+			//alert('Seleccione un beneficiario valido');
+			$(function(){ 
+				$( "#dialog" ).dialog(); 
+				// setTimeout(function() {	$( "#dialog:visible" ).removeAttr( "style" ).fadeOut();	}, 2000 );
+				// setTimeout(function() {	$( "#dialog" ).dialog( "close" ).fadeOut();	}, 3000 );
+			});
+			
+		//	$(function(){ runEffect(); });
+ 			
+		}
+		//console.log('prevent default');
+	});
 
+		function runEffect() {
+			// get effect type from
+			var selectedEffect = $( "#effectTypes" ).val();
+
+			// Most effect types need no options passed by default
+			var options = {};
+			// some effects have required parameters
+			if ( selectedEffect === "scale" ) {
+				options = { percent: 50 };
+			} else if ( selectedEffect === "size" ) {
+				options = { to: { width: 280, height: 185 } };
+			}
+			// Run the effect
+			$( "#effect" ).show( selectedEffect, options, 500, callback() );
+		};
+
+		//callback function to bring a hidden box back
+		function callback() {
+			setTimeout(function() {
+				$( "#effect:visible" ).removeAttr( "style" ).fadeOut();
+			}, 2000 );
+		};
+	/**************************** FIN Seleccione un beneficiario valido ********************************/
+	
+	
 	var beneficiarios = [<?=$this->Funciones->arrayJquery($listaBeneficiarios);?>];	
 	/*var sueldoBeneficiarios = [<?//=$this->Funciones->generaArray($listaSueldos);?>];	*/
 	var sueldoBeneficiario = <?=json_encode($listaSueldos);?>;
 	var servicioBeneficiario = <?=json_encode($servicioBeneficiario);?>;
+	
+	$("#bsvBeneficiarioNombre").keyup(function(){
+		//console.log( $("#bsvBeneficiarioNombre").val() + ': ' + $("#bsvBeneficiarioNombre").val().length );
+		if( $("#bsvBeneficiarioNombre").val().length == 0 ){
+			$("#bsvBeneficiarioId").val(0);
+		}
+	});
 	
 	
 	$( "#bsvBeneficiarioNombre" ).autocomplete({ 
@@ -220,5 +290,7 @@ $(document).ready(function(){
 		}
 	});
 
+ $( "#effect" ).hide();
+	
 });
 </script>
